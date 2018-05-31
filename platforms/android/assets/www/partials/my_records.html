@@ -1,0 +1,52 @@
+<ion-view title="{{ 'MY_RECORDS_TITLE' | translate }}" id="myRecords">
+	<ion-nav-bar class="header myrecords" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+         	<a ui-sref="app.login"><img width="30px" height="30px" src="img/{{iconLogged}}"/></a>
+        </ion-nav-buttons>
+        <ion-nav-title>
+            {{ 'MY_RECORDS_TITLE' | translate }}
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+	<ion-content scroll="true">
+		<div class="savedRecords">
+			<h2>{{'SAVED_RECORDS' | translate}}</h2>
+			<div class="row savedRecordsList" ng-repeat="savedObservation in savedObservations | orderBy:'-id' track by $index">
+				<div class="col-33 label">
+					<p ng-click='modify({{savedObservation.id}})'>{{savedObservation.date}} <br/> {{savedObservation.specie.common_name}} <br/> <span>{{savedObservation.specie.scientific_name}}</span></p>
+				</div>
+				<div class="col-67 row action center">
+					<div class="col-33">
+						<img src="img/myrecord_save.png" ng-if="savedObservation.status === 'complete'" ng-click="actionSendEntry({{savedObservation.id}})">
+						<img src="img/myrecord_save_disabled.png" ng-if="savedObservation.status === 'incomplete'">
+						<br/>
+						{{'send' | translate}}
+					</div>
+					<div class="col-33" ng-click="actionRemoveEntry({{savedObservation.id}})">
+						<img src="img/myrecord_delete.png"><br/>
+						{{'delete' | translate}}
+					</div>
+					<div class="col-33" ng-click='modify({{savedObservation.id}})'>
+						<img src="img/myrecord_edit.png"><br/>
+						{{'modify' | translate}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="serverRecords">
+			<h2>{{'SEND_RECORDS' | translate}}</h2>
+			<ul class="serverRecordsList">
+				<li ng-repeat="serverObservation in serverObservations | orderBy:'-createdAt' track by $index">
+					<a ui-sref="app.sob({sobId: serverObservation._id})">{{serverObservation.createdAt | limitTo : 10 }} {{serverObservation.createdAt | limitTo : 8 : 11 }} | {{ serverObservation.properties.LSIDDesc }} | <span ng-class="serverObservation.properties.Status">{{serverObservation.properties.Status}}</span></a>
+				</li>
+			</ul>
+		</div>
+	</ion-content>
+</ion-view>
+

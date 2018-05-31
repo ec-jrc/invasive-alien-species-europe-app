@@ -1,0 +1,25 @@
+<ion-view id="contact">
+    <ion-nav-bar class="header contact" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-title>
+            {{'CONTACT_TITLE' | translate}}
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content scroll="true" overflow-scroll="true" padding="false" ng-style="appCtrl.accessibilitySpecial">
+        <div class="row center contactText" ng-style="appCtrl.accessibilitySpecial">
+            <div class="col" ng-style="appCtrl.accessibilityFont" bind-unsafe-html="dynamicContent">
+                <!-- <b>European Commission<br/>
+                Joint Research Centre</b><br/>
+                Digital Earth and Reference Data Unit<br/>
+                <span class="linkLike" ng-click="openMailLinks('{{contactMail}}')">{{contactMail}}</span><br/> -->
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

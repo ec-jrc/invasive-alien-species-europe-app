@@ -1,0 +1,31 @@
+<ion-view id="sob">
+    <ion-nav-bar class="header sob" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-title>
+            {{'SOB_TITLE' | translate}}
+        </ion-nav-title>
+    </ion-nav-bar>
+
+    <div class="bar bar-subheader sob-tab-navigation row">
+        <div class="col col-33" ng-click="activeTemplate='sob_photos'">
+            <img ng-if="activeTemplate !== 'sob_photos'" ng-src="img/camera.svg" alt="photos">
+            <img ng-if="activeTemplate === 'sob_photos'" ng-src="img/camera-active.svg" alt="photos">
+        </div>
+        <div class="col col-34" ng-click="activeTemplate='sob_information'">
+            <img ng-if="activeTemplate !== 'sob_information'" ng-src="img/information.svg" alt="information">
+            <img ng-if="activeTemplate === 'sob_information'" ng-src="img/information-active.svg" alt="information">
+        </div>
+        <div class="col col-33" ng-click="activeTemplate='sob_map'">
+            <img ng-if="activeTemplate !== 'sob_map'" ng-src="img/world.svg" alt="map">
+            <img ng-if="activeTemplate === 'sob_map'" ng-src="img/world-active.svg" alt="map">
+        </div>
+    </div>
+
+    <ion-content class="has-subheader" scroll="true" overflow-scroll="true">
+        <sob-photos ng-if="activeTemplate === 'sob_photos'" data-tap-disabled="false"></sob-photos>
+        <sob-information ng-if="activeTemplate === 'sob_information'"></sob-information>
+        <sob-map ng-if="activeTemplate === 'sob_map'"></sob-map>
+    </ion-content>
+
+</ion-view>

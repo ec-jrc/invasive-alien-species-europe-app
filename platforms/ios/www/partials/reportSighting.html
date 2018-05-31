@@ -1,0 +1,21 @@
+<ion-view id="reportSighting" cache-view="false">
+    <ion-nav-bar class="header specie" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+         	<a ui-sref="app.login"><img width="30px" height="30px" src="img/{{iconLogged}}"/></a>
+        </ion-nav-buttons>
+        <ion-nav-title>
+            {{ 'REPORT_SIGHTING_TITLE' | translate}}
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button  class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()' id="customMenuButton">
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content scroll="true" overflow-scroll="true">
+        <specie-report-sighting></specie-report-sighting>
+    </ion-content>
+
+</ion-view>

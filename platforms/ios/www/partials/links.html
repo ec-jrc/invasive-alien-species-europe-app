@@ -1,0 +1,24 @@
+<ion-view id="links">
+    <ion-nav-bar class="header links" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-title>
+            {{'LINKS_TITLE' | translate}}
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content scroll="true" overflow-scroll="true" padding="false" ng-style="appCtrl.accessibilitySpecial">
+        <div class="row center linksText" ng-style="appCtrl.accessibilitySpecial">
+            <div class="col" ng-style="appCtrl.accessibilityFont" bind-unsafe-html="dynamicContent">
+                <!-- <h4>European Alien Species Information Network</h4>
+                <p>EASIN aims to facilitate the exploration of existing alien species information in Europe to assist the implementation of European policies on biological invasions.</p>
+                <a  class="linkLike" ng-click="openExternalLinks('http://easin.jrc.ec.europa.eu/')">http://easin.jrc.ec.europa.eu/</a> -->
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

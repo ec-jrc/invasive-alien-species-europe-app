@@ -1,0 +1,19 @@
+<ion-modal-view class="sidemenu-modal">
+    <ion-header-bar>
+        <h1 class="title">{{'REGULATION_TITLE' | translate}}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeModalRegulation()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+    <div ng-style="appCtrl.accessibilityFont" bind-unsafe-html="modalDynamicContent">
+        <!-- <p class="text-center sidemenu-modal-content-title">Regulation (EU) 1143/2014
+            <br> on invasive alien species</p>
+        <br>
+        <p>The Regulation (EU) No 1143/2014 seeks to address the problem of invasive alien species in a comprehensive manner so as to protect native biodiversity and ecosystem services as well as to minimise and mitigate the human health or economic impacts that these species can have. A list of selected invasive alien species of EU concern will be managed in the frame of three types of intervention: prevention, early detection and rapid eradication and management. The regulation entered into force on 1&nbsp;January 2015.</p>
+        <p class="text-center">More information at:</p>
+        <p class="text-center"><a href="#" ng-click="openExternalLinks('http://ec.europa.eu/environment/nature/invasivealien/')">http://ec.europa.eu/environment/nature/invasivealien/</a></p> -->
+        <!-- <div class="sidemenu-modal-content-button text-center" ng-click="closeModalRegulation()">OK</div> -->
+    </div>
+    </ion-content>
+</ion-modal-view>

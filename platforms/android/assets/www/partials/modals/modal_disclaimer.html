@@ -1,0 +1,13 @@
+<ion-modal-view class="sidemenu-modal">
+    <ion-header-bar>
+        <h1 class="title title-center">{{'DISCLAIMER_TITLE' | translate }}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeModalDisclaimer()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+    	<div bind-unsafe-html="modalDynamicContent" ng-style="appCtrl.accessibilityFont">
+        <!-- <p ng-style="appCtrl.accessibilityFont">The JRC or as the case may be the European Commission shall not be held liable for any direct or indirect incidental consequential or other damages, including but not limited to the loss of data, loss of profits, or any other financial loss arising from the use of this application, or inability to use it, even if the JRC is notified of the possibility of such damages.</p> -->
+        </div>
+    </ion-content>
+</ion-modal-view>

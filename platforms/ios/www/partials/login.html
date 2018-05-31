@@ -1,0 +1,54 @@
+<ion-view id="login">
+    <ion-nav-bar class="header login" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-title>
+            {{'LOG_REGISTER_TITLE' | translate}}
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content scroll="true" overflow-scroll="true" class="center">
+        <div class="wrapper center">
+            <div class="loginCard">
+                <!-- <input type="text" placeholder="Username">
+                <input type="password"> -->
+                <form name="loginForm" novalidate ng-if="!isLogged">
+                    <label class="item item-input">
+                        <i class="icon ion-person placeholder-icon"></i>
+                        <input type="email" placeholder="{{'email' | translate}}" ng-model="loginForm.email" autocapitalize="none" autocorrect="off" required>
+                    </label>
+                    <label class="item item-input">
+                        <i class="icon ion-locked placeholder-icon"></i>
+                        <input type="password" placeholder="{{'password' | translate}}" ng-model="loginForm.password" required>
+                    </label>
+                    <div class="row options">
+                        <div class="col-40" ng-click="openChangePwdModal()" ng-style="appCtrl.accessibilityFont">
+                            <span>{{'Change_pwd' | translate}}</span>
+                        </div>
+                        <div class="col-20" ng-style="appCtrl.accessibilityFont">
+                        	<span>&nbsp;</span>
+                       	</div>
+                        <div class="col-40" ng-click="openForgotPwdModal()" ng-style="appCtrl.accessibilityFont">
+                            <span>{{'Forgot_pwd' | translate}}</span>
+                        </div>
+                    </div>
+                    <button class="login" ng-disabled="loginForm.$invalid" ng-click="login(loginForm)" ng-style="appCtrl.accessibilityFont">{{'Login' | translate}}</button>
+                </form>
+                <button class="register" ng-click="openRegisterModal()" ng-if="!isLogged" ng-style="appCtrl.accessibilityFont">{{'Register' | translate}}</button> <br/>
+                <div class="row options" ng-if="isLogged">
+                	<div class="col-100" ng-style="appCtrl.accessibilityFont">
+                    	<span>{{ userLogged }}</span>
+                    </div>
+                </div>
+                <button class="register" ng-click="openChangePwdModal()" ng-if="isLogged" ng-style="appCtrl.accessibilityFont">{{'Change_pwd' | translate}}</button> <br/>
+                <button class="register" ng-click="logout()" ng-if="isLogged" ng-style="appCtrl.accessibilityFont">{{'Logout' | translate}}</button> <br/>
+                <!-- <button class="register" ng-click="test()">TRY CHECKSESSION</button> <br/> -->
+                <img src="img/logo_mygeoss.svg">
+            </div>
+        </div>  
+    </ion-content>
+</ion-view>

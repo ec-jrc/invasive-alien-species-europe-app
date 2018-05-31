@@ -1,0 +1,45 @@
+<ion-modal-view id="forgotPwdModal" class="customModal">
+    <ion-header-bar align-title="left">
+        <h1 class="title">{{'reset_pwd' | translate}}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeForgotPwdModal()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <form name="forgotPwdForm" novalidate ng-if="forgotPwdStep === 1" ng-style="appCtrl.accessibilityFont">
+            <div class="list">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'email' | translate}}</span>
+                    <input type="email" placeholder="{{'email' | translate}}" ng-model="forgotPwdForm.email" required>
+                </label>
+            </div>
+            <button class="button button-block button-balanced" ng-disabled="forgotPwdForm.$invalid" ng-click='forgot(forgotPwdForm)'>
+              {{'reset_pwd' | translate}}
+            </button>
+        </form>
+
+        <form name="resetPwdForm" novalidate ng-if="forgotPwdStep === 2" ng-style="appCtrl.accessibilityFont">
+            <div class="list">
+                <!-- <label class="item item-input item-floating-label">
+                    <span class="input-label">Email</span>
+                    <input type="email" placeholder="Email" ng-model="resetPwdForm.email" required>
+                </label> -->
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'new_pwd' | translate}}</span>
+                    <input type="password" placeholder="New password" ng-model="resetPwdForm.newpassword" ng-class="{'error': resetPwdForm.newpassword != resetPwdForm.confirmpassword}" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'confirm_pwd' | translate}}</span>
+                    <input type="password" placeholder="Confirm password" ng-model="resetPwdForm.confirmpassword" ng-class="{'error': resetPwdForm.newpassword != resetPwdForm.confirmpassword}" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'reset_token' | translate}}</span>
+                    <input type="text" placeholder="Reset token sending by mail" ng-model="resetPwdForm.resettoken" required>
+                </label>
+            </div>
+            <button class="button button-block button-balanced" ng-disabled="resetPwdForm.$invalid || resetPwdForm.newpassword != resetPwdForm.confirmpassword" ng-click='reset(resetPwdForm)'>
+              {{'Change_pwd' | translate}}
+            </button>
+        </form>
+    </ion-content>
+</ion-modal-view>

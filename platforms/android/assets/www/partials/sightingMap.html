@@ -1,0 +1,18 @@
+<ion-view id="sightingMap">
+    <ion-nav-bar class="header sightingMap" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-title>
+            {{'SIGHTINGS_MAP_TITLE' | translate}}
+        </ion-nav-title>
+        <!-- <ion-nav-buttons side="right">
+            <button class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons> -->
+    </ion-nav-bar>
+
+    <ion-content scroll="false" data-tap-disabled="true">
+        <div id="map"><span class="error_message">{{offline}}</span></div>
+    </ion-content>
+
+</ion-view>

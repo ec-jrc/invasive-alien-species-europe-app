@@ -1,0 +1,43 @@
+README
+
+  /*********************************/
+ /** Photo browser iOS like style */
+/*********************************/
+
+https://github.com/kevincobain2000/ionic-photo-browser
+https://github.com/nolimits4web/Framework7
+https://github.com/nolimits4web/Framework7/issues/539
+
+In the Photobrowser part of the framework7.js
+Add this parameter : domInsertion: "body"
+
+-----------------------------------------------
+if (pb.params.type === 'standalone') {
+    $('body').append(htmlTemplate);
+}
+-----------------------------------------------
+
+is changed too :
+
+-----------------------------------------------
+if (pb.params.type === 'standalone') {
+    var dom = pb.params.domInsertion;
+    $(dom).append(htmlTemplate);
+}
+-----------------------------------------------
+
+With this, you can select where in your DOM you want the code to be injected. By default we were limited to the body. (it appeared like a modal.)
+
+The css change is a bit tricky, target the div and class you want to modify the style.
+
+On Android the pinch zoom does not work. Use the hammer.js library, when you init your photo browser intance, in the parameter, change the onOpen callback:
+onOpen: function (pb) {
+  var target = pb.params.loop ? pb.swiper.slides : pb.slides;
+  target.each(function( index ) {
+    var hammertime = new Hammer(this);
+    hammertime.get('pinch').set({ enable: true });
+    hammertime.on( 'pinchstart', pb.onSlideGestureStart );
+    hammertime.on( 'pinchmove', pb.onSlideGestureChange );
+    hammertime.on( 'pinchend', pb.onSlideGestureEnd );
+  });
+}

@@ -1,0 +1,31 @@
+<ion-modal-view class="sidemenu-modal">
+    <ion-header-bar>
+        <h1 class="title">{{'LEGAL_NOTICE_TITLE' | translate}}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeModalLegalNotice()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div ng-style="appCtrl.accessibilityFont" bind-unsafe-html="modalDynamicContent">
+            <!-- <p>This application is subject to a disclaimer, a copyright notice and rules related to personal data protection.</p><br>
+
+            <p class="sidemenu-modal-content-title">Disclaimer</p><br>
+            <p><a ng-click="closeModalLegalNotice(); showModalDisclaimer()">See disclaimer</a></p><br/>
+
+            <p class="sidemenu-modal-content-title">Copyright notice</p><br>
+            <p>© European Union, 1995-2016 </p>
+            <p>Reuse is authorised, provided the source is acknowledged. The reuse policy of the European Commission is implemented by a <a href="#" ng-click="openExternalLinks('http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2011:330:0039:0042:EN:PDF')">Decision of 12 December 2011</a></p><br>
+
+            <p>The general principle of reuse can be subject to conditions which may be specified in individual copyright notices. Therefore users are advised to refer to the copyright notices of the individual websites maintained under Europa and of the individual documents. Reuse is not applicable to documents subject to intellectual property rights of third parties.</p>
+
+            <p>The code of this app is open source and licensed under EU Public License, see <a href="#" ng-click="openExternalLinks('http://digitalearthlab.jrc.ec.europa.eu/mygeoss/index.cfm')">http://digitalearthlab.jrc.ec.europa.eu/mygeoss/index.cfm</a></p><br>
+            
+            <p class="sidemenu-modal-content-title">Personal Data Protection</p><br>
+
+            <p>The European Union is committed to user privacy. <br/>
+                The policy on "protection of individuals with regard to the processing of personal data by the Community institutions" is based on <a ng-click="openExternalLinks('http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2001:008:0001:0022:EN:PDF')" >Regulation (EC) N° 45/2001</a> of the European Parliament and of the Council of 18 December 2000. </p><br>
+
+            <p>Personal information collected by this application is treated according to the specific <a ng-click="closeModalLegalNotice(); showModalPrivacy()">Privacy Statement</a></p><br> -->
+        </div>
+    </ion-content>
+</ion-modal-view>

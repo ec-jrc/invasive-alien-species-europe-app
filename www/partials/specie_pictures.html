@@ -1,0 +1,24 @@
+<div id="specie_pictures">
+	<!-- <ul rn-carousel rn-carousel-locked="toto" rn-carousel-index="carouselIndex"  class="image" style="min-height: 200px;" rn-swipe-disabled ="true"> 
+	  <li ng-repeat="photo in  specie.photos">
+	   <ion-scroll zooming="true" direction="xy" scrollbar-x="false" scrollbar-y="false" overflow-scroll="false" class="layer alignCenter"  min-zoom='0.5' has-bouncing='false' max-zoom='5' >
+		  <img ng-src="data/photos/{{photo.src}}">
+		</ion-scroll>
+	    <div class="legend"><p><span>{{photo.author}}</span></p></div>
+	  </li>
+	</ul>
+	<div rn-carousel-indicators ng-if="specie.photos.length > 1" slides="specie.photos" rn-carousel-index="carouselIndex">0</div> -->
+	<!-- <ion-list>
+	  <ion-item class="item item-thumbnail-left" ng-repeat="image in specie.photos" ng-click="photoBrowser($index)">
+	    <img ng-src="data/photos/{{image.src}}">
+	    <h2>Index - {{$index}}</h2>
+	    <p>{{image}}</p>
+	  </ion-item>
+	</ion-list> -->
+	<!-- <ng-include src="{{template}}"></ng-include> -->
+	
+
+	<div class="photoBrowserIndicator" data-tap-disabled="true">
+		<span ng-repeat="photo in specie.photos track by $index" ng-class="{'active': specieCtrl.activeIndex == $index}">●</span>
+	</div>
+</div>

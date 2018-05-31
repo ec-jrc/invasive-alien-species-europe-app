@@ -1,0 +1,103 @@
+<ion-view id="specieList">
+    <ion-nav-bar class="header specieList" align-title="center" no-tap-scroll="true">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+         	<a ng-click="updateSpeciesPage()"><img width="30px" height="30px" src="img/reload.png"/></a>
+        </ion-nav-buttons>
+        <ion-nav-title>
+            {{'SPECIES_LIST_TITLE' | translate}} - [v{{last_version.catalog}}-{{last_version.version}}]
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <div id="specieListFilters"> 
+        <div class="searchBar padding">
+            <input type="text" name="search" id="search" placeholder="{{'SPEC_LIST_txt_input' | translate}}" ng-model="customSearchCSnameInput" autocapitalize="none" autocorrect="off">
+            <input type="reset" value="X" ng-click="resetFilters()"> 
+        </div>
+        <div class="main-filter">
+            <div class="main-filter-label">
+                <div>
+                    <span>{{'SPEC_LIST_type' | translate}}</span>
+                </div>
+                <div>
+                    <span>{{'SPEC_LIST_habitat' | translate}}</span>
+                </div>
+            </div>
+            <div class="main-filter-filter">
+                <div>
+                    <input type="checkbox" name="type" id="plante" ng-true-value="'Plantae'" ng-false-value="''" ng-model="filters.type" ng-change="changePlantaeFilters()"><label><span>&#33;</span></label>
+                    <button id="animal" ng-click="openAnimaliaFilters()" ng-style="styleAnimaliaButton"></button>
+                </div>
+                <div>
+                    <input type="checkbox" name="habitat" id="marine" ng-true-value="'marine'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
+                    <input type="checkbox" name="habitat" id="freshwater" ng-true-value="'freshwater'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
+                    <input type="checkbox" name="habitat" id="terrestrial" ng-true-value="'terrestrial'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="subFilters" ng-show="openSubFilters === true">
+        <div class="row">
+            <div class="col col-50"><button id="anyAnimal" ng-click="changeFamilyAnyAnimalia()" ng-style="styleAnimaliaSubFilterButton"></button><label class="testT" for="anyAnimal">{{'Any' | translate}}</label></div>
+            <div class="col col-50 closeSubFilter" ng-click="openSubFilters = false">{{'SPEC_LIST_CLOSE' | translate}}</div>
+        </div>
+        <div class="row">
+            <div class="col col-50 centerT"><input type="checkbox" name="family" id="amphibians" ng-true-value="'Amphibia'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="amphibians">{{'SPEC_LIST_Amph' | translate}}</label></div>
+            <div class="col col-50 centerT alignRight"><input type="checkbox" name="family" id="birds" ng-true-value="'Aves'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="birds" class="alignLeft">{{'SPEC_LIST_Bird' | translate}}</label></div>
+        </div>
+        <div class="row">
+            <div class="col col-50 centerT"><input type="checkbox" name="family" id="invertebrates" ng-true-value="'Arthropoda'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="invertebrates">{{'SPEC_LIST_Inver' | translate}}</label></div>   
+            <div class="col col-50 centerT alignRight"><input type="checkbox" name="family" id="mammals" ng-true-value="'Mammalia'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="mammals" class="alignLeft">{{'SPEC_LIST_Mammal' | translate}}</label></div>
+        </div>
+        <div class="row">
+            <div class="col col-50 centerT"><input type="checkbox" name="family" id="reptiles" ng-true-value="'Reptila'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="reptiles">{{'SPEC_LIST_Rep' | translate}}</label></div>
+            <div class="col col-50 centerT alignRight"><input type="checkbox" name="family" id="fish" ng-true-value="'Actinopterygii'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="actinopterygii" class="alignLeft">{{'SPEC_LIST_Fish' | translate}}</label></div>
+        </div>
+    </div>
+
+    <ion-content ng-class="{marginTop: openSubFilters === true}" overflow-scroll="false">
+    <!-- <ion-scroll zooming="false"> -->
+        <!-- <div class="row" collection-repeat="specie in species | filter:filters | orderBy: 'common_name' track by $index" ng-click="goToSpecie(specie)" item-height="100px" item-width="100%"> -->
+
+
+            <!-- V1 -->
+            <!-- <div class='specie-picture'>
+                <img ng-src="data/thumbnails/{{specie.photos[0].src}}" alt="{{specie.common_name}}" />
+            </div>
+            <div class='specie-name'>
+                {{specie.common_name}}<br/><span>{{specie.scientific_name}}</span>
+            </div> -->
+           
+            <!-- <div class="specie-item" ng-style="background-image:url(data/photos/{{specie.photos[0].src}})">
+                <p><span>{{specie.common_name}}<br/><i>{{specie.scientific_name}}</i></span></p>
+            </div> -->
+            <!-- END V1 -->
+            
+            <!-- V2 -->
+            <!-- <div class="specie-item">
+                <img ng-src="data/photos/{{specie.photos[0].src}}"/>
+                <p><span>{{specie.common_name}}<br/><i>{{specie.scientific_name}}</i></span></p>
+            </div> -->
+            <!-- END V2 -->
+
+        <!-- </div> -->
+        <!-- <div class="container" ng-class="{dummyClass: dummyClass.test}" ng-style="testRepaint"> -->
+        <div class="container" ng-style="appCtrl.accessibilityFont">
+            <div class="myCard" ng-repeat="specie in species | filter:filters | filter:customSearchCSname | orderBy: 'common_name' track by $index" ng-click="goToSpecie(specie)" item-width="100%">
+                <!-- <img ng-src="data/photos/{{specie.photos[0].src}}"/> -->
+                <img ng-src="{{specie.real_path}}{{specie.photos[0].src}}"/>
+                <div class="label">
+                    {{specie.common_name}}<br/><i>{{specie.scientific_name}}</i>
+                </div>
+            </div>
+        </div>
+        <!-- </ion-scroll> -->
+    <div style="height: 1px; width: 1px; display: block;" ng-if="dummyClass"></div>
+    </ion-content>
+    <div style="height: 1px; width: 1px; display: block;" ng-if="dummyClass"></div>
+</ion-view>
