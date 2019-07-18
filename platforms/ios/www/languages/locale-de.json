@@ -1,5 +1,6 @@
 {
-	"HOME_TITLE": "Invasive gebietsfremde Arten in Europa",
+	"HOME_TITLE_OLD": "Invasive gebietsfremde Arten in Europa",
+	"HOME_TITLE": "IAS in Europe",
 	"HOME_ICO_INV": "Invasive Arten",
 	"HOME_ICO_RCD": "Meine Artenaufzeichnungen",
 	"HOME_ICO_REP": "Eine Sichtung berichten",
@@ -133,7 +134,19 @@
 	"new_version1" : "Es ist eine neue Version (v",
 	"new_version2" : ") des EASIN-Artenkatalogs verfügbar. Möchten Sie sie herunterladen?",
 	"new_version_title" : "Neuer EASIN-Katalog verfügbar",
+	"new_local_version1" : "Es ist eine neue Version (v",
+	"new_local_version2" : ") des lokale-Artenkatalogs verfügbar (Bereich: ",
+	"new_local_version3" : "). Möchten Sie diese herunterladen?",
+	"new_local_version_title" : "Neuer lokale-Katalog verfügbar",
 	"download_pictures" : "Möchten Sie die Bilder des EASIN-Artenkatalogs herunterladen (v",
 	"download_pictures_title" : "Download der Artenbilder",
-	"download_complete" : "Download abgeschlossen!"
+	"download_complete" : "Download abgeschlossen!",
+ 	"download_complete_errors" : "Download mit Fehlern abgeschlossen!",
+    "notification_count": " Beobachtung wurde geändert.",
+    "notification_counts": " Beobachtungen wurden geändert.",
+    "local_area_message1" : "Anscheinend sind Sie in der Nähe von oder in: ",
+    "local_area_message2" : ".",
+    "page" : "SEITE",
+    "android9" : "Bitte beachten sie, dass für Android 9 momentan noch nicht alle Funktionalitäten zur Verfügung stehen. Diese werden schnellstmöglich ergänzt.",
+    "other_species" : "andere Art"
 }

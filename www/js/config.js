@@ -5,12 +5,25 @@
 angular.module('MYGEOSS.constants', [])
 
 .constant('CONFIG', {
-	serverApiUrl: 'http://inspireaq.jrc.ec.europa.eu/easin/backend/', // PROD
-	//serverApiUrl: 'http://vap-mygeoss-data.jrc.it/easin/backend/',  // TEST
-	authenticationBaseURL: 'http://alien.jrc.ec.europa.eu/api.auth/',
+	environment: 'PROD',
+	// PROD ------------------------------------------------------------------------
+	//serverProdApiUrlHttp: 'http://inspireaq.jrc.ec.europa.eu/easin/backend/',
+	serverProdApiUrlHttp: 'https://easin.jrc.ec.europa.eu/mobile/',
+	serverProdApiUrlHttps: 'https://easin.jrc.ec.europa.eu/mobile/',
+	// TEST ------------------------------------------------------------------------
+	//serverTestApiUrlHttp: 'http://vap-mygeoss-data.jrc.it/easin/backend/',
+	//serverTestApiUrlHttps: 'https://vap-mygeoss-data.jrc.it/easin/backend/',
+	serverTestApiUrlHttp: 'http://csdata-stg.ies.jrc.it/easin/backend/',
+	serverTestApiUrlHttps: 'https://csdata-stg.ies.jrc.it/easin/backend/',
+	// EASIN -----------------------------------------------------------------------
+	authenticationBaseURLHttp: 'http://alien.jrc.ec.europa.eu/api.auth/',
+	authenticationBaseURLHttps: 'https://easin.jrc.ec.europa.eu/api.auth/',
+	// -----------------------------------------------------------------------------
 	staticFileContentURL: "http://digitalearthlab.jrc.ec.europa.eu/files/app/ias/",
 	contactMail : 'EC-MYGEOSS@ec.europa.eu',
-	sessionExpirationTime: '604800000' //1hour
+	countDownTimer : 300,  // seconds needed to recall the REST services to check if there are new notifications (default 1 hour: 3600 secs)
+	sessionExpirationTime: '604800000', //1hour
+	tileLayer: 'https://europa.eu/webtools/maps/tiles/osm-ec/{z}/{x}/{y}.png'
 })
 
 .constant('TEXT', {
@@ -26,4 +39,11 @@ angular.module('MYGEOSS.constants', [])
 	errorAddPhoto_label: 'Maximum photos',
 	errorAddPhoto_content: "You can't upload more than 3 photos. Please delete one and try again",
 
+})
+
+.value('SERVER', {
+	serverApiUrl: 'https://easin.jrc.ec.europa.eu/mobile/',
+	//serverApiUrl: 'http://csdata-stg.ies.jrc.it/easin/backend/',
+	//serverApiUrl: 'https://vap-mygeoss-data.jrc.it/easin/backend/',
+	authenticationBaseURL: 'https://easin.jrc.ec.europa.eu/api.auth/'
 });

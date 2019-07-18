@@ -1,9 +1,11 @@
-<div class="contain" id="specie_report_sighting" ng-style="appCtrl.accessibilityFont">
-	<div class="row noPadding">
-		<button class="col col-50 main-button" ng-click="saveDraft()">{{'REPORT_save_draft' | translate}}</button>
-		<button class="col col-50 main-button" ng-click="sendData()">{{'REPORT_send' | translate}}</button>
+<div scroll class="contain" id="specie_report_sighting" ng-style="appCtrl.accessibilityFont">
+    <div id="reportSightingButtons"> 
+		<button ng-disabled="saveDraftButton" class="btnPagingReport" ng-click="saveDraft()">{{'REPORT_save_draft' | translate}}</button>
+		<button ng-disabled="sendDataButton" class="btnPagingReport" ng-click="sendData()">{{'REPORT_send' | translate}}</button>
 	</div>
+    	
 	<form>
+    <div style="height: 60px; width: 1px; display: block;"></div>
 		<div class="row">
 			<div class="col">
 				<span class="mandatory">{{'REPORT_species' | translate}}</span>
@@ -40,7 +42,7 @@
 					<img ng-repeat="(key, image) in images track by $index" ng-click="deletePhoto(key)" ng-src="{{image.path + image.file}}" class="sob_thumbnail" >
 				</span>
 				<span ng-if="images.length <= 0" class="no-picture" ng-class="errorPicture">
-					<p>{{'click' | translate}} <img src="img/add-image-text.svg" alt="add-image" ng-click="addPhoto()"> {{'to_add_picture' | translate}}</p>
+					<p>{{'click' | translate}} <img src="img/add-image.svg" alt="add-image" ng-click="addPhoto()"> {{'to_add_picture' | translate}}</p>
 				</span>
 			</div>
 		</div>

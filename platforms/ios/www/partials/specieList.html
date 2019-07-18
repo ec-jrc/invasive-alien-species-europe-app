@@ -6,19 +6,23 @@
          	<a ng-click="updateSpeciesPage()"><img width="30px" height="30px" src="img/reload.png"/></a>
         </ion-nav-buttons>
         <ion-nav-title>
-            {{'SPECIES_LIST_TITLE' | translate}} - [v{{last_version.catalog}}-{{last_version.version}}]
+            {{'SPECIES_LIST_TITLE' | translate}} - v{{last_version.catalog}}-{{last_version.version}}
         </ion-nav-title>
         <ion-nav-buttons side="right">
             <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
+    
+    
+    
 
     <div id="specieListFilters"> 
         <div class="searchBar padding">
             <input type="text" name="search" id="search" placeholder="{{'SPEC_LIST_txt_input' | translate}}" ng-model="customSearchCSnameInput" autocapitalize="none" autocorrect="off">
             <input type="reset" value="X" ng-click="resetFilters()"> 
         </div>
+        
         <div class="main-filter">
             <div class="main-filter-label">
                 <div>
@@ -32,6 +36,7 @@
                 <div>
                     <input type="checkbox" name="type" id="plante" ng-true-value="'Plantae'" ng-false-value="''" ng-model="filters.type" ng-change="changePlantaeFilters()"><label><span>&#33;</span></label>
                     <button id="animal" ng-click="openAnimaliaFilters()" ng-style="styleAnimaliaButton"></button>
+                    <input type="checkbox" name="area" id="local" ng-true-value="'local'" ng-false-value="''" ng-model="filters.area_filter" ng-show="sitealert.id != ''" ng-change="changeAreaFilters()"><label ng-show="sitealert.id != ''"><span>&#33;</span></label>
                 </div>
                 <div>
                     <input type="checkbox" name="habitat" id="marine" ng-true-value="'marine'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
@@ -61,43 +66,40 @@
     </div>
 
     <ion-content ng-class="{marginTop: openSubFilters === true}" overflow-scroll="false">
-    <!-- <ion-scroll zooming="false"> -->
-        <!-- <div class="row" collection-repeat="specie in species | filter:filters | orderBy: 'common_name' track by $index" ng-click="goToSpecie(specie)" item-height="100px" item-width="100%"> -->
-
-
-            <!-- V1 -->
-            <!-- <div class='specie-picture'>
-                <img ng-src="data/thumbnails/{{specie.photos[0].src}}" alt="{{specie.common_name}}" />
-            </div>
-            <div class='specie-name'>
-                {{specie.common_name}}<br/><span>{{specie.scientific_name}}</span>
-            </div> -->
-           
-            <!-- <div class="specie-item" ng-style="background-image:url(data/photos/{{specie.photos[0].src}})">
-                <p><span>{{specie.common_name}}<br/><i>{{specie.scientific_name}}</i></span></p>
-            </div> -->
-            <!-- END V1 -->
-            
-            <!-- V2 -->
-            <!-- <div class="specie-item">
-                <img ng-src="data/photos/{{specie.photos[0].src}}"/>
-                <p><span>{{specie.common_name}}<br/><i>{{specie.scientific_name}}</i></span></p>
-            </div> -->
-            <!-- END V2 -->
-
-        <!-- </div> -->
-        <!-- <div class="container" ng-class="{dummyClass: dummyClass.test}" ng-style="testRepaint"> -->
-        <div class="container" ng-style="appCtrl.accessibilityFont">
-            <div class="myCard" ng-repeat="specie in species | filter:filters | filter:customSearchCSname | orderBy: 'common_name' track by $index" ng-click="goToSpecie(specie)" item-width="100%">
-                <!-- <img ng-src="data/photos/{{specie.photos[0].src}}"/> -->
-                <img ng-src="{{specie.real_path}}{{specie.photos[0].src}}"/>
-                <div class="label">
-                    {{specie.common_name}}<br/><i>{{specie.scientific_name}}</i>
+            <div class="container" ng-style="appCtrl.accessibilityFont">
+            <div ng-show="($index >= (main.speciesCurrPage-1)*main.speciesPageSize) && ($index < main.speciesCurrPage*main.speciesPageSize)" class="myCard" ng-repeat="specie in species | filter:filters | filter:customSearchCSname | orderBy: 'scientific_name' track by $index " ng-click="goToSpecie(specie)" item-width="100%">
+                <img ng-src="{{specie.real_path}}{{specie.photos[0].src}}" ng-show="specie.area_filter == 'general' || (specie.area_filter == 'local' && sitealert.id != '')"/>
+                <div class="label" ng-show="specie.area_filter == 'general' || (specie.area_filter == 'local' && sitealert.id != '')">
+                    <img src="img/filter_local.svg" width="40px" height="40px" ng-show="specie.area_filter == 'local'"/>{{specie.common_name}}<br/><i>{{specie.scientific_name}}</i>
                 </div>
             </div>
         </div>
         <!-- </ion-scroll> -->
-    <div style="height: 1px; width: 1px; display: block;" ng-if="dummyClass"></div>
+    <div style="height: 50px; width: 1px; display: block;" ng-if="dummyClass"></div>
     </ion-content>
+    <div class="speciesPageFooter" data-tap-disabled="true">
+    	<div class="rowFooter">
+    		<div class="colFooterSpace">
+    			&nbsp;
+    		</div>
+    		<div class="colFooterButton">
+        		<button class="btnPaging" ng-disabled="main.speciesCurrPage == 1" ng-click="clickButtonPrev()"><img src="img/arrow_left.png" height="23px"/></button>
+    		</div>
+    		<div class="colFooterPage">
+	        	<span class="colFooterTextPage">
+	        		{{'page' | translate}}: 
+					<select class="species-select-style" ng-model="pageSelected" ng-change="updateCurrentPage(pageSelected)">
+						<option ng-selected="($index+1) == main.speciesCurrPage" ng-repeat="n in [].constructor(roundNumber(species.length/main.speciesPageSize)) track by $index+1" value="{{$index+1}}">{{$index+1}}</option>
+					</select> / {{ roundNumber(species.length/main.speciesPageSize) }}
+				</span>
+			</div>
+    		<div class="colFooterButton">
+        		<button class="btnPaging" ng-disabled="main.speciesCurrPage >= species.length/main.speciesPageSize" ng-click="clickButtonNext()"><img src="img/arrow_right.png" height="23px"/></button>
+        	</div>
+    		<div class="colFooterSpace">
+    			&nbsp;
+    		</div>
+        </div>
+    </div>
     <div style="height: 1px; width: 1px; display: block;" ng-if="dummyClass"></div>
 </ion-view>

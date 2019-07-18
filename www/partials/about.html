@@ -16,8 +16,11 @@
             <div class="col" ng-style="appCtrl.accessibilityFont"> <!--  bind-unsafe-html="dynamicContent" -->
             	Invasive Alien Species Europe v{{app_version.version}}<br/>
             	EASIN Catalog v{{last_version.catalog}}-{{last_version.version}}<br/>
+            	<span ng-show="sitealert.id != ''">{{sitealert.name}} Catalog v{{last_local_version.catalog}}-{{last_local_version.version}}<br/></span>
+            	<span ng-show="environment == 'TEST'">TEST<br/></span>
             	<br/>
             	<p ng-bind-html="dynamicContent"></p>
+                <img src="img/logo_mygeoss.svg">
             </div>
         </div>
     </ion-content>

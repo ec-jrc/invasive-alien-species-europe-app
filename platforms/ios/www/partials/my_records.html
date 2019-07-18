@@ -23,8 +23,8 @@
 				</div>
 				<div class="col-67 row action center">
 					<div class="col-33">
-						<img src="img/myrecord_save.png" ng-if="savedObservation.status === 'complete'" ng-click="actionSendEntry({{savedObservation.id}})">
-						<img src="img/myrecord_save_disabled.png" ng-if="savedObservation.status === 'incomplete'">
+						<img src="img/myrecord_save.png" ng-if="(savedObservation.status === 'complete') && (buttonSendDisabled === false)" ng-click="actionSendEntry({{savedObservation.id}})">
+						<img src="img/myrecord_save_disabled.png" ng-if="(savedObservation.status === 'incomplete') || (buttonSendDisabled === true)">
 						<br/>
 						{{'send' | translate}}
 					</div>
@@ -43,7 +43,7 @@
 			<h2>{{'SEND_RECORDS' | translate}}</h2>
 			<ul class="serverRecordsList">
 				<li ng-repeat="serverObservation in serverObservations | orderBy:'-createdAt' track by $index">
-					<a ui-sref="app.sob({sobId: serverObservation._id})">{{serverObservation.createdAt | limitTo : 10 }} {{serverObservation.createdAt | limitTo : 8 : 11 }} | {{ serverObservation.properties.LSIDDesc }} | <span ng-class="serverObservation.properties.Status">{{serverObservation.properties.Status}}</span></a>
+					<a ui-sref="app.sob({sobId: serverObservation._id})">{{serverObservation.createdAt | limitTo : 10 }} {{serverObservation.createdAt | limitTo : 8 : 11 }} | {{ serverObservation.properties.LSIDDesc }} | <span ng-class="serverObservation.properties.Status">{{serverObservation.properties.Status}}<span ng-if="serverObservation.properties.Updated > 0"> | <span class="updateLabel">UPDATED</span></span></span></a>
 				</li>
 			</ul>
 		</div>

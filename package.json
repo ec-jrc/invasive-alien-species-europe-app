@@ -7,7 +7,26 @@
     "gulp-sass": "^2.0.4",
     "gulp-concat": "^2.2.0",
     "gulp-minify-css": "^0.3.0",
-    "gulp-rename": "^1.2.0"
+    "gulp-rename": "^1.2.0",
+    "cordova-ios": "~4.1.1",
+    "cordova-android": "~5.1.1",
+    "cordova-plugin-device": "~1.1.1",
+    "cordova-plugin-console": "~1.0.2",
+    "cordova-plugin-whitelist": "~1.2.0",
+    "cordova-plugin-statusbar": "~2.0.0",
+    "cordova-plugin-inappbrowser": "~1.1.1",
+    "cordova-plugin-datepicker": "~0.9.3",
+    "cordova-plugin-network-information": "~1.2.0",
+    "cordova-plugin-splashscreen": "~3.1.0",
+    "cordova-plugin-file": "~4.1.0",
+    "cordova-plugin-filepath": "~1.0.2",
+    "ionic-plugin-keyboard": "~2.0.1",
+    "cordova-sqlite-storage": "~1.4.1",
+    "phonegap-plugin-mobile-accessibility": "https://github.com/phonegap/phonegap-mobile-accessibility.git",
+    "cordova-plugin-globalization": "~1.0.6",
+    "cordova-plugin-image-picker": "~1.1.1",
+    "cordova-plugin-geolocation": "~2.4.1",
+    "cordova-plugin-camera": "~2.3.1"
   },
   "devDependencies": {
     "bower": "^1.3.3",
@@ -31,5 +50,36 @@
       "locator": "ios@4.1"
     },
     "android"
-  ]
+  ],
+  "cordova": {
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-device": {},
+      "cordova-plugin-console": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-datepicker": {},
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-file": {},
+      "cordova-plugin-filepath": {},
+      "ionic-plugin-keyboard": {},
+      "cordova-sqlite-storage": {},
+      "phonegap-plugin-mobile-accessibility": {},
+      "cordova-plugin-globalization": {},
+      "cordova-plugin-image-picker": {
+        "PHOTO_LIBRARY_USAGE_DESCRIPTION": "The application needs to access your library to send picture in your observation."
+      },
+      "cordova-plugin-geolocation": {
+        "GEOLOCATION_USAGE_DESCRIPTION": "The application use your position to display the observations near your location"
+      },
+      "cordova-plugin-camera": {
+        "CAMERA_USAGE_DESCRIPTION": "The application uses the camera to take picture for the observation"
+      }
+    }
+  }
 }

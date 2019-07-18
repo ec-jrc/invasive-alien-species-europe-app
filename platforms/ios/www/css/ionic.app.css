@@ -3892,7 +3892,7 @@ a.subdued {
   border-style: solid;
   border-top: 1px solid transparent;
   border-bottom: 1px solid #ddd;
-  background-color: white;
+  background-color: #ffffff;
   /* border-width: 1px will actually create 2 device pixels on retina */
   /* this nifty trick sets an actual 1px border on hi-res displays */
   background-size: 0; }
@@ -5298,9 +5298,9 @@ ion-tabs.tabs-color-active-dark .tab-item {
 
 @media (min-width: 680px) {
   .modal {
-    top: 20%;
+    top: 15%;
     right: 20%;
-    bottom: 20%;
+    bottom: 15%;
     left: 20%;
     min-height: 240px;
     width: 60%; }
@@ -9153,12 +9153,12 @@ a.button {
 
 .col-50 {
   -webkit-box-flex: 0;
-  -webkit-flex: 0 0 50%;
+  -webkit-flex: 0 0 49%;
   -moz-box-flex: 0;
-  -moz-flex: 0 0 50%;
-  -ms-flex: 0 0 50%;
-  flex: 0 0 50%;
-  max-width: 50%; }
+  -moz-flex: 0 0 49%;
+  -ms-flex: 0 0 49%;
+  flex: 0 0 49%;
+  max-width: 49%; }
 
 .col-60 {
   -webkit-box-flex: 0;
@@ -9876,6 +9876,38 @@ ion-header-bar .title {
       cursor: hand;
       cursor: pointer; }
 
+.sidemenu-modal-sighting {
+  background-color: #a3cb43; }
+  .sidemenu-modal-sighting ion-header-bar {
+    border-bottom: 1px solid #fff;
+    background-color: #7a9c2b; }
+    .sidemenu-modal-sighting ion-header-bar .title,
+    .sidemenu-modal-sighting ion-header-bar .button {
+      color: #fff !important; }
+    .sidemenu-modal-sighting ion-header-bar .title {
+      left: 5px !important;
+      right: 90px !important; }
+  .sidemenu-modal-sighting > ion-content {
+    color: #000000;
+    padding: 40px;
+    font-size: 20px; }
+    .sidemenu-modal-sighting > ion-content .sidemenu-modal-content-title {
+      color: #C1DCEC;
+      font-size: 130%;
+      margin-top: 10px;
+      margin-bottom: 10px; }
+    .sidemenu-modal-sighting > ion-content p {
+      margin-bottom: 0; }
+    .sidemenu-modal-sighting > ion-content a {
+      color: #C1DCEC; }
+    .sidemenu-modal-sighting > ion-content .sidemenu-modal-content-button {
+      display: block;
+      text-align: center !important;
+      color: #29ABE2 !important;
+      font-size: 15pt;
+      cursor: hand;
+      cursor: pointer; }
+      
 #languageModal ion-content {
   padding: 0px; }
 
@@ -9914,28 +9946,31 @@ ion-header-bar .title {
   background-color: #559972; }
 
 .header.specie {
-  background-color: #6A8599; }
+  background-color: #559972; }
+
+.header.sightingReport {
+  background-color: #7a9c2b; }
 
 .header.sob {
-  background-color: #6A8599; }
+  background-color: #559973; }
 
 .header.myrecords {
-  background-color: #27393D; }
+  background-color: #d3d501; }
 
 .header.contact {
-  background-color: #27393D; }
+  background-color: #ff7837; }
 
 .header.about {
-  background-color: #27393D; }
+  background-color: #804040; }
 
 .header.links {
-  background-color: #27393D; }
+  background-color: #40637d; }
 
 .header.sightingMap {
-  background-color: #6A8599; }
+  background-color: #5e9eb5; }
 
 .header.login {
-  background-color: #27393D; }
+  background-color: #d0a82b; }
 
 /**
  * Home
@@ -9953,7 +9988,7 @@ ion-header-bar .title {
       left: 50px; } }
 
 #home ion-content {
-  background-color: #C3D38C; }
+  background-color: #395459; }
   #home ion-content section.home-container {
     height: 100%;
     width: 100%;
@@ -9965,11 +10000,16 @@ ion-header-bar .title {
       -moz-justify-content: flex-start;
       justify-content: flex-start; }
       #home ion-content section.home-container div.row div.col-50 {
-        height: calc(100% / 4);
-        padding: 2.5px; }
-        @media screen and (min-width: 600px) {
+        height: calc(100% / 4.16);
+        /** padding: 2.5px; **/
+        margin-top: 0.5%;
+        margin-bottom: 0.5%; 
+        margin-right: 0.5%;
+        margin-left: 0.5% }
+        @media screen and (min-width: 1024px) {
           #home ion-content section.home-container div.row div.col-50 {
-            flex: 0 0 33.33%; } }
+        	height: calc(100% / 3.125);
+			flex: 0 0 32.33%; } }
   #home ion-content .main-menu__button {
     height: 100%;
     max-width: 100%; }
@@ -9994,7 +10034,7 @@ ion-header-bar .title {
       box-sizing: border-box; }
       #specieList #specieListFilters div.searchBar input[type="text"]#search {
         box-sizing: border-box;
-        border: 1px solid #00662C;
+        border: 1px solid #559973;
         border-right: none;
         width: 85%;
         background: url(../img/filter.png) no-repeat 5px 5px #FFFFFF;
@@ -10009,14 +10049,14 @@ ion-header-bar .title {
       #specieList #specieListFilters div.searchBar input[type="reset"] {
         box-sizing: border-box;
         background-color: #FFFFFF;
-        border: 1px solid #00662C;
+        border: 1px solid #559973;
         vertical-align: middle;
         height: 35px;
         width: calc(15% - 1px);
         text-align: right;
         font-size: 1.5rem;
         border-left: none;
-        color: #00662C;
+        color: #559973;
         padding: 0;
         border-radius: 0 !important;
         padding-right: 10px; }
@@ -10059,12 +10099,16 @@ ion-header-bar .title {
       width: 50px;
       height: 50px;
       border: none; }
+    #specieList #specieListFilters input[type="checkbox"]#local + label {
+      background: url(../img/filter_local.svg) left center no-repeat; }
     #specieList #specieListFilters input[type="checkbox"]#marine + label {
       background: url(../img/filter_marine.svg) left center no-repeat; }
     #specieList #specieListFilters input[type="checkbox"]#freshwater + label {
       background: url(../img/filter_freshwater.svg) left center no-repeat; }
     #specieList #specieListFilters input[type="checkbox"]#terrestrial + label {
       background: url(../img/filter_terrestrial.svg) left center no-repeat; }
+    #specieList #specieListFilters input[type="checkbox"]#local:checked + label {
+      background: url(../img/filter_local-active.svg) left center no-repeat; }
     #specieList #specieListFilters input[type="checkbox"]#plante:checked + label {
       background: url(../img/filter_plante-active.svg) left center no-repeat; }
     #specieList #specieListFilters input[type="checkbox"]#animal:checked + label {
@@ -10294,7 +10338,7 @@ ion-header-bar .title {
 */
 #specie_pictures {
   height: 100%;
-  background-color: #6A8599; }
+  background-color: #cde1d2; }
   #specie_pictures ul {
     height: 100%; }
     #specie_pictures ul li {
@@ -10323,7 +10367,7 @@ ion-header-bar .title {
         height: 55px;
         color: white;
         font-style: italic;
-        background-color: #3F627C;
+        background-color: #b9d5c5;
         text-align: center; }
         #specie_pictures ul li div.legend p {
           padding-top: 5px; }
@@ -10351,10 +10395,10 @@ ion-header-bar .title {
     float: right;
     height: 50px;
     z-index: 99999;
-    width: 300px;
+    width: 350px;
     bottom: 40px;
     left: 50%;
-    margin-left: -150px;
+    margin-left: -175px;
     text-align: center; }
     #specie_pictures div.photoBrowserIndicator span {
       font-size: 45px;
@@ -10363,12 +10407,12 @@ ion-header-bar .title {
       #specie_pictures div.photoBrowserIndicator span.active {
       color: #FFFFFF; }
   #specie_pictures .photo-browser-swiper-container {
-    background-color: #7C95A5; }
+    background-color: #cde1d2; }
   #specie_pictures .customCss {
     /*Picutre container div*/
-    background-color: #7C95A5; }
+    background-color: #cde1d2; }
   #specie_pictures .photo-browser-caption {
-    background-color: #3F627C;
+    background-color: #b9d5c5;
     font-style: italic;
     color: white;
     height: 60px; }
@@ -10441,7 +10485,7 @@ ion-header-bar .title {
 specie-report-sighting {
   font-size: 19px; }
   specie-report-sighting #specie_report_sighting {
-    background-color: #FAF5E7;
+    background-color: #daeab5;
     font-size: 100%;
     min-height: 100%; }
     specie-report-sighting #specie_report_sighting button.main-button {
@@ -10454,9 +10498,9 @@ specie-report-sighting {
       content: "*";
       color: #e22727; }
     specie-report-sighting #specie_report_sighting .row:nth-child(even) {
-      background-color: #FCF9F1; }
+      background-color: #c6df8a; }
     specie-report-sighting #specie_report_sighting .speciePcitures .no-picture {
-      color: #6a8599; }
+      color: #000000; }
       specie-report-sighting #specie_report_sighting .speciePcitures .no-picture p {
         padding-top: 3px; }
       specie-report-sighting #specie_report_sighting .speciePcitures .no-picture img {
@@ -10469,7 +10513,7 @@ specie-report-sighting {
       margin-right: 5px; }
     specie-report-sighting #specie_report_sighting button.form-button {
       background-color: #FFFFFF;
-      color: #6a8599;
+      color: #000000;
       border: 1px solid #CCCCCC;
       vertical-align: middle;
       width: 100%;
@@ -10491,7 +10535,7 @@ specie-report-sighting {
       background: #FFFFFF url("../img/select_arrow-down-border.png") no-repeat right; }
       specie-report-sighting #specie_report_sighting .unit select {
         text-align: left;
-        color: #6a8599;
+        color: #000000;
         width: 100%;
         padding-right: 40px;
         white-space: nowrap;
@@ -10508,7 +10552,7 @@ specie-report-sighting {
     specie-report-sighting #specie_report_sighting .range {
       height: 35px;
       background-color: #FFFFFF;
-      color: #6a8599;
+      color: #000000;
       border: 1px solid #CCCCCC;
       text-align: center;
       width: 100%;
@@ -10550,7 +10594,7 @@ specie-report-sighting {
         width: 100%;
         height: 150px;
         background-color: #FFFFFF;
-        color: #6a8599;
+        color: #000000;
         border: 1px solid #CCCCCC;
         -webkit-appearance: none;
         border-radius: 0;
@@ -10560,7 +10604,7 @@ specie-report-sighting {
       padding-top: 15px; }
     specie-report-sighting #specie_report_sighting div.habitat input[type="radio"] {
       width: 70px;
-      height: 70px;
+      height: 50px;
       margin: 0;
       padding: 0;
       opacity: 0; }
@@ -10569,12 +10613,12 @@ specie-report-sighting {
       vertical-align: top;
       margin-left: -70px;
       padding-left: 80px;
-      line-height: 70px;
+      line-height: 50px;
       font-size: 1em;
-      color: #6a8599;
+      color: #000000;
       font-weight: bold; }
     specie-report-sighting #specie_report_sighting div.habitat input[type="radio"]:checked + label {
-      color: #cea634; }
+      color: #7a9c2b; }
     specie-report-sighting #specie_report_sighting div.habitat input[type="radio"]#marineAdd + label {
       background: url(../img/add_habitat_marine.png) left center no-repeat; }
     specie-report-sighting #specie_report_sighting div.habitat input[type="radio"]#freshwaterAdd + label {
@@ -10701,12 +10745,12 @@ specie-report-sighting {
       #sob #sob_pictures div.photoBrowserIndicator span.active {
       color: #FFFFFF; }
   #sob #sob_pictures .photo-browser-swiper-container {
-    background-color: #7C95A5; }
+    background-color: #cde1d2; }
   #sob #sob_pictures .customCss {
     /*Picutre container div*/
-    background-color: #7C95A5; }
+    background-color: #cde1d2; }
   #sob #sob_pictures .photo-browser-caption {
-    background-color: #3F627C;
+    background-color: #b9d5c5;
     font-style: italic;
     color: white;
     height: 60px; }
@@ -10756,8 +10800,8 @@ specie-report-sighting {
  * --------------------------------------------------
  */
 #contact {
-  background-color: #ecf0b7;
-  background-image: url(../img/background.png); }
+  background-color: #ffb693;
+  /* background-image: url(../img/background.png); */ }
   #contact ion-content {
     height: 100%;
     font-size: 20px; }
@@ -10767,20 +10811,20 @@ specie-report-sighting {
       padding-left: 0;
       padding-right: 0; }
       #contact ion-content div.contactText .col {
-        background-color: #ecf0b7;
+        background-color: #ffa980;
         padding-top: 20px;
         padding-bottom: 20px; }
         #contact ion-content div.contactText .col .linkLike {
           font-style: italic;
-          color: #42708C; }
+          color: #ffffff; }
 
 /**
  * About
  * --------------------------------------------------
  */
 #about {
-  background-color: #ecf0b7;
-  background-image: url(../img/background.png); }
+  background-color: #b66d6d;
+  /* background-image: url(../img/background.png); */ }
   #about ion-content {
     height: 100%;
     font-size: 20px; }
@@ -10790,20 +10834,21 @@ specie-report-sighting {
       padding-left: 0;
       padding-right: 0; }
       #about ion-content div.aboutText .col {
-        background-color: #ecf0b7;
+        background-color: #804040;
         padding-top: 20px;
-        padding-bottom: 20px; }
+        padding-bottom: 20px;
+        color: #ffffff; }
         #about ion-content div.aboutText .col .linkLike {
           font-style: italic;
-          color: #42708C; }
+          color: #ffffff; }
 
 /**
  * Links
  * --------------------------------------------------
  */
 #links {
-  background-color: #ecf0b7;
-  background-image: url(../img/background.png); }
+  background-color: #7ba0bb;
+  /* background-image: url(../img/background.png); */ }
   #links ion-content {
     height: 100%;
     font-size: 20px; }
@@ -10818,18 +10863,18 @@ specie-report-sighting {
       #links ion-content div.linksText .col {
         padding-top: 20px;
         padding-bottom: 20px;
-        background-color: #ecf0b7; }
+        background-color: #6993b1; }
         #links ion-content div.linksText .col .linkLike {
           font-style: italic;
-          color: #42708C; }
+          color: #ffffff; }
 
 /**
- * Links
+ * Login
  * --------------------------------------------------
  */
 #login {
-  background-color: #bfd856;
-  background-image: url(../img/background.png); }
+  background-color: #e8d291;
+  /* background-image: url(../img/background.png); */ }
   #login ion-content {
     height: 100%;
     font-size: 24px; }
@@ -11109,4 +11154,200 @@ span.back-text {
 
  #coord-icon {
   display: none;  
+}
+
+.updateLabel {
+	color: #ff8000;
+	font-weight: bold;
+}
+
+.iconLocal {
+	width: 20px;
+	hright: 20px;
+}
+
+.btnPaging {
+  margin-top: 0px;
+  backface-visibility: hidden;
+  /* position: relative; */
+  cursor: pointer;
+  display: inline-block;
+  /* white-space: nowrap; */
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #71aa8a;
+  border-width: 1px 1px 1px 1px;
+  padding: 6px 12px 0px 12px;
+  /* color: #71aa8a;
+  font-size: 16px;
+  font-family: Courier New;
+  font-weight: 900;
+  font-style: normal */
+}
+
+
+
+
+
+
+ion-view#specieList .speciesPageFooter {
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
+  min-height: 25px;
+  background-color: #B9D5C5;
+  bottom: 0;
+  text-align: center;
+  color: #ffffff;
+  font-weight: bold;
+  padding-right: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 2px solid #B9D5C5; }
+  ion-view#specieList .speciesPageFooter span.siteTitle {
+    padding-left: 55px;
+    font-size: 1.3em;
+    display: inline-block;
+    text-align: center;
+    width: calc(100% - 90px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  ion-view#specieList .speciesPageFooter a.button {
+    margin-top: 5px;
+    line-height: 30px;
+    min-height: 10px; }
+  ion-view#specieList .speciesPageFooter img.arrow {
+    display: inline-block;
+    float: right;
+    height: 15px;
+    margin-right: 10px;
+    margin-bottom: 5px; }
+  ion-view#specieList .speciesPageFooter div.additionnalInfo {
+    height: 80px; }
+    ion-view#specieList .speciesPageFooter div.additionnalInfo span.general {
+      color: #f6aa20; }
+    ion-view#specieList .speciesPageFooter div.additionnalInfo span {
+      padding: 0; }
+    ion-view#specieList .speciesPageFooter div.additionnalInfo img {
+      height: 25px;
+      margin: auto;
+      vertical-align: middle; }
+      
+.colFooterSpace {
+  float: left;
+  width: 10%;
+  padding: 0px;
+}
+
+.colFooterButton {
+  float: left;
+  width: 20%;
+  padding: 0px;
+}
+
+.colFooterPage {
+  float: left;
+  width: 40%;
+  padding: 0px;
+}
+
+.rowFooter:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.colFooterTextPage {
+  min-height: 20px;
+  color: #559972;
+  font-weight: bold;
+}
+
+#reportSightingButtons {
+    position: absolute;
+  z-index: 9999;
+  width: 100%;
+  top: 0px;
+  background-color: #a3cb43;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.btnPagingReport {
+  backface-visibility: hidden;
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  white-space: nowrap;
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #7a9c2b;
+  border-width: 1px 1px 1px 1px;
+  padding: 6px 6px 6px 6px;
+  color: #7a9c2b;
+  font-size: 16px;
+  font-family: Courier New;
+  font-weight: 900;
+  font-style: normal;
+  width: 49%
+}
+
+#iconSpecieList {
+	background-color: #559973;
+}
+
+#iconMyRecords {
+	background-color: #d3d501;
+}
+
+#iconReportSighting {
+	background-color: #7a9c2b;
+}
+
+#iconSightingMap {
+	background-color: #5e9eb5;
+}
+
+#iconLogin {
+	background-color: #d0a82b;
+}
+
+#iconLinks {
+	background-color: #40637d;
+}
+
+#iconContact {
+	background-color: #ff7837;
+}
+
+#iconAbout {
+	background-color: #804040;
+}
+
+.species-select-style {
+    border: 1px solid #71aa8a;
+    width: 45px;
+    height: 36px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #ffffff url("img/icon-select.png") no-repeat 90% 50%;
+    margin-bottom: 1px;
+}
+
+.species-select-style select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.species-select-style select:focus {
+    outline: none;
 }

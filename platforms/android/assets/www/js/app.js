@@ -5,7 +5,16 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controllers', 'MYGEOSS.services', 'MYGEOSS.constants', 'MYGEOSS.directives', 'angular-carousel', 'angular-click-outside', 'pascalprecht.translate'])
 
-.run(function($ionicPlatform, $rootScope, $q, $cordovaFile, $cordovaDevice, $cordovaNetwork, $cordovaSQLite, $dataBaseFactory, $photoFactory, $easinFactoryLocal, $authenticationFactory, CONFIG, $filter) {
+.config(['$translateProvider', function ($translateProvider) {
+    $translateProvider.useStaticFilesLoader({
+        prefix: 'languages/locale-',
+        suffix: '.json'
+    });
+    $translateProvider.determinePreferredLanguage('en');
+    //$translateProvider.fallbackLanguage(language);
+}])
+
+.run(function($ionicPlatform, $rootScope, $q, $cordovaFile, $cordovaDevice, $cordovaNetwork, $cordovaSQLite, $dataBaseFactory, $photoFactory, $easinFactoryLocal, $authenticationFactory, CONFIG, SERVER, $filter) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -21,14 +30,80 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
       StatusBar.styleDefault();
     }
 
+    $rootScope.downloadError = false;
+    $rootScope.download = false;
+    
     //UUID
     $rootScope.UUID = $cordovaDevice.getUUID();
-
+    
     //init camera option to avoid load to quickly
     $photoFactory.initOptionsCameraCamera();
     $photoFactory.initOptionsCameraLibrary();
     
-    // COPY SPECIES LIST FROM www to Application DataDirectory
+    // Check if HTTPS protocol is available for EASIN authentication service
+    $.ajax({ url: SERVER.authenticationBaseURL + "mobile/register", timeout: 5000})
+    .always(function(answer) {
+    	if (CONFIG.environment != "PROD") console.log("Network Authentication: " + answer.status);
+  	  if ((answer.status == 200) || (answer.status == 405)) {
+  		  SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttps;
+  	  } else {
+  		  SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttp;
+  	  }
+  	if (CONFIG.environment != "PROD") console.log(SERVER.authenticationBaseURL);
+    });
+    // Check if HTTPS protocol is available for EASIN REST services
+    if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttps;
+    if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttps;
+    if (CONFIG.environment != "PROD") console.log("CHECKING " + SERVER.serverApiUrl + "species/last_version");
+    $.ajax({ url: SERVER.serverApiUrl + "species/last_version", timeout: 5000})
+    .always(function(answer) {
+      if (CONFIG.environment != "PROD") console.log(JSON.stringify(answer));
+	  if ((answer.catalog !== undefined) && (answer.version !== undefined)) answer.status = 200;
+	  if (CONFIG.environment != "PROD") console.log("Network REST Services: " + answer.status);
+  	  if ((answer.status == 200) || (answer.status == 405)) {
+  		  if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttps;
+  		  if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttps;
+  	  } else {
+  		  if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttp;
+  		  if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttp;
+  	  }
+  	  if (CONFIG.environment != "PROD") console.log(SERVER.serverApiUrl);
+    });
+
+	function RequestFileAccess() {
+		var type = window.PERSISTENT;
+	    var size = 5*1024*1024;
+	    var finished = 0;
+	    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+	    window.requestFileSystem(type, size, successCallback, errorCallback)
+
+	    function successCallback(fs) {
+	    	if (CONFIG.environment != "PROD") console.log("Access to File System granted");
+        	var fileName = "file_system_granted.json";
+	        data = { "file_system" : "ok" }
+        	window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
+	            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
+	                fileEntry.createWriter(function (fileWriter) {
+	                    fileWriter.onwriteend = function (e) {
+	                    	if (CONFIG.environment != "PROD") console.log('Write of file "' + fileName + '"" completed.');
+	                    	fileWritten = true;
+	                    };
+	                    fileWriter.onerror = function (e) {
+	                    	fileWritten = false;
+	                    };
+	                    var blob = new Blob([data], { type: 'text/plain' });
+	                    fileWriter.write(blob);
+	                }, errorHandler.bind(null, fileName));
+	            }, errorHandler.bind(null, fileName));
+	        }, errorHandler.bind(null, fileName));
+	    }    
+	    
+	    function errorCallback(error) {
+	    	if (CONFIG.environment != "PROD") console.log("Access to File System NOT GRANTED");
+	    }
+	}
+
+	// COPY SPECIES LIST FROM www to Application DataDirectory
     function copyEmptyPicFile()
     {
         var path = cordova.file.applicationDirectory + "www/data/photos/empty.jpg";
@@ -45,11 +120,11 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 		            				fileEntry.copyTo(dirEntry, "empty.jpg",
 		                                    function()
 		                                    {
-		                                        console.log("Copying [empty.jpg] was successful")
+		            							if (CONFIG.environment != "PROD") console.log("Copying [empty.jpg] was successful")
 		                                    },
 		                                    function()
 		                                    {
-		                                    	console.log("Unsuccessful copying [empty.jpg]")
+		                                    	if (CONFIG.environment != "PROD") console.log("Unsuccessful copying [empty.jpg]")
 		                                    });
                         		});
                     }, null);
@@ -71,11 +146,11 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 		            				fileEntry.copyTo(dirEntry, "idNameTable.json",
 		                                    function()
 		                                    {
-		                                        console.log("Copying [idNameTable.json] was successful")
+		            							if (CONFIG.environment != "PROD") console.log("Copying [idNameTable.json] was successful")
 		                                    },
 		                                    function()
 		                                    {
-		                                    	console.log("Unsuccessful copying [idNameTable.json]")
+		                                    	if (CONFIG.environment != "PROD") console.log("Unsuccessful copying [idNameTable.json]")
 		                                    });
                         		});
                     }, null);
@@ -97,11 +172,11 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 		            				fileEntry.copyTo(dirEntry, "last_version.json",
 		                                    function()
 		                                    {
-		                                        console.log("Copying [last_version.json] was successful")
+		            							if (CONFIG.environment != "PROD") console.log("Copying [last_version.json] was successful")
 		                                    },
 		                                    function()
 		                                    {
-		                                    	console.log("Unsuccessful copying [last_version.json]")
+		                                    	if (CONFIG.environment != "PROD") console.log("Unsuccessful copying [last_version.json]")
 		                                    });
                         		});
                     }, null);
@@ -123,22 +198,52 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 		            				fileEntry.copyTo(dirEntry, "species-" + language + ".json",
 		                                    function()
 		                                    {
-		                                        console.log("Copying [species-" + language + ".json] was successful")
+		            							if (CONFIG.environment != "PROD") console.log("Copying [species-" + language + ".json] was successful")
 		                                    },
 		                                    function()
 		                                    {
-		                                    	console.log("Unsuccessful copying [species-" + language + ".json]")
+		                                    	if (CONFIG.environment != "PROD") console.log("Unsuccessful copying [species-" + language + ".json]")
 		                                    });
                         		});
                     }, null);
         },null);
     }
+    
+    function copyLocalVersionFile(area)
+    {
+        var path = cordova.file.applicationDirectory + "www/data/species/last_version_local.json";
+        window.resolveLocalFileSystemURL(path,
+        function gotFile(fileEntry)
+        {
+        	window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+                    function onSuccess(dirEntry)
+                    {
+        				window.resolveLocalFileSystemURL(cordova.file.dataDirectory + "last_version_" + area + ".json",
+        	                    null,
+        						function onSuccess(fileDataEntry)
+                        		{
+		            				fileEntry.copyTo(dirEntry, "last_version_" + area + ".json",
+		                                    function()
+		                                    {
+		            							if (CONFIG.environment != "PROD") console.log("Copying [last_version_" + area + ".json] was successful")
+		                                    },
+		                                    function()
+		                                    {
+		                                    	if (CONFIG.environment != "PROD") console.log("Unsuccessful copying [last_version_" + area + ".json]")
+		                                    });
+                        		});
+                    }, null);
+        },null);
+    }
+
+    RequestFileAccess();
     copyVersionFile();
     copyIdTableFile();
-    copyEmptyPicFile();
     copySpeciesFile('en');
     copySpeciesFile('it');
     copySpeciesFile('de');
+    copySpeciesFile('es');
+    copySpeciesFile('ro');
     
     //DATABASE init
     //var db = $cordovaSQLite.openDB("mygeoss.db");
@@ -159,7 +264,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
     $dataBaseFactory.set(db);
     $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS reports (id integer primary key, specie text, images text, coordinates text, date text, abundance text, habitat text, comment text, status text)").then(
       function(success){
-        console.log('Success creating table');
+    	  if (CONFIG.environment != "PROD") console.log('Success creating table');
       },
       function(error){
         console.error('Error creating table');
@@ -176,10 +281,9 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
     }
     $cordovaFile.createDir($rootScope.deviceStorageLocation, "IASimg", false).then(
       function (success) {
-        console.log("Success creating IASimg dir");
+    	  if (CONFIG.environment != "PROD") console.log("Success creating IASimg dir");
       }, function (error) {
-        console.log("Error creating IASimg dir");
-        //console.error(error);
+    	  if (CONFIG.environment != "PROD") console.log("IASimg dir already created");
       }
     );
 
@@ -196,7 +300,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 
     //Send pending observations
     if($cordovaNetwork.isOnline === true){
-      console.log('Online');
+      if (CONFIG.environment != "PROD") console.log('Online');
       $easinFactoryLocal.getAllObservationByStatus('pending').then(
         function(success){
           var arrayPromise = [];
@@ -208,11 +312,11 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
              var observedAt = angular.fromJson(date);
              arrayPromise.push($easinFactory.sendObservation(specie.LSID, $rootScope.UUID, observedAt, abundance.number+" "+abundance.scale, abundance.precision, "Habitat : "+observation.habitat+". Comment : "+observation.comment, images, 'false',  [coordinates[0], coordinates[1]], "Point"));
           });
-          $q.all(arrayPromise).then(function(success){console.log('sendDataOk')});
-        },function(error){console.error('eroooooor');}
+          $q.all(arrayPromise).then(function(success){ if (CONFIG.environment != "PROD") console.log('sendDataOk') });
+        },function(error){ if (CONFIG.environment != "PROD") console.error('Error');}
       );
     }else{
-      console.log('Offline');
+    	if (CONFIG.environment != "PROD") console.log('Offline');
     }
 
     //Accessibility
@@ -277,32 +381,32 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
         var DataBlob = b64toBlob(content,contentType);
         
         window.resolveLocalFileSystemURL(folderpath, function(dir) {
-            //console.log("Access to the directory granted succesfully");
     		dir.getFile(filename, {create:true}, function(file) {
-                //console.log("File created succesfully.");
                 file.createWriter(function(fileWriter) {
-                    //console.log("Writing content to file");
                     fileWriter.write(DataBlob);
-                    setTimeout(function() { calculateMD5(folderpath, filename, md5, lastPicture); }, 10000);
+                    if(filename.search("_thumb.") == -1) setTimeout(function() { calculateMD5(folderpath, filename, md5, lastPicture); }, 10000);
                 }, function(){
-            		navigator.notification.alert("Unable to save file in path "+ folderpath,null,"Error","OK");
+            		$rootScope.downloadError = true;
                 });
     		});
         });
     }
     
     function calculateMD5(folderpath, filename, md5, lastPicture){
-    	//var folderpath = "file:///data/user/0/eu.europa.publications.mygeossias/files/";
         FileHash.md5(folderpath+filename,function(e){
         	var currentMD5 = e.result;
-        	//console.log(filename + " - MD5 DB:" + md5 + " MD5:"+ currentMD5);
         	if (md5.trim() != currentMD5.trim()) {
-        		navigator.notification.alert("There was an error downloading [" + filename + "]",null,"Error","OK");
+        		if (CONFIG.environment != "PROD") console.log(filename + " - MD5 DB:" + md5 + " MD5:"+ currentMD5);
+        		$rootScope.downloadError = true;
         	}
-        	//console.log("It's last picture: " + lastPicture);
         	if (lastPicture == "true") {
-        		navigator.notification.alert("Download completed!",null,"Info","OK");
-        		writeDownloadFile({ "Download" : "Complete"});
+        	    $rootScope.download = false;
+        		if ($rootScope.downloadError == false) {
+            		navigator.notification.alert("Download completed!",null,"Info","OK");
+            		writeDownloadFile({ "Download" : "Complete"});
+        		} else {
+            		navigator.notification.alert("Download completed with errors!",null,"Info","OK");
+        		}
         	} 
         });
     }
@@ -320,15 +424,12 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 	            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
 	                fileEntry.createWriter(function (fileWriter) {
 	                    fileWriter.onwriteend = function (e) {
-	                        //console.log('Write of file "' + fileName + '"" completed.');
+	                    	if (CONFIG.environment != "PROD") console.log('Write of file "' + fileName + '"" completed.');
 	                    	fileWritten = true;
 	                    };
-	
 	                    fileWriter.onerror = function (e) {
-	                        //console.log('Write failed: ' + e.toString());
 	                    	fileWritten = false;
 	                    };
-	
 	                    var blob = new Blob([data], { type: 'text/plain' });
 	                    fileWriter.write(blob);
 	                }, errorHandler.bind(null, fileName));
@@ -365,11 +466,10 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
                 break;
         };
 
-        //console.log('Error (' + fileName + '): ' + msg);
+        if (CONFIG.environment != "PROD") console.log('Error (' + fileName + '): ' + msg);
         if (msg == "File not found") {
-        	//writeVersionFile("{\"catalog\":\"-.-\",\"version\":0}");
         	copyVersionFile();
-        	getLastVersionFromREST();
+	        getLastVersionFromREST();
         }
     }
     
@@ -415,12 +515,12 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 	            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
 	                fileEntry.createWriter(function (fileWriter) {
 	                    fileWriter.onwriteend = function (e) {
-	                        //console.log('Write of file "' + fileName + '"" completed.');
+	                    	if (CONFIG.environment != "PROD") console.log('Write of file "' + fileName + '"" completed.');
 	                    	fileWritten = true;
 	                    };
 	
 	                    fileWriter.onerror = function (e) {
-	                        //console.log('Write failed: ' + e.toString());
+	                    	if (CONFIG.environment != "PROD") console.log('Write failed: ' + e.toString());
 	                    	fileWritten = false;
 	                    };
 	
@@ -450,12 +550,12 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 	            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
 	                fileEntry.createWriter(function (fileWriter) {
 	                    fileWriter.onwriteend = function (e) {
-	                        //console.log('Write of file "' + fileName + '"" completed.');
+	                    	if (CONFIG.environment != "PROD") console.log('Write of file "' + fileName + '"" completed.');
 	                    	fileWritten = true;
 	                    };
 	
 	                    fileWriter.onerror = function (e) {
-	                        //console.log('Write failed: ' + e.toString());
+	                    	if (CONFIG.environment != "PROD") console.log('Write failed: ' + e.toString());
 	                    	fileWritten = false;
 	                    };
 	
@@ -478,7 +578,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 	    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
 	    window.requestFileSystem(type, size, successCallback, errorCallback)
 	    data = JSON.parse(data);
-	    data.push({id:"--- Non EASIN Species ---",name:"Non EASIN Species"});
+	    data.push({id:"R00000",name:"Non EASIN Species"});
 	    data = JSON.stringify(data);
 
 	    function successCallback(fs) {
@@ -488,10 +588,12 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 	            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
 	                fileEntry.createWriter(function (fileWriter) {
 	                    fileWriter.onwriteend = function (e) {
+	                    	if (CONFIG.environment != "PROD") console.log('Write of file "' + fileName + '"" completed.');
 	                    	fileWritten = true;
 	                    };
 	
 	                    fileWriter.onerror = function (e) {
+	                    	if (CONFIG.environment != "PROD") console.log('Write failed: ' + e.toString());
 	                    	fileWritten = false;
 	                    };
 	
@@ -508,86 +610,109 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 	}
 	
 	function getFileAndPics(catalog, version) {
-		$.ajax({url: CONFIG.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).then(function(dataEn) {
+	    $rootScope.download = true;
+		$.ajax({url: SERVER.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).then(function(dataEn) {
 			objOutput = JSON.stringify(dataEn);
 			createLocalJSONFile("en", objOutput);
-			$.ajax({url: CONFIG.serverApiUrl + "species?app&lng=it&cat=" + catalog + "&ver=" + version}).then(function(dataIt) {
+			$.ajax({url: SERVER.serverApiUrl + "species?app&lng=it&cat=" + catalog + "&ver=" + version}).then(function(dataIt) {
 				objOutput = JSON.stringify(dataIt);
 				createLocalJSONFile("it", objOutput);
-				$.ajax({url: CONFIG.serverApiUrl + "species?app&lng=de&cat=" + catalog + "&ver=" + version}).then(function(dataDe) {
+				$.ajax({url: SERVER.serverApiUrl + "species?app&lng=de&cat=" + catalog + "&ver=" + version}).then(function(dataDe) {
 					objOutput = JSON.stringify(dataDe);
 					createLocalJSONFile("de", objOutput);
-					speciesList = dataEn.species;
-					// Remove Download file
-					var path = cordova.file.dataDirectory;
-					var filename = "download_complete.json";
-					window.resolveLocalFileSystemURL(path, function(dir) {
-						dir.getFile(filename, {create:false}, function(fileEntry) {
-					              fileEntry.remove(function(){
-					                  console.log("Download reinitialization");
-					              },function(error){
-					                  console.log("Error during Download reinitialization");
-					              },function(){
-					                  console.log("No complete Download on previous pictures downloading");
-					              });
+					$.ajax({url: SERVER.serverApiUrl + "species?app&lng=es&cat=" + catalog + "&ver=" + version}).then(function(dataEs) {
+						objOutput = JSON.stringify(dataEs);
+						createLocalJSONFile("es", objOutput);
+						$.ajax({url: SERVER.serverApiUrl + "species?app&lng=ro&cat=" + catalog + "&ver=" + version}).then(function(dataRo) {
+							objOutput = JSON.stringify(dataRo);
+							createLocalJSONFile("ro", objOutput);
+							$.ajax({url: SERVER.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).then(function(dataEn) {
+								objOutput = JSON.stringify(dataEn);
+								createLocalJSONFile("en", objOutput);
+
+								speciesList = dataEn.species;
+								// Remove Download file
+								var path = cordova.file.dataDirectory;
+								var filename = "download_complete.json";
+								window.resolveLocalFileSystemURL(path, function(dir) {
+									dir.getFile(filename, {create:false}, function(fileEntry) {
+								              fileEntry.remove(function(){
+								            	  if (CONFIG.environment != "PROD") console.log("Download reinitialization");
+								              },function(error){
+								            	  if (CONFIG.environment != "PROD") console.log("Error during Download reinitialization");
+								              },function(){
+								            	  if (CONFIG.environment != "PROD") console.log("No complete Download on previous pictures downloading");
+								              });
+									});
+								});
+								var curSpeciesA = 0;
+								var lastPicture = false;
+								for (var i = 0; i < speciesList.length; i++) {
+				                    species_id = speciesList[i].LSID.split(":")[4];
+									$.ajax({url: SERVER.serverApiUrl + "species/photos/"+species_id}).then(function(dataPics) {
+										curSpeciesA++;
+										var curPicsA = 0;
+										for (var p = 0; p < dataPics.length; p++) {
+											var curSpeciesB = curSpeciesA;
+											curPicsA++;
+											var id_easin = dataPics[p].id_easin;
+											var no = dataPics[p].no;
+											var fullPathName = cordova.file.dataDirectory + dataPics[p].filename;
+								        	if ((curSpeciesB == speciesList.length) && (curPicsA == dataPics.length)) { lastPicture = true; }
+											if (no == 1) {
+												$.ajax({url: SERVER.serverApiUrl + "species/photos/"+id_easin+"?no="+no+"&thumb"}).then(function(dataThumb) {
+													var picThumbnail = dataThumb[0].thumbnail;
+													var block = picThumbnail.split(";");
+													var dataType = block[0].split(":")[1];
+													var dataType = "image/jpg";
+													var realData = block[1].split(",")[1];
+													var folderpath = cordova.file.dataDirectory;
+													var filename = dataThumb[0].filename;
+													filename = filename.replace("_01.","_thumb.");
+													var md5 = dataThumb[0].md5;
+													var lastPic = "false";
+													savebase64AsImageFile(folderpath,filename,realData,dataType,md5,lastPic);
+												});
+											}
+											$.ajax({url: SERVER.serverApiUrl + "species/photos/"+id_easin+"?no="+no+"&last="+lastPicture}).then(function(dataPic) {
+												var picBase64 = dataPic[0].base64;
+												var block = picBase64.split(";");
+												var dataType = block[0].split(":")[1]; // for example: "image/png"
+												var dataType = "image/jpg";
+												var realData = block[1].split(",")[1]; // for example: "iVBORw0KGg...."
+												var folderpath = cordova.file.dataDirectory;
+												var filename = dataPic[0].filename;
+												var md5 = dataPic[0].md5;
+												var lastPic = dataPic[0].last;
+												savebase64AsImageFile(folderpath,filename,realData,dataType,md5,lastPic);
+											});
+										}
+									});
+								}
+							
+							});
 						});
 					});
-					var curSpeciesA = 0;
-					var lastPicture = false;
-					for (var i = 0; i < speciesList.length; i++) {
-	                    species_id = speciesList[i].LSID.split(":")[4];
-						$.ajax({url: CONFIG.serverApiUrl + "species/photos/"+species_id}).then(function(dataPics) {
-							curSpeciesA++;
-							var curPicsA = 0;
-							for (var p = 0; p < dataPics.length; p++) {
-								var curSpeciesB = curSpeciesA;
-								curPicsA++;
-								var id_easin = dataPics[p].id_easin;
-								var no = dataPics[p].no;
-								var fullPathName = cordova.file.dataDirectory + dataPics[p].filename;
-					        	//console.log("CurSpecies: " + curSpeciesB + " - TotSpecies: " + speciesList.length + " - CurPics: " + curPicsA + " - TotPics: " + dataPics.length);
-					        	if ((curSpeciesB == speciesList.length) && (curPicsA == dataPics.length)) { lastPicture = true; }
-					        	//console.log(CONFIG.serverApiUrl + "species/photos/"+id_easin+"?no="+no+"&last="+lastPicture);
-								$.ajax({url: CONFIG.serverApiUrl + "species/photos/"+id_easin+"?no="+no+"&last="+lastPicture}).then(function(dataPic) {
-									var picBase64 = dataPic[0].base64;
-									// Split the base64 string in data and contentType
-									var block = picBase64.split(";");
-									// Get the content type
-									var dataType = block[0].split(":")[1]; // for example: "image/png"
-									// get the real base64 content of the file
-									var dataType = "image/jpg";
-									var realData = block[1].split(",")[1]; // for example: "iVBORw0KGg...."
-									var folderpath = cordova.file.dataDirectory;
-									var filename = dataPic[0].filename;
-									var md5 = dataPic[0].md5;
-									var lastPic = dataPic[0].last;
-									//console.log(folderpath + filename);
-			        				//window.resolveLocalFileSystemURL(folderpath + filename,
-			        	            //        null,
-			        				//		function onSuccess(fileDataEntry)
-			                        //		{
-												savebase64AsImageFile(folderpath,filename,realData,dataType,md5,lastPic);
-			                        //		});
-
-								});
-							}
-						});
-					}
 				});
 			});
 		});
 	}
 	
 	function getNewVersion(objOutput, catalog, version) {
-		writeVersionFile(objOutput);
-		$.ajax({url: CONFIG.serverApiUrl + "species?light&lng=en&cat=" + catalog + "&ver=" + version}).then(function(dataEn) {
-			objOutput = JSON.stringify(dataEn);
-			createLocalIdJSONFile(objOutput);
-			getFileAndPics(catalog, version);
-		});
+		if ($rootScope.download == false) {
+			writeVersionFile(objOutput);
+			$.ajax({url: SERVER.serverApiUrl + "species?light&lng=en&cat=" + catalog + "&ver=" + version}).then(function(dataEn) {
+				objOutput = JSON.stringify(dataEn);
+	   			createLocalIdJSONFile(objOutput);
+	            getFileAndPics(catalog, version);
+			});
+		} else {
+    		navigator.notification.alert($filter('translate')('download_in_progress'),null,$filter('translate')('REPORT_information'),"OK");
+		}
 	}
 	
 	function verifyPictures(catalog, version) {
+	    $rootScope.downloadError = false;
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory + "download_complete.json",
                 null,
 				function onSuccess(fileDataEntry)
@@ -596,7 +721,11 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 							$filter('translate')('download_pictures') + catalog + "-" + version + ")?",
 							function (buttonIndex) {
 								if (buttonIndex == 1) {
-    								getFileAndPics(catalog, version);
+									if ($rootScope.download == false) {
+										getFileAndPics(catalog, version);
+									} else {
+							    		navigator.notification.alert($filter('translate')('download_in_progress'),null,$filter('translate')('REPORT_information'),"OK");
+									}
 								}
 							},
 							$filter('translate')('download_pictures_title'),
@@ -605,48 +734,92 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
         		});
 	}
 
+	  function inArray(target, array)
+	  {
+	    for(var i = 0; i < array.length; i++) 
+	    {
+	      if(array[i] === target)
+	      {
+	        return true;
+	      }
+	    }
+	    return false; 
+	  }
+
 	function getLastVersionFromREST() {
-		$.ajax({url: CONFIG.serverApiUrl + "species/last_version"}).then(function(dataVersion) {
-			var objOutput = JSON.stringify(dataVersion);	// Release returned from the REST Service
-			readVersionFile(function (data) {
-				var currentVersion = JSON.stringify(data);	// Current release stored on the mobile device
-				// Different versions: store the new one
-				if (objOutput != currentVersion) {
-					navigator.notification.confirm(
-							$filter('translate')('new_version1') + dataVersion.catalog + "-" + dataVersion.version + $filter('translate')('new_version2'),  // message
-							function (buttonIndex) {
-								if (buttonIndex == 1) {
-									getNewVersion(objOutput, dataVersion.catalog, dataVersion.version);              // callback to invoke with index of button pressed
-								} else {
-									verifyPictures(data.catalog, data.version);
-								}
-							},
-							$filter('translate')('new_version_title'),            // title
-						    ['OK',$filter('translate')('cancel')]          // buttonLabels
-					);
-				} else {
-					verifyPictures(data.catalog, data.version);
-				}
+	  // Check if HTTPS protocol is available for EASIN authentication service
+	  $.ajax({ url: SERVER.authenticationBaseURL + "mobile/register", timeout: 5000})
+	  .always(function(answer) {
+		  if (CONFIG.environment != "PROD") console.log("Network Authentication: " + answer.status);
+		var status_code = [200, 405];
+		if (inArray(answer.status, status_code) === false) {
+		  SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttp;
+		} else {
+		  SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttps;
+		}
+		if (CONFIG.environment != "PROD") console.log(SERVER.authenticationBaseURL);
+	  });
+  	  if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttps;
+	  if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttps;
+	  if (CONFIG.environment != "PROD") console.log("CHECKING " + SERVER.serverApiUrl + "species/last_version");
+	  $.ajax({ url: SERVER.serverApiUrl + "species/last_version", timeout: 5000})
+	  .always(function(answer) {
+		  if (CONFIG.environment != "PROD") console.log(JSON.stringify(answer));
+		  if ((answer.catalog !== undefined) && (answer.version !== undefined)) answer.status = 200;
+		  if (CONFIG.environment != "PROD") console.log("Network REST Services: " + answer.status);
+		  var status_code = [200, 405];
+		  if (inArray(answer.status, status_code) === false) {
+			  if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttp;
+			  if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttp;
+		  } else {
+			  if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttps;
+			  if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttps;
+		  }
+		  if (CONFIG.environment != "PROD") console.log(SERVER.serverApiUrl);
+		  $.ajax({url: SERVER.serverApiUrl + "species/last_version"}).then(function(dataVersion) {
+				var objOutput = JSON.stringify(dataVersion);	// Release returned from the REST Service
+				var remoteCatalogVersion = dataVersion.catalog + "." + dataVersion.version.toString();
+				if (CONFIG.environment != "PROD") console.log("Remote Catalog Version: " + remoteCatalogVersion);
+				readVersionFile(function (data) {
+					var currentVersion = JSON.stringify(data);	// Current release stored on the mobile device
+					var localCatalogVersion = data.catalog + "." + data.version.toString();
+					if (CONFIG.environment != "PROD") console.log("Local Catalog Version: " + localCatalogVersion);
+					// Different versions: store the new one
+					if (localCatalogVersion < remoteCatalogVersion) {
+						navigator.notification.confirm(
+								$filter('translate')('new_version1') + dataVersion.catalog + "-" + dataVersion.version + $filter('translate')('new_version2'),  // message
+								function (buttonIndex) {
+									if (buttonIndex == 1) {
+										getNewVersion(objOutput, dataVersion.catalog, dataVersion.version);              // callback to invoke with index of button pressed
+									} else {
+										verifyPictures(data.catalog, data.version);
+									}
+								},
+								$filter('translate')('new_version_title'),            // title
+							    ['OK',$filter('translate')('cancel')]          // buttonLabels
+						);
+					} else {
+						if (CONFIG.environment != "PROD") console.log("Verify only pictures");
+						verifyPictures(data.catalog, data.version);
+					}
+				});
 			});
-		});
+	  });
+
 	}
 	
+    copyEmptyPicFile();
 	getLastVersionFromREST();
+    //copyLocalVersionFile('TEST');
+    copyLocalVersionFile('JRCISPRA');
+    copyLocalVersionFile('DANUBE');
+    copyLocalVersionFile('MALTA');
 
   });
 })
 
 .config(['$compileProvider', function( $compileProvider ) {
 	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile):|data:image\//);
-}])
-
-.config(['$translateProvider', function ($translateProvider) {
-    $translateProvider.useStaticFilesLoader({
-        prefix: 'languages/locale-',
-        suffix: '.json'
-    });
-    $translateProvider.determinePreferredLanguage('en');
-    //$translateProvider.fallbackLanguage(language);
 }])
 
 //ROUTING//
@@ -792,14 +965,4 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
  //$ionicConfigProvider.tabs.position('top'); 
  //$ionicConfigProvider.views.transition('none');
 
-})
-
-// .config(['$translateProvider', function ($translateProvider) {
-//     $translateProvider.useStaticFilesLoader({
-//         prefix: 'languages/locale-',
-//         suffix: '.json'
-//     });
-//     $translateProvider.determinePreferredLanguage('en');
-//     //$translateProvider.fallbackLanguage('en');
-// }]);
-;
+});

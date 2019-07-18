@@ -46,20 +46,19 @@ angular.module('MYGEOSS.directives', [])
   return {
     restrict: 'E',
     templateUrl: 'partials/specie_map.html',
-    controller: function($scope, $filter, $easinFactoryREST, $geolocationFactory, $cordovaNetwork, $networkFactory){
+    controller: function($scope, $filter, $easinFactoryREST, $easinFactoryRESTProdHttp, $easinFactoryRESTProdHttps, $easinFactoryRESTTestHttp, $easinFactoryRESTTestHttps, SERVER, CONFIG, $geolocationFactory, $cordovaNetwork, $networkFactory){
 
+      if ($scope.environment != "PROD") console.log(SERVER.serverApiUrl);
       //offline management
       ionic.Platform.ready(function() {
         if ($networkFactory.getNetworkState() === true){
-        //if ($cordovaNetwork.isOnline() === true){
           $scope.offline = "";
           //create leafletMap
           $scope.leafletMap = function(latitude, longitude){ 
-            $scope.map = L.map('map', {zoomControl: false}).setView([latitude, longitude], 17); 
-            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            $scope.map = L.map('map', {zoomControl: false}).setView([latitude, longitude], 17);
+            // http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+            L.tileLayer(CONFIG.tileLayer, {
               attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-              //maxZoom: 18,
-              //minZoom: 13
             }).addTo($scope.map);
 
             var legend = L.control({position: 'topright'});  
@@ -91,28 +90,29 @@ angular.module('MYGEOSS.directives', [])
             };
 
   
-
+            var easinFactoryREST;
+            if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttp) easinFactoryREST = $easinFactoryRESTProdHttp; 
+            if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttps) easinFactoryREST = $easinFactoryRESTProdHttps; 
+            if (SERVER.serverApiUrl == CONFIG.serverTestApiUrlHttp) easinFactoryREST = $easinFactoryRESTTestHttp; 
+            if (SERVER.serverApiUrl == CONFIG.serverTestApiUrlHttps) easinFactoryREST = $easinFactoryRESTTestHttps; 
             //get all observation from the API
-            $easinFactoryREST.query(
-              //parameter, empty for the moment, better to user custome request in $easinFactory
+            easinFactoryREST.query(
               //success
               function(data){
-                //filter data to have just the right specie
                 var species_id = $scope.specie.LSID.split(":")[4];
-                console.log("SPECIE ID: " + species_id);
-                //data = $filter('filter')(data, {properties: {LSID : $scope.specie.LSID}});
+                if ($scope.environment != "PROD") console.log("SPECIE ID: " + species_id);
 
                 data.forEach(function(sob){
-                  //console.log(JSON.stringify(sob));
                   if (typeof sob.properties.LSID != "undefined") {
                 	  var sob_species = sob.properties.LSID.split(":")[4];
                   } else {
                 	  var sob_species = "-";
                   }
+                  console.log("SPECIE ID from REST: " + species_id);
+                  console.log("SPECIE ID from SOB: " + sob_species);
                   if (sob_species == species_id) {
                       if (sob.properties.Status === "Submitted"){
-                    	    console.log("Found SUBMITTED");
-                          //if (sob.properties.Status === "Submitted1"){
+                    	    if ($scope.environment != "PROD") console.log("Found SUBMITTED");
                             L.geoJson(sob, {
                               style: function(feature) {
                                 return {color: "#FE2E2E"};
@@ -122,8 +122,7 @@ angular.module('MYGEOSS.directives', [])
                               }
                             }).addTo($scope.map);
                           }else if (sob.properties.Status == "Validated" || sob.properties.Status == "Prevalidated" || sob.properties.Status == "Unclear"){
-                      	    console.log("Found VALIDATED, PREVALIDATED or UNCLEAR");
-                             //}else if (sob.properties.Status == "Validated" || sob.properties.Status == "Submitted"){
+                        	if ($scope.environment != "PROD") console.log("Found VALIDATED, PREVALIDATED or UNCLEAR");
                             L.geoJson(sob).addTo($scope.map).bindPopup(
                                sob.properties.Abundance +  " (" + sob.properties.Precision +" )" +
                               "<br/><b>"+$filter('translate')('Date')+" : </b>" + $filter('limitTo')(sob.createdAt, 10, 0) + " " + $filter('limitTo')(sob.createdAt, 7, 12) +
@@ -138,9 +137,10 @@ angular.module('MYGEOSS.directives', [])
               },
               //error
               function(error){
-                console.error("error data marker : "+error);
+            	 if ($scope.environment != "PROD") console.error("error data marker : "+error);
               }
             );
+            
           }
 
           //run
@@ -157,6 +157,18 @@ angular.module('MYGEOSS.directives', [])
         }
       });
       
+    }
+  }
+})
+
+.directive('scroll', function() {
+  return {
+    link: function (scope, elem, attrs) {
+      elem.on('scroll', function (e) {
+    	var offset = document.getElementById("specie_report_sighting_content").scrollTop;
+    	var top = document.getElementById("reportSightingButtons").top;
+    	document.getElementById("reportSightingButtons").style.top = offset + "px";
+      });
     }
   }
 })
@@ -188,6 +200,11 @@ angular.module('MYGEOSS.directives', [])
       $scope.errorScale = "";
       $scope.errorPicture = "";
       $scope.errorHabitat = "";
+      
+      $scope.saveDraftButton = false;
+      $scope.sendDataButton = false;
+      
+      window.onscroll = function() { alert("Scroll") };
 
 
       /*if($stateParams.id > 0){ //if it's a saved draft
@@ -312,8 +329,11 @@ angular.module('MYGEOSS.directives', [])
        ** --------------
        */
 
-      $speciesFactory.getAll($scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
+      $speciesFactory.getAll($scope.sitealert.id, $scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
         $scope.species = success.species;
+        var common_name = "--- " + $filter('translate')("other_species") + " ---";
+        var dummySpecies = {"LSID":"urn:lsid:alien.jrc.ec.europa.eu:species:R00000:0.0","scientific_name":"~other_species~","common_name": common_name,"type":"-","family":"-","report":[],"distribution":[],"photos":[{"src":"empty.jpg","no":1,"author":""}],"further_information":["",""],"invasion":["","","",""],"behavior":["-, -, -, -, -","","",""],"area_filter":["-"],"habitat_filter":["-"],"habitat":["-","-"],"confusion":["-","-"],"appearance":["-","-","-"]};
+        $scope.species.push(dummySpecies);
 	    angular.forEach($scope.species, function(value, key){
 	    	$scope.species[key].real_path = $scope.realPath;
 	    });
@@ -424,8 +444,9 @@ angular.module('MYGEOSS.directives', [])
       };*/
 
       $scope.leafletMap = function(latitude, longitude){ 
-        $scope.map.container = L.map('map', {zoomControl: false}).setView([latitude, longitude], 17); 
-        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        $scope.map.container = L.map('map', {zoomControl: false}).setView([latitude, longitude], 17);
+        // http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+        L.tileLayer(CONFIG.tileLayer, {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
           // maxZoom: 18,
           // minZoom: 13
@@ -435,6 +456,7 @@ angular.module('MYGEOSS.directives', [])
       $scope.map = {"container": ""};
       $scope.openModalReportSightingMap2 = function(){
         $scope.modalReportSightingMap = {};
+        $scope.mapClicked = false;
         
         var numberMarker = 0;
 
@@ -450,10 +472,40 @@ angular.module('MYGEOSS.directives', [])
 
       $scope.openModalReportSightingMap2();
 
+      function inside(point, vs) {
+  	    // ray-casting algorithm based on
+  	    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+
+  	    var x = point[0], y = point[1];
+
+  	    var inside = false;
+  	    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+  	        var xi = vs[i][0], yi = vs[i][1];
+  	        var xj = vs[j][0], yj = vs[j][1];
+
+  	        var intersect = ((yi > y) != (yj > y))
+  	            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+  	        if (intersect) inside = !inside;
+  	    }
+
+  	    return inside;
+      };
+
+      $scope.refreshUserMarker = function() {
+          if ($scope.mapClicked === false) {
+        	  if ($scope.environment != "PROD") console.log("Sposto Marker");
+        	  $scope.map.container.removeLayer($scope.initialMarker);
+              $scope.initialMarker = new L.marker([$scope.main.lat, $scope.main.lng], {clickable: true}).addTo($scope.map.container);
+              if ($scope.environment != "PROD") console.log("Marker spostato");
+    	      	$timeout(function() { 
+    	  			$scope.refreshUserMarker();
+    	  		}, 10000);
+          } else {
+        	  if ($scope.environment != "PROD") console.log("Marker spostato manualmente. Interrompo aggiornamento da GPS.");
+          }
+      }
+
       $scope.openModalReportSightingMap = function(){
-        //$scope.modalReportSightingMap = {};
-        //if ($scope.map != undefined) { $scope.map.remove(); }
-        //$scope.map = {};
         var numberMarker = 0;
         var addedMarker;
         if (($scope.coordinates.longitude == "") && ($scope.coordinates.latitude == "")) {
@@ -465,10 +517,13 @@ angular.module('MYGEOSS.directives', [])
           if ($cordovaNetwork.isOnline() === true){
             $scope.offline = "";
             $scope.leafletMap($scope.coordinates.latitude, $scope.coordinates.longitude);
-            var initialMarker = new L.marker([$scope.coordinates.latitude, $scope.coordinates.longitude], {clickable: true}).addTo($scope.map.container);
+            $scope.initialMarker = new L.marker([$scope.coordinates.latitude, $scope.coordinates.longitude], {clickable: true}).addTo($scope.map.container);
+            
+            $scope.refreshUserMarker();
 
             $scope.map.container.on('click', function(e) {
-              $scope.map.container.removeLayer(initialMarker);
+              $scope.mapClicked = true;
+              $scope.map.container.removeLayer($scope.initialMarker);
               if(numberMarker < 1){
                 addedMarker = new L.marker(e.latlng, {clickable: true});
                 addedMarker.addTo($scope.map.container);
@@ -480,6 +535,36 @@ angular.module('MYGEOSS.directives', [])
                 addedMarker.addTo($scope.map.container);
                 $scope.coordinates = {latitude: e.latlng.lat, longitude: e.latlng.lng};
               }
+              var sites = $scope.sites;
+              // Reset species list without local spieces
+              $speciesFactory.getAll("", $scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
+                  $scope.species = success.species;
+                  var common_name = "--- " + $filter('translate')("other_species") + " ---";
+                  var dummySpecies = {"LSID":"urn:lsid:alien.jrc.ec.europa.eu:species:R00000:0.0","scientific_name":"~other_species~","common_name": common_name,"type":"-","family":"-","report":[],"distribution":[],"photos":[{"src":"empty.jpg","no":1,"author":""}],"further_information":["",""],"invasion":["","","",""],"behavior":["-, -, -, -, -","","",""],"area_filter":["-"],"habitat_filter":["-"],"habitat":["-","-"],"confusion":["-","-"],"appearance":["-","-","-"]};
+                  $scope.species.push(dummySpecies);
+              	  angular.forEach($scope.species, function(value, key){
+              	  	  $scope.species[key].real_path = $scope.realPath;
+              	  });
+              });
+              angular.forEach(sites, function(value, key) {
+            	  var polygon_geometry = value.coordinates[0];
+            	  var polygon_name = value.SITENAME;
+            	  var polygon_code = value.SITECODE;
+            	  var im_inside = inside([ e.latlng.lng, e.latlng.lat ], polygon_geometry);
+                  if ( im_inside ){
+                	  if ($scope.environment != "PROD") console.log("SITE: " + polygon_name);
+                	  if ($scope.environment != "PROD") console.log("Inside: " + im_inside);
+                      $speciesFactory.getAll(polygon_code, $scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
+                          $scope.species = success.species;
+                          var common_name = "--- " + $filter('translate')("other_species") + " ---";
+                          var dummySpecies = {"LSID":"urn:lsid:alien.jrc.ec.europa.eu:species:R00000:0.0","scientific_name":"~other_species~","common_name": common_name,"type":"-","family":"-","report":[],"distribution":[],"photos":[{"src":"empty.jpg","no":1,"author":""}],"further_information":["",""],"invasion":["","","",""],"behavior":["-, -, -, -, -","","",""],"area_filter":["-"],"habitat_filter":["-"],"habitat":["-","-"],"confusion":["-","-"],"appearance":["-","-","-"]};
+                          $scope.species.push(dummySpecies);
+	                  	  angular.forEach($scope.species, function(value, key){
+	                  	  	  $scope.species[key].real_path = $scope.realPath;
+	                  	  });
+                      });
+                  }
+              });
             }); 
           }else{
             $scope.offline = $filter('translate')('offline_txt');
@@ -494,7 +579,7 @@ angular.module('MYGEOSS.directives', [])
       };
 
       $scope.$on('$destroy', function() {
-        console.log('destroy, remove modal event');
+    	if ($scope.environment != "PROD") console.log('destroy, remove modal event');
         $scope.modalReportSightingMap.remove();
       });
       /*
@@ -525,8 +610,7 @@ angular.module('MYGEOSS.directives', [])
         $photoFactory.photoCamera().then(
           function(imgUri){
             window.resolveLocalFileSystemURL(imgUri, function(fileEntry) {
-                //console.log(fileEntry);
-                console.log("got file: " + fileEntry.fullPath);
+            	if ($scope.environment != "PROD") console.log("got file: " + fileEntry.fullPath);
 
                 var fileName = fileEntry.name;
                 var fullNativeUrl = fileEntry.nativeURL;
@@ -534,72 +618,44 @@ angular.module('MYGEOSS.directives', [])
                 var newFileName = new Date().getTime()+""+fileName;
                 $photoFactory.movePhoto(pathNativeUrl, fileName, $rootScope.deviceStorageLocation+'IASimg', newFileName).then(
                   function(success){
-                    console.log('successMovephoto');
-                    //console.log(success);
+                	if ($scope.environment != "PROD") console.log('successMovephoto');
                     var imageData = {file: success.name, path: $rootScope.deviceStorageLocation+'IASimg/', fileEntryObject: success};
                     $scope.images.push(imageData);
                     $ionicLoading.hide();
                   },
                   function(error){
                     $ionicLoading.hide();
-                    console.error('error move photocamera');
-                   // console.error(error);
+                    if ($scope.environment != "PROD") console.error('error move photocamera');
                   }
                 );
 
             }, function (error) {
               // If don't get the FileEntry (which may happen when testing
               // on some emulators), copy to a new FileEntry.
-              console.error('resolveLocalFileSystemURL');
-              //console.error(error);
+              if ($scope.environment != "PROD") console.error('resolveLocalFileSystemURL');
             });
-            //$cordovaFile
 
-            // console.log("success directives");
-            // var split = success.split("/");
-            // var file = split[split.length-1];
-            // var path = success.replace(file, "");
-            // path = path.replace("content://", "file://");
-            // var imageData = {file: file, path: path};
-            
-            /*  try with file path, convert into base64 when you send the picture only */
-          
-            // $scope.images.push(imageData);
-            // $ionicLoading.hide();
-
-
-            // $photoFactory.readAsDataURL(path, file).then(
-            //   function(success){
-            //     imageData.base64 = success;
-            //     $scope.images.push(imageData);
-
-            //     $ionicLoading.hide();
-            //     console.log("success read data");
-            //   },
-            //   function(error){
-            //     $ionicLoading.hide();
-            //     console.log("error read data");
-            //   }
-            // );
           },
           function(error){ 
             $ionicLoading.hide();
-            console.log("error directives photocamera");
+            if ($scope.environment != "PROD") console.log("error directives photocamera");
           }
         );
       };
 
       $scope.library = function(){
         ionic.Platform.ready(function() {
-          window.imagePicker.getPictures(
+            $photoFactory.photoLibrary().then(
+            		function(imgUri) {
+
+            window.imagePicker.getPictures(
               function(results) {
                   for (var i = 0; i < results.length; i++) {
-                      console.log('Image URI: ' + results[i]);
+                	  if ($scope.environment != "PROD") console.log('Image URI: ' + results[i]);
                   }
 
                   window.resolveLocalFileSystemURL(results[0], function(fileEntry) {
-                    //console.log(fileEntry);
-                    console.log("got file: " + fileEntry.fullPath);
+                	if ($scope.environment != "PROD") console.log("got file: " + fileEntry.fullPath);
 
                     var fileName = fileEntry.name;
                     var fullNativeUrl = fileEntry.nativeURL;
@@ -607,29 +663,26 @@ angular.module('MYGEOSS.directives', [])
                     var newFileName = new Date().getTime()+""+fileName;
                     $photoFactory.movePhoto(pathNativeUrl, fileName, $rootScope.deviceStorageLocation+'IASimg', newFileName).then(
                       function(success){
-                        console.log('successMovephoto');
-                        //console.log(success);
+                    	if ($scope.environment != "PROD") console.log('successMovephoto');
                         var imageData = {file: success.name, path: $rootScope.deviceStorageLocation+'IASimg/', fileEntryObject: success};
-                        //console.log("file : "+imageData.file+ " path: "+imageData.path);
                         $scope.images.push(imageData);
                         $ionicLoading.hide();
                       },
                       function(error){
                         $ionicLoading.hide();
-                        console.error('errormovephotocamera');
-                        console.error(error);
+                        if ($scope.environment != "PROD") console.error('errormovephotocamera');
+                        if ($scope.environment != "PROD") console.error(error);
                       }
                     );
                   }, function (error) {
                     // If don't get the FileEntry (which may happen when testing
                     // on some emulators), copy to a new FileEntry.
-                    console.error('resolveLocalFileSystemURL');
-                    //console.error(error);
+                	if ($scope.environment != "PROD") console.error('resolveLocalFileSystemURL');
                      $ionicLoading.hide();
-                      //createNewFileEntry(imgUri);
+                     //createNewFileEntry(imgUri);
                   });
               }, function (error) {
-                  console.log('Error: ' + error);
+            	  if ($scope.environment != "PROD") console.log('Error: ' + error);
               }, {
                   maximumImagesCount: 1,
                   width: 650,
@@ -637,6 +690,7 @@ angular.module('MYGEOSS.directives', [])
 
               }
           );
+            		});
         });
       }
 
@@ -745,9 +799,6 @@ angular.module('MYGEOSS.directives', [])
           canSendData = false;
           $scope.errorObservedAt = "error";
           $scope.cantSendDataMessage += $filter('translate')('error_specie_date')+"</br>";
-        //} else {
-        //	$scope.date = $scope.date + " "; // + (8*60*60*1000);
-        //	console.log($scope.date);
         }
 
 
@@ -764,7 +815,7 @@ angular.module('MYGEOSS.directives', [])
               if(res){
                 $scope.saveDraft();
               }else {
-                console.log('You are not sure');
+            	  if ($scope.environment != "PROD") console.log('You are not sure');
               }
             });
           }else{
@@ -774,6 +825,7 @@ angular.module('MYGEOSS.directives', [])
             });
             //todo : verify coordinates order
             if ($cordovaNetwork.isOnline() === true){ //if online send data
+              $scope.sendDataButton = true; 
               $easinFactory.sendObservation($scope.specie.LSID, $rootScope.UUID, $scope.date, $scope.abundance.number+" "+$scope.abundance.scale, $scope.abundance.precision, "Habitat : "+$scope.habitat+". Comment : "+$scope.comment, $scope.images, 'false',  [$scope.coordinates.longitude, $scope.coordinates.latitude], "Point").then(
                 function(success){
                   if($stateParams.id > 0){ //if it was a saved draft, delete it from the DB
@@ -839,6 +891,8 @@ angular.module('MYGEOSS.directives', [])
       }
       
       $scope.saveDraft = function(statusP){
+        
+        $scope.saveDraftButton = true;
         
         $ionicLoading.show({
           template: "<ion-spinner icon='bubbles'></ion-spinner>",
@@ -1000,7 +1054,7 @@ angular.module('MYGEOSS.directives', [])
   return {
     restrict: 'E',
     templateUrl: 'partials/sob_map.html',
-    controller: function($scope, $filter, $easinFactoryREST, $geolocationFactory, $cordovaNetwork, $networkFactory){
+    controller: function($scope, $filter, $easinFactoryREST, $easinFactoryRESTProdHttp, $easinFactoryRESTProdHttps, $easinFactoryRESTTestHttp, $easinFactoryRESTTestHttps, SERVER, CONFIG, $geolocationFactory, $cordovaNetwork, $networkFactory){
 
         //offline management
         ionic.Platform.ready(function() {
@@ -1009,8 +1063,9 @@ angular.module('MYGEOSS.directives', [])
             $scope.offline = "";
             //create leafletMap
             $scope.leafletMap = function(latitude, longitude){ 
-              $scope.map = L.map('map2', {zoomControl: false}).setView([latitude, longitude], 17); 
-              L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              $scope.map = L.map('map2', {zoomControl: false}).setView([latitude, longitude], 17);
+              // http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+              L.tileLayer(CONFIG.tileLayer, {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
                 //maxZoom: 18,
                 //minZoom: 13
@@ -1046,13 +1101,11 @@ angular.module('MYGEOSS.directives', [])
 
               var sob = $scope.SOB;
               sob.properties.Image = "";
-              console.log(JSON.stringify(sob));
               
 
               $scope.map.setView(new L.LatLng(sob.geometry.coordinates[1], sob.geometry.coordinates[0]), 17);
               if (sob.properties.Status === "Submitted"){
-          	    console.log("Found SUBMITTED");
-                //if (sob.properties.Status === "Submitted1"){
+            	if ($scope.environment != "PROD") console.log("Found SUBMITTED");
                   L.geoJson(sob, {
                     style: function(feature) {
                       return {color: "#FE2E2E"};
@@ -1062,8 +1115,7 @@ angular.module('MYGEOSS.directives', [])
                     }
                   }).addTo($scope.map);
                 }else if (sob.properties.Status == "Validated" || sob.properties.Status == "Prevalidated" || sob.properties.Status == "Unclear"){
-            	    console.log("Found VALIDATED, PREVALIDATED or UNCLEAR");
-                   //}else if (sob.properties.Status == "Validated" || sob.properties.Status == "Submitted"){
+                  if ($scope.environment != "PROD") console.log("Found VALIDATED, PREVALIDATED or UNCLEAR");
                   L.geoJson(sob).addTo($scope.map).bindPopup(
                      sob.properties.Abundance +  " (" + sob.properties.Precision +" )" +
                     "<br/><b>"+$filter('translate')('Date')+" : </b>" + $filter('limitTo')(sob.createdAt, 10, 0) + " " + $filter('limitTo')(sob.createdAt, 7, 12) +

@@ -2,6 +2,10 @@
     <ion-nav-bar class="header login" align-title="center">
         <ion-nav-back-button class="customBackButton">
         </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+         	<img ng-show="server1_ssl == true" border="0" width="22px" height="30px" src="img/lock_LOGINservices.png"/>
+         	<img ng-show="server2_ssl == true" border="0" width="22px" height="30px" src="img/lock_RESTservices.png"/>
+        </ion-nav-buttons>
         <ion-nav-title>
             {{'LOG_REGISTER_TITLE' | translate}}
         </ion-nav-title>

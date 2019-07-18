@@ -1,5 +1,6 @@
 {
-    "HOME_TITLE" : "Specie esotiche invasive in Europa",
+    "HOME_TITLE_OLD" : "Specie esotiche invasive in Europa",
+    "HOME_TITLE" : "IAS in Europe",
     "HOME_ICO_INV" : "Specie Invasive",
     "HOME_ICO_RCD" : "Le mie segnalazioni",
     "HOME_ICO_REP" : "Segnala un avvistamento",
@@ -130,10 +131,22 @@
 	"species_warning" : "Per ragioni tecniche non tutte le informazioni delle specie potrebbero essere tradotte in italiano.",
 	"no_updates" : "Non è disponibile nessun aggiornamento del catalogo",
 	"no_updates_title" : "Info",
-	"new_version1" : "E' disponibile una nuova versione' (v",
+	"new_version1" : "E' disponibile una nuova versione (v",
 	"new_version2" : ") del catalogo EASIN. Vuoi scaricarlo?",
 	"new_version_title" : "Nuovo catalogo EASIN",
+	"new_local_version1" : "E' disponibile una nuova versione (v",
+	"new_local_version2" : ") del catalogo locale (area: ",
+	"new_local_version3" : "). Vuoi scaricarlo?",
+	"new_local_version_title" : "Nuovo catalogo locale",
 	"download_pictures" : "Vuoi scaricare le immagini del catalogo EASIN (v",
 	"download_pictures_title" : "Scaricamento Immagini Specie",
-	"download_complete" : "Download completato!"
+	"download_complete" : "Download completato!",
+	"download_complete_errors" : "Download completato con errori!",
+    "notification_count": " osservazione è stata modificata.",
+    "notification_counts": " osservazioni sono state modificate.",
+    "local_area_message1" : "Sembra che tu sia all'interno o vicino a: ",
+    "local_area_message2" : ".",
+    "page" : "PAGINA",
+    "android9" : "Si noti che per Android 9 l'app al momento manca di alcune funzionalità. Il problema verrà risolto il prima possibile.",
+    "other_species" : "Altre specie"
 }

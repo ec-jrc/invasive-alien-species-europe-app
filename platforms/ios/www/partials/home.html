@@ -3,7 +3,11 @@
         <!-- <ion-nav-back-button class="customBackButton"> -->
         <!-- </ion-nav-back-button> -->
         <ion-nav-buttons side="left">
-         	<a ui-sref="app.login"><img width="30px" height="30px" src="img/{{iconLogged}}"/></a>
+         	<a ui-sref="app.login"><img border="1" width="30px" height="30px" src="img/{{iconLogged}}"/></a>
+         	<img ng-if="sitealert.id != ''" border="1" width="30px" height="30px" src="img/local_icon.png"/>
+         	<img ng-if="main.connected == false" border="1" width="30px" height="30px" src="img/offline.png"/>
+         	<img ng-if="main.download == true" border="1" width="30px" height="30px" src="img/download.png"/>
+         	<img ng-if="download == true" border="1" width="30px" height="30px" src="img/download.png"/>
         </ion-nav-buttons>
          <ion-nav-title>
             {{'HOME_TITLE' | translate}}
@@ -17,34 +21,34 @@
     <ion-content class="padding" scroll="true" overflow-scroll='true'>
         <section class="home-container">
             <div class="row">
-                <div class="col-50 text-center">
+                <div id="iconSpecieList" class="col-50 text-center">
                     <a ui-sref="app.specieList"><img ng-src="img/home_icon/main_menu_logo_invasive_species-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
-                <div class="col-50 text-center">
+                <div id="iconMyRecords" class="col-50 text-center">
                     <a ui-sref="app.my_records"><img ng-src="img/home_icon/main_menu_logo_species_records-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
            <!--  </div>
             <div class="row"> -->
-                <div class="col-50 text-center">
+                <div id="iconReportSighting" class="col-50 text-center">
                     <a ui-sref="app.reportSighting({id: -1})"><img ng-src="img/home_icon/main_menu_logo_report_sighting-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
-                <div class="col-50 text-center">
+                <div id="iconSightingMap" class="col-50 text-center">
                     <a ui-sref="app.sightingMap"><img ng-src="img/home_icon/main_menu_logo_map-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
            <!--  </div>
             <div class="row"> -->
-                <div class="col-50 text-center">
+                <div id="iconLogin" class="col-50 text-center">
                     <a ui-sref="app.login"><img ng-src="img/home_icon/main_menu_logo_login-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
-                <div class="col-50 text-center">
+                <div id="iconLinks" class="col-50 text-center">
                     <a ui-sref="app.links"><img ng-src="img/home_icon/main_menu_logo_links-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
            <!--  </div>
             <div class="row">
- -->            <div class="col-50 text-center">
+ -->            <div id="iconContact" class="col-50 text-center">
                     <a ui-sref="app.contact"><img ng-src="img/home_icon/main_menu_logo_contact-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
-                <div class="col-50 text-center">
+                <div id="iconAbout" class="col-50 text-center">
                     <a ui-sref="app.about"><img ng-src="img/home_icon/main_menu_logo_about-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
             </div>

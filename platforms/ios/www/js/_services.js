@@ -918,7 +918,7 @@ angular.module('MYGEOSS.services', [])
 
 
     //def.resolve(obj.encryptData(angular.toJson(postData)));
-    $http.post(CONFIG.authenticationBaseURL+"/mobile/GenNonce", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+    $http.post(SERVER.authenticationBaseURL+"/mobile/GenNonce", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
       function(success){
         def.resolve(success.data);
       },
@@ -955,7 +955,7 @@ angular.module('MYGEOSS.services', [])
         };
         //nonce = success.NonceNumber;
         //console.log(postData);
-        $http.post(CONFIG.authenticationBaseURL+"/mobile/register", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+        $http.post(SERVER.authenticationBaseURL+"/mobile/register", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
           function(success){
             //session token
             console.log("registration OK");
@@ -996,7 +996,7 @@ angular.module('MYGEOSS.services', [])
           AppSecret: appSecret,
           GotNonce: success.NonceNumber
         };
-        $http.post(CONFIG.authenticationBaseURL+"/mobile/login", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+        $http.post(SERVER.authenticationBaseURL+"/mobile/login", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
           function(success){
             //session token
             def.resolve(success.data);
@@ -1023,7 +1023,7 @@ angular.module('MYGEOSS.services', [])
       }
     };
 
-    $http.post(CONFIG.authenticationBaseURL+"/mobile/checksession", "\""+token+"\"", config).then(
+    $http.post(SERVER.authenticationBaseURL+"/mobile/checksession", "\""+token+"\"", config).then(
       function(success){
         //session token
         def.resolve(success.data);
@@ -1058,7 +1058,7 @@ angular.module('MYGEOSS.services', [])
           NewPassword: newPassword,
           ConfirmPassword: confirmPassword
         };
-        $http.post(CONFIG.authenticationBaseURL+"/mobile/changepwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+        $http.post(SERVER.authenticationBaseURL+"/mobile/changepwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
           function(success){
             console.log("success service changePWD");
             //console.log(success);
@@ -1096,7 +1096,7 @@ angular.module('MYGEOSS.services', [])
           GotNonce: success.NonceNumber
         };
         //encryptPostData
-        $http.post(CONFIG.authenticationBaseURL+"/mobile/forgotpwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+        $http.post(SERVER.authenticationBaseURL+"/mobile/forgotpwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
           function(success){
             //console.log(success);
             def.resolve(success.data);
@@ -1135,7 +1135,7 @@ angular.module('MYGEOSS.services', [])
 
     //console.log(postData);
 
-    $http.post(CONFIG.authenticationBaseURL+"/mobile/resetpwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+    $http.post(SERVER.authenticationBaseURL+"/mobile/resetpwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
       function(success){
         //console.log(success);
         def.resolve(success.data);
@@ -1158,7 +1158,7 @@ angular.module('MYGEOSS.services', [])
         'Content-Type': 'application/json'
       }
     };
-    $http.post(CONFIG.authenticationBaseURL+"/mobile/logout", "\""+token+"\"", config).then(
+    $http.post(SERVER.authenticationBaseURL+"/mobile/logout", "\""+token+"\"", config).then(
       function(success){
         //console.log(success);
         def.resolve(success.data);

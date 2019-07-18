@@ -7,6 +7,7 @@
 		<li ng-click="showModalRegulation()">{{'REGULATION_TITLE' | translate}}</li>
 		<li ng-click="showModalLanguage()">{{'LANGUAGE' | translate}}</li>
 		<li ng-click="checkCatalogueVersion()">{{'CATALOGUE' | translate}}</li>
+		<li ng-if="sitealert.id != ''" ng-click="checkLocalCatalogueVersion(sitealert.id, true, false)">{{'LOCAL_CATALOGUE' | translate}}</li>
 	</ul>
 </div>
 

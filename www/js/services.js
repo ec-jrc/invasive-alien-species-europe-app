@@ -7,18 +7,96 @@ angular.module('MYGEOSS.services', [])
 	var currentSpecie = ""; //object, the selected specie informations
 	var obj = {};
 
- obj.getAll = function(realPath, languageCode){
+ obj.getAll = function(area, realPath, languageCode){
     var def = $q.defer();
-	//$http.get("data/species/species-"+languageCode+".json").then(
-    $http.get(realPath + "species-"+languageCode+".json").then(
-    	function(success){
-    		def.resolve(success.data);
-	    },
-	    function(error){
-	    	def.reject(error);
-	    }
-	);
-	return def.promise;
+    var success;
+    var success2;
+    var error;
+    var error2;
+    if (area.trim() != "") {
+        var localSpeciesFile = realPath + "species_" + area + "-" + languageCode + ".json";
+    	$http.get(localSpeciesFile).then(
+    		function(fileExists) {
+    			console.log("File " + localSpeciesFile + " exists!");
+    		    if (area.trim() == "") {
+    		        $http.get(realPath + "species-"+languageCode+".json").then(
+    		        	function(success){
+    		        		def.resolve(success.data);
+    		            },
+    		            function(error){
+    		            	def.reject(error);
+    		            }
+    		        );
+    		        return def.promise;
+    		    } else {
+    		        $http.get(realPath + "species-"+languageCode+".json").then(
+    		        	function(success){
+    		        		var firstArray = success.data.species;
+    		            	$http.get(realPath + "species_" + area + "-" + languageCode + ".json").then(
+    		            		function(success2){
+    		            			var secondArray = success2.data.species;
+    		            	        finalArray = { "species" : firstArray.concat(secondArray) };
+    		            	        def.resolve(finalArray);
+    		            	     },
+    		            	    function(error2){
+    		            	    	def.reject(error2);
+    		            	    }
+    		            	);
+    		        	},
+    		        	function(error){
+    		        		def.reject(error);
+    		        	}
+    		        );
+    		        return def.promise;
+    		    }
+    		}, 
+    		function(fileDoesNotExist) {
+    			console.log("FILE " + localSpeciesFile + " NOT FOUND!");
+    	        $http.get(realPath + "species-"+languageCode+".json").then(
+    	        	function(success){
+    	        		def.resolve(success.data);
+    	            },
+    	            function(error){
+    	            	def.reject(error);
+    	            }
+    	        );
+    	        return def.promise;
+    		}
+    	);
+    }
+    
+    if (area.trim() == "") {
+        $http.get(realPath + "species-"+languageCode+".json").then(
+        	function(success){
+        		def.resolve(success.data);
+            },
+            function(error){
+            	def.reject(error);
+            }
+        );
+        return def.promise;
+    } else {
+        $http.get(realPath + "species-"+languageCode+".json").then(
+        	function(success){
+        		var firstArray = success.data.species;
+            	$http.get(realPath + "species_" + area + "-" + languageCode + ".json").then(
+            		function(success2){
+            			var secondArray = success2.data.species;
+            	        finalArray = { "species" : firstArray.concat(secondArray) };
+            	        //console.log(JSON.stringify(finalArray));
+            	        def.resolve(finalArray);
+            	     },
+            	    function(error2){
+            	    	def.reject(error2);
+            	    }
+            	);
+        	},
+        	function(error){
+        		def.reject(error);
+        	}
+        );
+        return def.promise;
+    }
   };
   
 	obj.setCurrentSpecie = function(specie){
@@ -35,27 +113,83 @@ angular.module('MYGEOSS.services', [])
 /* $easinFactoryREST
 * Communicate with the EASIN REST API
 */ 
-.factory('$easinFactoryREST', ['$resource','CONFIG', '$cacheFactory', function ($resource, CONFIG, $cacheFactory) {
+.factory('$easinFactoryREST', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
   var customQueryCache = $cacheFactory('customQueryCache'); 
-	return $resource(CONFIG.serverApiUrl + "reports/:reportId", {reportId:'@id'},
-		{
-			'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
-			'get':    {method:'GET', timeout: 60000, cache: true},
-			'save':   {method:'POST', timeout: 60000},
-			'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
-			'remove': {method:'DELETE', timeout: 10000},
-			'delete': {method:'DELETE', timeout: 10000} 
-		}
-	);
+  return $resource(SERVER.serverApiUrl + "reports/:reportId", {reportId:'@id'},
+			{
+				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
+				'get':    {method:'GET', timeout: 60000, cache: false},
+				'save':   {method:'POST', timeout: 60000},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'remove': {method:'DELETE', timeout: 10000},
+				'delete': {method:'DELETE', timeout: 10000} 
+			}
+  );
+}])
+
+.factory('$easinFactoryRESTProdHttp', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
+  var customQueryCache = $cacheFactory('customQueryCacheProdHttp'); 
+  return $resource(CONFIG.serverProdApiUrlHttp + "reports/:reportId", {reportId:'@id'},
+			{
+				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
+				'get':    {method:'GET', timeout: 60000, cache: false},
+				'save':   {method:'POST', timeout: 60000},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'remove': {method:'DELETE', timeout: 10000},
+				'delete': {method:'DELETE', timeout: 10000} 
+			}
+  );
+}])
+
+.factory('$easinFactoryRESTProdHttps', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
+  var customQueryCache = $cacheFactory('customQueryCacheProdHttps'); 
+  return $resource(CONFIG.serverProdApiUrlHttps + "reports/:reportId", {reportId:'@id'},
+			{
+				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
+				'get':    {method:'GET', timeout: 60000, cache: false},
+				'save':   {method:'POST', timeout: 60000},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'remove': {method:'DELETE', timeout: 10000},
+				'delete': {method:'DELETE', timeout: 10000} 
+			}
+  );
+}])
+
+.factory('$easinFactoryRESTTestHttp', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
+  var customQueryCache = $cacheFactory('customQueryCacheTestHttp'); 
+  return $resource(CONFIG.serverTestApiUrlHttp + "reports/:reportId", {reportId:'@id'},
+			{
+				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
+				'get':    {method:'GET', timeout: 60000, cache: false},
+				'save':   {method:'POST', timeout: 60000},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'remove': {method:'DELETE', timeout: 10000},
+				'delete': {method:'DELETE', timeout: 10000} 
+			}
+  );
+}])
+
+.factory('$easinFactoryRESTTestHttps', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
+  var customQueryCache = $cacheFactory('customQueryCacheTestHttps'); 
+  return $resource(CONFIG.serverTestApiUrlHttps + "reports/:reportId", {reportId:'@id'},
+			{
+				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
+				'get':    {method:'GET', timeout: 60000, cache: false},
+				'save':   {method:'POST', timeout: 60000},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'remove': {method:'DELETE', timeout: 10000},
+				'delete': {method:'DELETE', timeout: 10000} 
+			}
+  );
 }])
 
 /* $easinFactoryRESTUser
 * Communicate with the EASIN REST API (user)
 */ 
-.factory('$easinFactoryRESTUser', ['$resource','CONFIG', '$cacheFactory', function ($resource, CONFIG, $cacheFactory) {
+.factory('$easinFactoryRESTUser', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
   var customQueryCache = $cacheFactory('customQueryCacheUser');
-  //console.log("CALL: " + CONFIG.serverApiUrl + "reports/user/" + $scope.userLoggedMD5);
-	return $resource(CONFIG.serverApiUrl + "reports/user/:userId", {userId:'@id'},
+  //console.log("CALL: " + SERVER.serverApiUrl + "reports/user/" + $scope.userLoggedMD5);
+	return $resource(SERVER.serverApiUrl + "reports/user/:userId", {userId:'@id'},
 		{
 			'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
 			'get':    {method:'GET', timeout: 60000, cache: false},
@@ -86,7 +220,7 @@ angular.module('MYGEOSS.services', [])
         sourceType: Camera.PictureSourceType.CAMERA,
         encodingType: Camera.EncodingType.JPEG,
         correctOrientation: true,
-        saveToPhotoAlbum: true, //true provok an error on android...
+        saveToPhotoAlbum: false, //true provok an error on android...
         allowEdit: false
       };
     };
@@ -130,7 +264,7 @@ angular.module('MYGEOSS.services', [])
               def.resolve(imageData);
             },
             function(error){
-              console.error('errorp photoLibrary');
+              console.error('error photoLibrary');
               console.error(error);
               def.reject(error);
             }
@@ -241,7 +375,7 @@ angular.module('MYGEOSS.services', [])
 * @param {number} coordinates[1] - Longitude 
 * @param {string} geometryType - Type of the geomtrique object (for the moment only Point) 
 */
-.factory('$easinFactory', ['$q', '$easinFactoryREST', '$photoFactory', '$authenticationFactory', function($q, $easinFactoryREST, $photoFactory, $authenticationFactory){
+.factory('$easinFactory', ['$q', '$easinFactoryREST', '$easinFactoryRESTProdHttp', '$easinFactoryRESTProdHttps', '$easinFactoryRESTTestHttp', '$easinFactoryRESTTestHttps', 'SERVER', 'CONFIG', '$photoFactory', '$authenticationFactory', function($q, $easinFactoryREST, $easinFactoryRESTProdHttp, $easinFactoryRESTProdHttps, $easinFactoryRESTTestHttp, $easinFactoryRESTTestHttps, SERVER, CONFIG, $photoFactory, $authenticationFactory){
   var obj = {};
 
   obj.sendObservation = function(LSID, ICCID, ObservedAt, Abundance, Precision, Comment, Images, Anonymous, coordinates, geometryType){
@@ -329,21 +463,28 @@ angular.module('MYGEOSS.services', [])
 			                "type": "Feature",
 			                "observedAt": ObservedAt
 			              };
-                                              //console.log("Punto 5");
-			              $easinFactoryREST.save(specieObservation, function(){
-			                //$q.all(promiseDeletePhoto); //remove pictures
-			                var i = 0;
-			                while (i < dataSuccess.length){
-			                  $photoFactory.removePhoto(Images[i].path, Images[i].file); // remove pictures from tmp folder to empty space
-			                  i++;
-			                }
-			                 def.resolve("Data sent to the server"); 
-			              }, function(error){
-			              console.error(error); 
-			              //console.error(error);
-			              //console.error(angular.toJson(specieObservation));
-			                def.reject("Error sending data to the server"); 
-			              })
+                          
+						  console.log(SERVER.serverApiUrl);
+						  //console.log("Punto 5");
+						  var easinFactoryREST;
+						  if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttp) easinFactoryREST = $easinFactoryRESTProdHttp; 
+						  if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttps) easinFactoryREST = $easinFactoryRESTProdHttps; 
+						  if (SERVER.serverApiUrl == CONFIG.serverTestApiUrlHttp) easinFactoryREST = $easinFactoryRESTTestHttp; 
+						  if (SERVER.serverApiUrl == CONFIG.serverTestApiUrlHttps) easinFactoryREST = $easinFactoryRESTTestHttps; 
+							  
+						  easinFactoryREST.save(specieObservation, function(){
+						  //$q.all(promiseDeletePhoto); //remove pictures
+							  var i = 0;
+							  while (i < dataSuccess.length){
+								  $photoFactory.removePhoto(Images[i].path, Images[i].file); // remove pictures from tmp folder to empty space
+								  i++;
+							  }
+					      	  def.resolve("Data sent to the server"); 
+					      }, function(error){
+					    	  console.error(error); 
+					          //console.error(angular.toJson(specieObservation));
+					          def.reject("Error sending data to the server");
+					          })
 
 					
 				});
@@ -587,7 +728,7 @@ angular.module('MYGEOSS.services', [])
 /** $staticContent
 * To retrieve the localised translated content from either the local file, database either form the server
 */
-.factory('$staticContent', ['$q', '$dataBaseFactory', '$cordovaSQLite', '$http', 'CONFIG', function($q, $dataBaseFactory, $cordovaSQLite, $http, CONFIG){
+.factory('$staticContent', ['$q', '$dataBaseFactory', '$cordovaSQLite', '$http', 'CONFIG', 'SERVER', function($q, $dataBaseFactory, $cordovaSQLite, $http, CONFIG, SERVER){
   var obj = {};
 
   obj.getDatabaseContent = function(item, langCode){
@@ -792,7 +933,7 @@ angular.module('MYGEOSS.services', [])
 
 }])
 
-.factory('$authenticationFactory', ['$q', '$http', '$localstorage', 'CONFIG', function($q, $http, $localstorage, CONFIG){
+.factory('$authenticationFactory', ['$q', '$http', '$localstorage', 'CONFIG', 'SERVER', function($q, $http, $localstorage, CONFIG, SERVER){
   var obj = {};
 
   // Public key should be generate into a pem file format, externally of the application, for more performance.
@@ -929,7 +1070,7 @@ angular.module('MYGEOSS.services', [])
 
 
     //def.resolve(obj.encryptData(angular.toJson(postData)));
-    $http.post(CONFIG.authenticationBaseURL+"/mobile/GenNonce", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+    $http.post(SERVER.authenticationBaseURL+"mobile/GenNonce", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
       function(success){
         def.resolve(success.data);
       },
@@ -966,7 +1107,7 @@ angular.module('MYGEOSS.services', [])
         };
         //nonce = success.NonceNumber;
         //console.log(postData);
-        $http.post(CONFIG.authenticationBaseURL+"/mobile/register", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+        $http.post(SERVER.authenticationBaseURL+"mobile/register", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
           function(success){
             //session token
             console.log("registration OK");
@@ -1007,7 +1148,7 @@ angular.module('MYGEOSS.services', [])
           AppSecret: appSecret,
           GotNonce: success.NonceNumber
         };
-        $http.post(CONFIG.authenticationBaseURL+"/mobile/login", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+        $http.post(SERVER.authenticationBaseURL+"mobile/login", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
           function(success){
             //session token
             def.resolve(success.data);
@@ -1034,7 +1175,7 @@ angular.module('MYGEOSS.services', [])
       }
     };
 
-    $http.post(CONFIG.authenticationBaseURL+"/mobile/checksession", "\""+token+"\"", config).then(
+    $http.post(SERVER.authenticationBaseURL+"mobile/checksession", "\""+token+"\"", config).then(
       function(success){
         //session token
         def.resolve(success.data);
@@ -1069,13 +1210,14 @@ angular.module('MYGEOSS.services', [])
           NewPassword: newPassword,
           ConfirmPassword: confirmPassword
         };
-        $http.post(CONFIG.authenticationBaseURL+"/mobile/changepwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+        $http.post(SERVER.authenticationBaseURL+"mobile/changepwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
           function(success){
             console.log("success service changePWD");
             //console.log(success);
             def.resolve(success.data);
           },
           function(error){
+        	  console.log(error);
             def.reject(error);
           }
         );
@@ -1107,7 +1249,7 @@ angular.module('MYGEOSS.services', [])
           GotNonce: success.NonceNumber
         };
         //encryptPostData
-        $http.post(CONFIG.authenticationBaseURL+"/mobile/forgotpwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+        $http.post(SERVER.authenticationBaseURL+"mobile/forgotpwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
           function(success){
             //console.log(success);
             def.resolve(success.data);
@@ -1146,7 +1288,7 @@ angular.module('MYGEOSS.services', [])
 
     //console.log(postData);
 
-    $http.post(CONFIG.authenticationBaseURL+"/mobile/resetpwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
+    $http.post(SERVER.authenticationBaseURL+"mobile/resetpwd", "\""+obj.encryptData(angular.toJson(postData))+"\"", config).then(
       function(success){
         //console.log(success);
         def.resolve(success.data);
@@ -1169,7 +1311,7 @@ angular.module('MYGEOSS.services', [])
         'Content-Type': 'application/json'
       }
     };
-    $http.post(CONFIG.authenticationBaseURL+"/mobile/logout", "\""+token+"\"", config).then(
+    $http.post(SERVER.authenticationBaseURL+"mobile/logout", "\""+token+"\"", config).then(
       function(success){
         //console.log(success);
         def.resolve(success.data);
@@ -1209,7 +1351,7 @@ angular.module('MYGEOSS.services', [])
   var obj = {};
 
   // obj.availableLanguageKey = ["bg","es","cs","da","de","et","el","fr","ga","hr","it","lv","lt","hu","mt","nl","pl","pt","ro","sk","sl","fi","sv","en"];
-  obj.availableLanguageKey = ["en", "de"];
+  obj.availableLanguageKey = ["en", "de", "it", "es"];
 
   obj.get = function(){
     var def = $q.defer();
