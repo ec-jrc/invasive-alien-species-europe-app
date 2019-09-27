@@ -46,6 +46,7 @@
 					<a ui-sref="app.sob({sobId: serverObservation._id})">{{serverObservation.createdAt | limitTo : 10 }} {{serverObservation.createdAt | limitTo : 8 : 11 }} | {{ serverObservation.properties.LSIDDesc }} | <span ng-class="serverObservation.properties.Status">{{serverObservation.properties.Status}}<span ng-if="serverObservation.properties.Updated > 0"> | <span class="updateLabel">UPDATED</span></span></span></a>
 				</li>
 			</ul>
+			<span ng-if="main.connected == false" class="error_message">{{'offline_txt' | translate}}</span>
 		</div>
 	</ion-content>
 </ion-view>

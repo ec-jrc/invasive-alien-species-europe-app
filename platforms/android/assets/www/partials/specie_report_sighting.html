@@ -15,15 +15,15 @@
 
 		<div class="row select_specie" ng-if="cameFromReportSighting !== true">
 			<div class="col col-20 alignCenter">
-				<img width="50px" width="50px" ng-src="{{specie.real_path}}{{specie.photos[0].src}}" alt="{{specie.common_name}}" />
+				<img width="50px" width="50px" ng-src="{{currSpecie.specie.real_path}}{{currSpecie.specie.photos[0].src}}" />
 			</div>
 			<div class="col col-80">
-				<button class="form-button">{{specie.common_name}}</button>
+				<button class="form-button">{{currSpecie.specie.common_name}}</button>
 			</div>
 		</div>
 		<div class="row select_specie" ng-if="cameFromReportSighting === true">
 			<div class="col col-20 alignCenter">
-				<img width="50px" width="50px" ng-src="{{specie.real_path}}{{specie.photos[0].src}}" alt="{{specie.common_name}}" />
+				<img width="50px" width="50px" ng-src="{{currSpecie.specie.real_path}}{{currSpecie.specie.photos[0].src}}" />
 			</div>
 			<div class="col col-80">
 				<button class="form-button" ng-class="errorSelectSpecie" ng-click="openModalReportSightingSpecieList()">{{displaySelectSpecie}}</button>

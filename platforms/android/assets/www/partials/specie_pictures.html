@@ -19,6 +19,6 @@
 	
 
 	<div class="photoBrowserIndicator" data-tap-disabled="true">
-		<span ng-repeat="photo in specie.photos track by $index" ng-class="{'active': specieCtrl.activeIndex == $index}">●</span>
+		<span ng-repeat="photo in currSpecie.specie.photos track by $index" ng-class="{'active': specieCtrl.activeIndex == $index}">●</span>
 	</div>
 </div>

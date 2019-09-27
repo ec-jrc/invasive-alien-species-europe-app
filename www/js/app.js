@@ -16,6 +16,16 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 
 .run(function($ionicPlatform, $rootScope, $q, $cordovaFile, $cordovaDevice, $cordovaNetwork, $cordovaSQLite, $dataBaseFactory, $photoFactory, $easinFactoryLocal, $authenticationFactory, CONFIG, SERVER, $filter) {
   $ionicPlatform.ready(function() {
+	  var permissions = cordova.plugins.permissions;
+	  permissions.requestPermission(permissions.CAMERA, successCamera, errorCamera);
+	  permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE, successFile, errorFile);
+	  
+	  function errorCamera() { console.warn('Camera permission is not turned on'); }
+      function successCamera( status ) { if( !status.hasPermission ) errorCamera(); }
+	  
+	  function errorFile() { console.warn('Camera permission is not turned on'); }
+      function successFile( status ) { if( !status.hasPermission ) errorFile(); }
+
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -30,6 +40,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
       StatusBar.styleDefault();
     }
 
+    $rootScope.appDownloadPerc = 1000;
     $rootScope.downloadError = false;
     $rootScope.download = false;
     
@@ -70,7 +81,15 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
   	  if (CONFIG.environment != "PROD") console.log(SERVER.serverApiUrl);
     });
 
-	function RequestFileAccess() {
+    function executePause(ms){
+ 	   var start = new Date().getTime();
+ 	   var end = start;
+ 	   while(end < start + ms) {
+ 	     end = new Date().getTime();
+ 	  }
+    }
+
+    function RequestFileAccess() {
 		var type = window.PERSISTENT;
 	    var size = 5*1024*1024;
 	    var finished = 0;
@@ -384,9 +403,11 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
     		dir.getFile(filename, {create:true}, function(file) {
                 file.createWriter(function(fileWriter) {
                     fileWriter.write(DataBlob);
+                	if (CONFIG.environment != "PROD") console.log("Downloaded '" + filename + "'");
                     if(filename.search("_thumb.") == -1) setTimeout(function() { calculateMD5(folderpath, filename, md5, lastPicture); }, 10000);
                 }, function(){
             		$rootScope.downloadError = true;
+                	if (CONFIG.environment != "PROD") console.log("Error downloading '" + filename + "'");
                 });
     		});
         });
@@ -395,6 +416,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
     function calculateMD5(folderpath, filename, md5, lastPicture){
         FileHash.md5(folderpath+filename,function(e){
         	var currentMD5 = e.result;
+        	if (CONFIG.environment != "PROD") console.log(filename + " - " + md5 + " - " + lastPicture);
         	if (md5.trim() != currentMD5.trim()) {
         		if (CONFIG.environment != "PROD") console.log(filename + " - MD5 DB:" + md5 + " MD5:"+ currentMD5);
         		$rootScope.downloadError = true;
@@ -611,22 +633,26 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 	
 	function getFileAndPics(catalog, version) {
 	    $rootScope.download = true;
-		$.ajax({url: SERVER.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).then(function(dataEn) {
+	    $rootScope.appDownloadPerc = 0;
+	    var tempLocalFile = {"catalog":catalog,"version":version};
+		var objOutput = JSON.stringify(tempLocalFile);
+		writeVersionFile(objOutput);
+		$.ajax({url: SERVER.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).done(function(dataEn) {
 			objOutput = JSON.stringify(dataEn);
 			createLocalJSONFile("en", objOutput);
-			$.ajax({url: SERVER.serverApiUrl + "species?app&lng=it&cat=" + catalog + "&ver=" + version}).then(function(dataIt) {
+			$.ajax({url: SERVER.serverApiUrl + "species?app&lng=it&cat=" + catalog + "&ver=" + version}).done(function(dataIt) {
 				objOutput = JSON.stringify(dataIt);
 				createLocalJSONFile("it", objOutput);
-				$.ajax({url: SERVER.serverApiUrl + "species?app&lng=de&cat=" + catalog + "&ver=" + version}).then(function(dataDe) {
+				$.ajax({url: SERVER.serverApiUrl + "species?app&lng=de&cat=" + catalog + "&ver=" + version}).done(function(dataDe) {
 					objOutput = JSON.stringify(dataDe);
 					createLocalJSONFile("de", objOutput);
-					$.ajax({url: SERVER.serverApiUrl + "species?app&lng=es&cat=" + catalog + "&ver=" + version}).then(function(dataEs) {
+					$.ajax({url: SERVER.serverApiUrl + "species?app&lng=es&cat=" + catalog + "&ver=" + version}).done(function(dataEs) {
 						objOutput = JSON.stringify(dataEs);
 						createLocalJSONFile("es", objOutput);
-						$.ajax({url: SERVER.serverApiUrl + "species?app&lng=ro&cat=" + catalog + "&ver=" + version}).then(function(dataRo) {
+						$.ajax({url: SERVER.serverApiUrl + "species?app&lng=ro&cat=" + catalog + "&ver=" + version}).done(function(dataRo) {
 							objOutput = JSON.stringify(dataRo);
 							createLocalJSONFile("ro", objOutput);
-							$.ajax({url: SERVER.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).then(function(dataEn) {
+							$.ajax({url: SERVER.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).done(function(dataEn) {
 								objOutput = JSON.stringify(dataEn);
 								createLocalJSONFile("en", objOutput);
 
@@ -648,18 +674,23 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 								var curSpeciesA = 0;
 								var lastPicture = false;
 								for (var i = 0; i < speciesList.length; i++) {
-				                    species_id = speciesList[i].LSID.split(":")[4];
-									$.ajax({url: SERVER.serverApiUrl + "species/photos/"+species_id}).then(function(dataPics) {
+									species_id = speciesList[i].LSID.split(":")[4];
+									if (CONFIG.environment != "PROD") console.log("Downloading " + species_id);
+									executePause(100);
+									$.ajax({url: SERVER.serverApiUrl + "species/photos/"+species_id}).done(function(dataPics) {
 										curSpeciesA++;
 										var curPicsA = 0;
 										for (var p = 0; p < dataPics.length; p++) {
 											var curSpeciesB = curSpeciesA;
 											curPicsA++;
 											var id_easin = dataPics[p].id_easin;
+											if (CONFIG.environment != "PROD") console.log("Obtained " + id_easin);
 											var no = dataPics[p].no;
 											var fullPathName = cordova.file.dataDirectory + dataPics[p].filename;
-								        	if ((curSpeciesB == speciesList.length) && (curPicsA == dataPics.length)) { lastPicture = true; }
+											if (CONFIG.environment != "PROD") console.log(fullPathName + "[" + curSpeciesB + "/" + speciesList.length + " - " + curPicsA + "/" + dataPics.length + "]");
+											if ((curSpeciesB == speciesList.length) && (curPicsA == dataPics.length)) { lastPicture = true; }
 											if (no == 1) {
+												executePause(100);
 												$.ajax({url: SERVER.serverApiUrl + "species/photos/"+id_easin+"?no="+no+"&thumb"}).then(function(dataThumb) {
 													var picThumbnail = dataThumb[0].thumbnail;
 													var block = picThumbnail.split(";");
@@ -671,9 +702,32 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 													filename = filename.replace("_01.","_thumb.");
 													var md5 = dataThumb[0].md5;
 													var lastPic = "false";
+													$rootScope.appDownloadPerc = curSpeciesB*100/speciesList.length;
 													savebase64AsImageFile(folderpath,filename,realData,dataType,md5,lastPic);
-												});
+												},
+												function(jqXHR, textStatus, errorThrown) {
+													if (CONFIG.environment != "PROD") console.log(JSON.stringify(jqXHR));
+													if (CONFIG.environment != "PROD") console.log(textStatus);
+													if (CONFIG.environment != "PROD") console.log(errorThrown);
+													if (CONFIG.environment != "PROD") console.log("ERROR downloading " + id_easin +" ("+no+") thumb");
+													// Remove Download file
+													var path = cordova.file.dataDirectory;
+													var filename = "download_complete.json";
+													window.resolveLocalFileSystemURL(path, function(dir) {
+														dir.getFile(filename, {create:false}, function(fileEntry) {
+													              fileEntry.remove(function(){
+													            	  if (CONFIG.environment != "PROD") console.log("Download reinitialization");
+													              },function(error){
+													            	  if (CONFIG.environment != "PROD") console.log("Error during Download reinitialization");
+													              },function(){
+													            	  if (CONFIG.environment != "PROD") console.log("No complete Download on previous pictures downloading");
+													              });
+														});
+													});
+													$rootScope.downloadError = true;												}
+												);
 											}
+											executePause(100);
 											$.ajax({url: SERVER.serverApiUrl + "species/photos/"+id_easin+"?no="+no+"&last="+lastPicture}).then(function(dataPic) {
 												var picBase64 = dataPic[0].base64;
 												var block = picBase64.split(";");
@@ -684,8 +738,31 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 												var filename = dataPic[0].filename;
 												var md5 = dataPic[0].md5;
 												var lastPic = dataPic[0].last;
+												$rootScope.appDownloadPerc = curSpeciesB*100/speciesList.length;
 												savebase64AsImageFile(folderpath,filename,realData,dataType,md5,lastPic);
-											});
+											},
+											function(jqXHR, textStatus, errorThrown) {
+												if (CONFIG.environment != "PROD") console.log(JSON.stringify(jqXHR));
+												if (CONFIG.environment != "PROD") console.log(textStatus);
+												if (CONFIG.environment != "PROD") console.log(errorThrown);
+												if (CONFIG.environment != "PROD") console.log("ERROR downloading " + id_easin +" ("+no+") thumb");
+												// Remove Download file
+												var path = cordova.file.dataDirectory;
+												var filename = "download_complete.json";
+												window.resolveLocalFileSystemURL(path, function(dir) {
+													dir.getFile(filename, {create:false}, function(fileEntry) {
+												              fileEntry.remove(function(){
+												            	  if (CONFIG.environment != "PROD") console.log("Download reinitialization");
+												              },function(error){
+												            	  if (CONFIG.environment != "PROD") console.log("Error during Download reinitialization");
+												              },function(){
+												            	  if (CONFIG.environment != "PROD") console.log("No complete Download on previous pictures downloading");
+												              });
+													});
+												});
+												$rootScope.downloadError = true;
+											}
+											);
 										}
 									});
 								}
@@ -800,7 +877,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 						);
 					} else {
 						if (CONFIG.environment != "PROD") console.log("Verify only pictures");
-						verifyPictures(data.catalog, data.version);
+						verifyPictures(dataVersion.catalog, dataVersion.version);
 					}
 				});
 			});
@@ -814,6 +891,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
     copyLocalVersionFile('JRCISPRA');
     copyLocalVersionFile('DANUBE');
     copyLocalVersionFile('MALTA');
+    copyLocalVersionFile('SPAIN');
 
   });
 })
@@ -901,6 +979,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 
   .state('app.contact', {
     url: '/contact',
+    cache: false,
     views: {
       'mainContent': {
         templateUrl: 'partials/contact.html',
@@ -911,6 +990,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 
   .state('app.links', {
     url: '/links',
+    cache: false,
     views: {
       'mainContent': {
         templateUrl: 'partials/links.html',
@@ -921,6 +1001,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
   
   .state('app.about', {
     url: '/about',
+    cache: false,
     views: {
       'mainContent': {
         templateUrl: 'partials/about.html',

@@ -34,7 +34,7 @@
     "SPEC_LIST_Bird" : "Uccelli",
     "SPEC_LIST_Inver" : "Invertebrati",
     "SPEC_LIST_Mammal" : "Mammiferi",
-    "PEC_LIST_Rep" : "Rettili",
+    "SPEC_LIST_Rep" : "Rettili",
     "SPEC_LIST_Fish" : "Pesci",
     "LOG_REGISTER_TITLE" : "Accedi o registrati",
     "Change_pwd" : "Cambia password",

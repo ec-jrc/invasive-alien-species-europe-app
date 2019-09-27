@@ -1,73 +1,76 @@
 {
-    "prepare_queue": {
-        "installed": [],
-        "uninstalled": []
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
-    "config_munge": {
-        "files": {}
+    "cordova-plugin-console": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
-    "installed_plugins": {
-        "cordova-plugin-device": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-console": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-datepicker": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-network-information": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-filepath": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-sqlite-storage": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "phonegap-plugin-mobile-accessibility": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-globalization": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-image-picker": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-camera": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-file-hash": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        },
-        "cordova-plugin-dialogs": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        }
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
-    "dependent_plugins": {
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-        }
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-datepicker": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "ionic-plugin-keyboard": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "phonegap-plugin-mobile-accessibility": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-globalization": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-image-picker": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-file-hash": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-filepath": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-compat": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    }
+  }
 }

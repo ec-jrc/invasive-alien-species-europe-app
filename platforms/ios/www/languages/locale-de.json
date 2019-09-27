@@ -61,6 +61,7 @@
 	"REPORT_species": "Arten",
 	"LANGUAGE": "Sprache",
 	"CATALOGUE": "Katalog-Update überprüfen",
+	"LOCAL_CATALOGUE": "Lokalen Katalog-Update überprüfen",
 	"MODAL_CHANGE_PWD": "Passwort ändern",
 	"email": "E-Mail",
 	"old_pwd": "Altes Passwort",
@@ -113,8 +114,6 @@
 	"error_saving_draft": "Fehler beim Senden des Entwurfs",
 	"success_saving_draft": "Entwurf gespeichert",
 	"success_updating_draft": "Entwurk aktualisiert",
-	"errorAddPhoto_label": "Maximale Anzahl an Fotos",
-	"errorAddPhoto_content": "Sie können nicht mehr als 3 Fotos hochladen. Bitte löschen sie eins und versuchen sie es nochmal",
 	"view_details": "Details ansehen",
 	"password": "Passwort",
 	"create_account": "Konto einrichten",
@@ -130,6 +129,8 @@
 	"old_password_not_valid" : "Das alte Passwort, das Sie eingegeben haben, ist nicht korrekt!",
 	"species_warning" : "Aus technischen Gründen kann es sein, dass noch nicht alle Artenbeschreibungen ins Deutsche übersetzt worden sind.",
 	"no_updates" : "Keine Katalog-Updates verfügbar",
+	"no_local_updates1" : "Keine Updates für den lokalen Katalog verfügbar (Bereich: ",
+	"no_local_updates2" : ").",
 	"no_updates_title" : "Info",
 	"new_version1" : "Es ist eine neue Version (v",
 	"new_version2" : ") des EASIN-Artenkatalogs verfügbar. Möchten Sie sie herunterladen?",
@@ -148,5 +149,6 @@
     "local_area_message2" : ".",
     "page" : "SEITE",
     "android9" : "Bitte beachten sie, dass für Android 9 momentan noch nicht alle Funktionalitäten zur Verfügung stehen. Diese werden schnellstmöglich ergänzt.",
-    "other_species" : "andere Art"
+    "other_species" : "andere Art",
+    "download_in_progress" : "Ein anderer Download ist noch nicht abgeschlossen. Bitte versuchen Sie es später nochmal."
 }

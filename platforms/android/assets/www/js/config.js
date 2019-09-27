@@ -11,10 +11,10 @@ angular.module('MYGEOSS.constants', [])
 	serverProdApiUrlHttp: 'https://easin.jrc.ec.europa.eu/mobile/',
 	serverProdApiUrlHttps: 'https://easin.jrc.ec.europa.eu/mobile/',
 	// TEST ------------------------------------------------------------------------
-	//serverTestApiUrlHttp: 'http://vap-mygeoss-data.jrc.it/easin/backend/',
-	//serverTestApiUrlHttps: 'https://vap-mygeoss-data.jrc.it/easin/backend/',
 	serverTestApiUrlHttp: 'http://csdata-stg.ies.jrc.it/easin/backend/',
-	serverTestApiUrlHttps: 'https://csdata-stg.ies.jrc.it/easin/backend/',
+	serverTestApiUrlHttps: 'http://csdata-stg.ies.jrc.it/easin/backend/',
+	//serverTestApiUrlHttp: 'https://easin.jrc.ec.europa.eu/mobile/',
+	//serverTestApiUrlHttps: 'https://easin.jrc.ec.europa.eu/mobile/',
 	// EASIN -----------------------------------------------------------------------
 	authenticationBaseURLHttp: 'http://alien.jrc.ec.europa.eu/api.auth/',
 	authenticationBaseURLHttps: 'https://easin.jrc.ec.europa.eu/api.auth/',
@@ -44,6 +44,6 @@ angular.module('MYGEOSS.constants', [])
 .value('SERVER', {
 	serverApiUrl: 'https://easin.jrc.ec.europa.eu/mobile/',
 	//serverApiUrl: 'http://csdata-stg.ies.jrc.it/easin/backend/',
-	//serverApiUrl: 'https://vap-mygeoss-data.jrc.it/easin/backend/',
+	//serverApiUrl: 'http://inspireaq.jrc.ec.europa.eu/easin/backend/',
 	authenticationBaseURL: 'https://easin.jrc.ec.europa.eu/api.auth/'
 });

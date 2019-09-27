@@ -120,7 +120,7 @@ angular.module('MYGEOSS.services', [])
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
 				'get':    {method:'GET', timeout: 60000, cache: false},
 				'save':   {method:'POST', timeout: 60000},
-				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
 				'delete': {method:'DELETE', timeout: 10000} 
 			}
@@ -134,7 +134,7 @@ angular.module('MYGEOSS.services', [])
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
 				'get':    {method:'GET', timeout: 60000, cache: false},
 				'save':   {method:'POST', timeout: 60000},
-				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
 				'delete': {method:'DELETE', timeout: 10000} 
 			}
@@ -148,7 +148,7 @@ angular.module('MYGEOSS.services', [])
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
 				'get':    {method:'GET', timeout: 60000, cache: false},
 				'save':   {method:'POST', timeout: 60000},
-				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
 				'delete': {method:'DELETE', timeout: 10000} 
 			}
@@ -162,7 +162,7 @@ angular.module('MYGEOSS.services', [])
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
 				'get':    {method:'GET', timeout: 60000, cache: false},
 				'save':   {method:'POST', timeout: 60000},
-				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
 				'delete': {method:'DELETE', timeout: 10000} 
 			}
@@ -176,7 +176,7 @@ angular.module('MYGEOSS.services', [])
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
 				'get':    {method:'GET', timeout: 60000, cache: false},
 				'save':   {method:'POST', timeout: 60000},
-				'query':  {method:'GET', isArray:true, timeout: 90000, cache: customQueryCache},
+				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
 				'delete': {method:'DELETE', timeout: 10000} 
 			}
@@ -194,7 +194,7 @@ angular.module('MYGEOSS.services', [])
 			'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
 			'get':    {method:'GET', timeout: 60000, cache: false},
 			'save':   {method:'POST', timeout: 60000},
-			'query':  {method:'GET', isArray:true, timeout: 90000},
+			'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 			'remove': {method:'DELETE', timeout: 10000},
 			'delete': {method:'DELETE', timeout: 10000} 
 		}
@@ -213,28 +213,31 @@ angular.module('MYGEOSS.services', [])
     //init option here, to avoid the Camera load in the injection before the device is ready
     obj.initOptionsCameraCamera = function(){
       optionsCameraCamera = {
-        quality : 60,
+        quality : 75,
         destinationType : Camera.DestinationType.FILE_URI,
+        //destinationType: Camera.DestinationType.DATA_URL,
         targetWidth : 700,
         //targetHeight: 800,
         sourceType: Camera.PictureSourceType.CAMERA,
         encodingType: Camera.EncodingType.JPEG,
         correctOrientation: true,
-        saveToPhotoAlbum: false, //true provok an error on android...
+        saveToPhotoAlbum: true, //true provok an error on android...
         allowEdit: false
       };
     };
 
     obj.initOptionsCameraLibrary = function(){
       optionsCameraLibrary = {
-        quality : 60,
-        destinationType : Camera.DestinationType.FILE_URI,
+        quality : 75,
+        //destinationType : Camera.DestinationType.FILE_URI,
+        destinationType: Camera.DestinationType.DATA_URL,
         //targetWidth : 800,
         //targetHeight: 800,
         correctOrientation: false,
-        sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+        //sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
         encodingType: Camera.EncodingType.JPEG,
-        saveToPhotoAlbum: false,
+        saveToPhotoAlbum: true,
         allowEdit: false
       }
     };
@@ -244,10 +247,14 @@ angular.module('MYGEOSS.services', [])
       ionic.Platform.ready(function() {
           $cordovaCamera.getPicture(optionsCameraCamera).then(
             function(imageData){
-              def.resolve(imageData);
+               console.log('success photoCamera');
+               console.log(imageData);
+               def.resolve(imageData);
             },
             function(error){
-          def.reject();
+               console.error('error photoCamera');
+               console.error(error);
+               def.reject(error);
             }
           );
       });
@@ -264,9 +271,9 @@ angular.module('MYGEOSS.services', [])
               def.resolve(imageData);
             },
             function(error){
-              console.error('error photoLibrary');
-              console.error(error);
-              def.reject(error);
+               console.error('error photoLibrary');
+               console.error(error);
+               def.reject(error);
             }
           );
       });

@@ -5,15 +5,20 @@
         <ion-nav-buttons side="left">
          	<a ui-sref="app.login"><img border="1" width="30px" height="30px" src="img/{{iconLogged}}"/></a>
          	<img ng-if="sitealert.id != ''" border="1" width="30px" height="30px" src="img/local_icon.png"/>
-         	<img ng-if="main.connected == false" border="1" width="30px" height="30px" src="img/offline.png"/>
-         	<img ng-if="main.download == true" border="1" width="30px" height="30px" src="img/download.png"/>
          	<img ng-if="download == true" border="1" width="30px" height="30px" src="img/download.png"/>
+         	<i ng-if="download == true && downloadPerc >= 1 && downloadPerc < 100">{{downloadPerc | number : 0}}%</i>
+         	<i ng-if="download == true && downloadPerc < 1">SYNC</i>
+         	<i ng-if="download == true && downloadPerc == 100">CHECK</i>
+         	<i ng-if="download == true && appDownloadPerc >= 1 && appDownloadPerc < 100">{{appDownloadPerc | number : 0}}%</i>
+         	<i ng-if="download == true && appDownloadPerc < 1">SYNC</i>
+         	<i ng-if="download == true && appDownloadPerc == 100">CHECK</i>
         </ion-nav-buttons>
          <ion-nav-title>
             {{'HOME_TITLE' | translate}}
         </ion-nav-title>
         <ion-nav-buttons side="right">
-            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+         	<img ng-if="main.connected == false" border="1" width="30px" height="30px" src="img/offline.png"/>
+         	<button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>

@@ -35,10 +35,10 @@
             <div class="main-filter-filter">
                 <div>
                     <input type="checkbox" name="type" id="plante" ng-true-value="'Plantae'" ng-false-value="''" ng-model="filters.type" ng-change="changePlantaeFilters()"><label><span>&#33;</span></label>
-                    <button id="animal" ng-click="openAnimaliaFilters()" ng-style="styleAnimaliaButton"></button>
+                    <button id="animal" ng-click="openAnimaliaFilters()" ng-style="subfilter.styleAnimaliaButton"></button>
                     <input type="checkbox" name="area" id="local" ng-true-value="'local'" ng-false-value="''" ng-model="filters.area_filter" ng-show="sitealert.id != ''" ng-change="changeAreaFilters()"><label ng-show="sitealert.id != ''"><span>&#33;</span></label>
                 </div>
-                <div>
+                <div style="width: 165px;">
                     <input type="checkbox" name="habitat" id="marine" ng-true-value="'marine'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
                     <input type="checkbox" name="habitat" id="freshwater" ng-true-value="'freshwater'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
                     <input type="checkbox" name="habitat" id="terrestrial" ng-true-value="'terrestrial'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
@@ -46,10 +46,10 @@
             </div>
         </div>
     </div>
-    <div class="subFilters" ng-show="openSubFilters === true">
+    <div class="subFilters" ng-show="subfilter.openSubFilters === true">
         <div class="row">
-            <div class="col col-50"><button id="anyAnimal" ng-click="changeFamilyAnyAnimalia()" ng-style="styleAnimaliaSubFilterButton"></button><label class="testT" for="anyAnimal">{{'Any' | translate}}</label></div>
-            <div class="col col-50 closeSubFilter" ng-click="openSubFilters = false">{{'SPEC_LIST_CLOSE' | translate}}</div>
+            <div class="col col-50"><button id="anyAnimal" ng-click="changeFamilyAnyAnimalia()" ng-style="subfilter.styleAnimaliaSubFilterButton"></button><label class="testT" for="anyAnimal">{{'Any' | translate}}</label></div>
+            <div class="col col-50 closeSubFilter" ng-click="subfilter.openSubFilters = false">{{'SPEC_LIST_CLOSE' | translate}}</div>
         </div>
         <div class="row">
             <div class="col col-50 centerT"><input type="checkbox" name="family" id="amphibians" ng-true-value="'Amphibia'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="amphibians">{{'SPEC_LIST_Amph' | translate}}</label></div>
@@ -65,8 +65,8 @@
         </div>
     </div>
 
-    <ion-content ng-class="{marginTop: openSubFilters === true}" overflow-scroll="false">
-            <div class="container" ng-style="appCtrl.accessibilityFont">
+    <ion-content id="divSpeciesList" ng-class="{marginTop: subfilter.openSubFilters === true}" overflow-scroll="false" scrollsubfilters>
+        <div class="container" ng-style="appCtrl.accessibilityFont">
             <div ng-show="($index >= (main.speciesCurrPage-1)*main.speciesPageSize) && ($index < main.speciesCurrPage*main.speciesPageSize)" class="myCard" ng-repeat="specie in species | filter:filters | filter:customSearchCSname | orderBy: 'scientific_name' track by $index " ng-click="goToSpecie(specie)" item-width="100%">
                 <img ng-src="{{specie.real_path}}{{specie.photos[0].src}}" ng-show="specie.area_filter == 'general' || (specie.area_filter == 'local' && sitealert.id != '')"/>
                 <div class="label" ng-show="specie.area_filter == 'general' || (specie.area_filter == 'local' && sitealert.id != '')">

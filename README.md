@@ -1,5 +1,5 @@
 # Invasive Alien Species in Europe
-Invasive Alien Species in Europe app aims to enable the general public (amateurs and professionals) to receive and share information about Invasive Alien Species (IAS) in Europe. It provides details about 49 difference IAS that are considered to be of interest to the complete European Union. Users can record pictures of possible Invasive Alien Species together with complementary information about their observation. 
+Invasive Alien Species in Europe app aims to enable the general public (amateurs and professionals) to receive and share information about Invasive Alien Species (IAS) in Europe. It provides details about 37 difference IAS that are considered to be of interest to the complete European Union. Users can record pictures of possible Invasive Alien Species together with complementary information about their observation. 
 
 ## Documentation
 Programmer's Manual: http://digitalearthlab.jrc.ec.europa.eu/sites/default/files/ias_programmersmanual.pdf

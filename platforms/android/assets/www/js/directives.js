@@ -1,6 +1,29 @@
 angular.module('MYGEOSS.directives', [])
 
 
+.directive('scrollsubfilters', function() {
+	  return {
+	    link: function (scope, elem, attrs) {
+	      elem.on('scroll', function (e) {
+	      	var offset = document.getElementById("divSpeciesList").offsetHeight;
+	      	if (offset <= 500) scope.subfilter.openSubFilters = false;
+	      });
+	    }
+	  }
+})
+
+.directive('scroll', function() {
+	  return {
+	    link: function (scope, elem, attrs) {
+	      elem.on('scroll', function (e) {
+	    	var offset = document.getElementById("specie_report_sighting_content").scrollTop;
+	    	var top = document.getElementById("reportSightingButtons").top;
+	    	document.getElementById("reportSightingButtons").style.top = offset + "px";
+	      });
+	    }
+	  }
+})
+
 /*
  * Specie Controller -- Photos
  * ------------------------------------------------------------
@@ -161,18 +184,6 @@ angular.module('MYGEOSS.directives', [])
   }
 })
 
-.directive('scroll', function() {
-  return {
-    link: function (scope, elem, attrs) {
-      elem.on('scroll', function (e) {
-    	var offset = document.getElementById("specie_report_sighting_content").scrollTop;
-    	var top = document.getElementById("reportSightingButtons").top;
-    	document.getElementById("reportSightingButtons").style.top = offset + "px";
-      });
-    }
-  }
-})
-
 /*
  * Report a sighting (use in Specie controller too)
  * ------------------------------------------------------------
@@ -204,7 +215,7 @@ angular.module('MYGEOSS.directives', [])
       $scope.saveDraftButton = false;
       $scope.sendDataButton = false;
       
-      window.onscroll = function() { alert("Scroll") };
+      //window.onscroll = function() { alert("Scroll") };
 
 
       /*if($stateParams.id > 0){ //if it's a saved draft
@@ -341,6 +352,7 @@ angular.module('MYGEOSS.directives', [])
 
       $scope.changeSpecie = function(specie){
         $scope.specie = specie;
+        $scope.currSpecie.specie = specie;
         $scope.displaySelectSpecie = $scope.specie.common_name;
       };
       //$scope.specie = {};
@@ -607,40 +619,42 @@ angular.module('MYGEOSS.directives', [])
           template: "<ion-spinner icon='bubbles'></ion-spinner>",
           delay: 0
         });
-        $photoFactory.photoCamera().then(
-          function(imgUri){
-            window.resolveLocalFileSystemURL(imgUri, function(fileEntry) {
-            	if ($scope.environment != "PROD") console.log("got file: " + fileEntry.fullPath);
-
-                var fileName = fileEntry.name;
-                var fullNativeUrl = fileEntry.nativeURL;
-                var pathNativeUrl = fullNativeUrl.replace(fileName, "");
-                var newFileName = new Date().getTime()+""+fileName;
-                $photoFactory.movePhoto(pathNativeUrl, fileName, $rootScope.deviceStorageLocation+'IASimg', newFileName).then(
-                  function(success){
-                	if ($scope.environment != "PROD") console.log('successMovephoto');
-                    var imageData = {file: success.name, path: $rootScope.deviceStorageLocation+'IASimg/', fileEntryObject: success};
-                    $scope.images.push(imageData);
-                    $ionicLoading.hide();
-                  },
-                  function(error){
-                    $ionicLoading.hide();
-                    if ($scope.environment != "PROD") console.error('error move photocamera');
-                  }
-                );
-
-            }, function (error) {
-              // If don't get the FileEntry (which may happen when testing
-              // on some emulators), copy to a new FileEntry.
-              if ($scope.environment != "PROD") console.error('resolveLocalFileSystemURL');
-            });
-
-          },
-          function(error){ 
-            $ionicLoading.hide();
-            if ($scope.environment != "PROD") console.log("error directives photocamera");
-          }
-        );
+        ionic.Platform.ready(function() {
+	        $photoFactory.photoCamera().then(
+	          function(imgUri){
+	            window.resolveLocalFileSystemURL(imgUri, function(fileEntry) {
+	            	if ($scope.environment != "PROD") console.log("got file: " + fileEntry.fullPath);
+	
+	                var fileName = fileEntry.name;
+	                var fullNativeUrl = fileEntry.nativeURL;
+	                var pathNativeUrl = fullNativeUrl.replace(fileName, "");
+	                var newFileName = new Date().getTime()+""+fileName;
+	                $photoFactory.movePhoto(pathNativeUrl, fileName, $rootScope.deviceStorageLocation+'IASimg', newFileName).then(
+	                  function(success){
+	                	if ($scope.environment != "PROD") console.log('successMovephoto');
+	                    var imageData = {file: success.name, path: $rootScope.deviceStorageLocation+'IASimg/', fileEntryObject: success};
+	                    $scope.images.push(imageData);
+	                    $ionicLoading.hide();
+	                  },
+	                  function(error){
+	                    $ionicLoading.hide();
+	                    if ($scope.environment != "PROD") console.error('error move photocamera');
+	                  }
+	                );
+	
+	            }, function (error) {
+	              // If don't get the FileEntry (which may happen when testing
+	              // on some emulators), copy to a new FileEntry.
+	              if ($scope.environment != "PROD") console.error('resolveLocalFileSystemURL');
+	            });
+	
+	          },
+	          function(error){ 
+	            $ionicLoading.hide();
+	            if ($scope.environment != "PROD") console.log("error directives photocamera");
+	          }
+	        );
+        });
       };
 
       $scope.library = function(){
