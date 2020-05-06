@@ -1,2 +1,3 @@
+rm platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
 cordova build android --release
-cp /home/vagrant/Projects/easin-app-android/platforms/android/build/outputs/apk/android-release-unsigned.apk /mnt/share/easin-prod.apk
+sudo cp platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk /mnt/shared/easin-prod.apk

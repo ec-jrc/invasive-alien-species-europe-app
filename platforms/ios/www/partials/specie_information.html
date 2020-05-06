@@ -32,8 +32,14 @@
 
 			<h4>{{'SPE_INFO_FI' | translate}}</h4>
 			<ul>
-				<li ng-repeat="further_information in currSpecie.specie.further_information track by $index"><a ng-click="openExternalLinks(further_information)">{{further_information}}</a></li>
+				<li ng-repeat="further_information in currSpecie.specie.further_information track by $index"><a ng-click="openExternalLinks($event,further_information)">{{further_information}}</a></li>
 			</ul>
 		</div>
+        <div ng-show="(specie.area_filter == 'local' && sitealert.length > 0)">
+			<h4>{{'local_partners' | translate}}</h4>
+            <div ng-show="(specie.area_filter == 'local' && sitealert.length > 0)" ng-repeat="logo in currSpecie.specie.area_logo" item-width="100%">
+                <img ng-src="img/branding/{{currSpecie.specie.area_id}}/{{logo}}" width="49%"/>
+            </div>
+        </div>
 	</div>
 </ion-scroll>

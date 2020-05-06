@@ -14,9 +14,26 @@
     <ion-content scroll="true" overflow-scroll="true" padding="false" ng-style="appCtrl.accessibilitySpecial">
         <div class="row center contactText" ng-style="appCtrl.accessibilitySpecial">
             <div class="col" ng-style="appCtrl.accessibilityFont">
-            	<!-- bind-unsafe-html="dynamicContent" -->
-            	<p ng-bind-html="dynamicContent"></p>
-            	<img src="img/logo_mygeoss.svg">
+            	<img src="img/eu_logo.png" width="30%"/>
+            	<p bind-unsafe-html="dynamicContent"></p>
+		        <div class="col" ng-style="appCtrl.accessibilityFont">
+					<p>{{'local_partners' | translate}}:</p>
+					<div class="row">
+						<div class="col-75" align="right">
+		        			<div class="logoScrollable" ng-style="appCtrl.accessibilitySpecial">
+					            <div ng-repeat="site in logo_list" item-width="100%">
+						            <div ng-repeat="logo in site.img" item-width="100%">
+						                <a href="#" class="linkLike" ng-click="openMailLinks('{{site.email[$index]}}')"><img ng-src="img/branding/{{site.id}}/{{logo}}" width="65%"/></a><br/>
+					            	</div>
+					            </div>
+					        </div>
+		 		        </div>
+				        <div class="col-25" align="left">
+				        	<br/>
+				        	&nbsp;&nbsp;<img src="img/arrowScroll.png" height="100px"/>
+				        </div>
+				    </div>
+		        </div>
             </div>
         </div>
     </ion-content>

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="ECAS_BASE_URL">https://ecas.ec.europa.eu</string>
+    <boolean name="REQUEST_FULL_USERDETAILS">true</boolean>
+    <boolean name="REQUEST_DGT">true</boolean>
+    <string name="ASSURANCE_LEVEL">LOW</string>
+    <string name="GROUP_FILTERS">*</string>
+    <string name="SERVICE_URL">https://localhost/android/mygeoss2</string>
+</resources>

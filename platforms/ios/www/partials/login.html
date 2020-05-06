@@ -18,7 +18,29 @@
     </ion-nav-bar>
 
     <ion-content scroll="true" overflow-scroll="true" class="center">
-        <div class="wrapper center">
+        <section class="login-container" ng-if="main.loginType == ''">
+            <div class="row">
+                <div id="iconLoginFacebook" class="col-50 text-center">
+                    <img ng-click="facebookLogin()" ng-src="img/login_logo/facebook.png" class="loginIcon"><br/><span class="loginText">Facebook</span>
+                </div>
+                <div id="iconLoginTwitter" class="col-50 text-center">
+                    <img ng-click="twitterLogin()" ng-src="img/login_logo/twitter.png" class="loginIcon"><br/><span class="loginText">Twitter</span>
+                </div>
+                <div id="iconLoginLinkedin" class="col-50 text-center">
+                    <img ng-click="linkedinLogin()" ng-src="img/login_logo/linkedin.png" class="loginIcon"><br/><span class="loginText">Linkedin</span>
+                </div>
+                <div id="iconLoginStrava" class="col-50 text-center">
+                    <img ng-click="stravaLogin()" ng-src="img/login_logo/strava.png" class="loginIcon"><br/><span class="loginText">Strava</span>
+                </div>
+                <div id="iconLoginEasin" class="col-50 text-center">
+                    <img ng-click="easinLogin()" ng-src="img/login_logo/easin.png" class="loginIcon"><br/><span class="loginText">EASIN Login</span>
+                </div>
+                <div id="iconLoginEulogin" class="col-50 text-center">
+                    <img ng-click="EULogin()" ng-src="img/login_logo/eulogin.png" class="loginIcon"><br/><span class="loginText">EU Login</span>
+                </div>
+        </section>
+
+        <div class="wrapper center" ng-if="!isLogged && main.loginType == 'easin'">
             <div class="loginCard">
                 <!-- <input type="text" placeholder="Username">
                 <input type="password"> -->
@@ -44,16 +66,27 @@
                     </div>
                     <button class="login" ng-disabled="loginForm.$invalid" ng-click="login(loginForm)" ng-style="appCtrl.accessibilityFont">{{'Login' | translate}}</button>
                 </form>
-                <button class="register" ng-click="openRegisterModal()" ng-if="!isLogged" ng-style="appCtrl.accessibilityFont">{{'Register' | translate}}</button> <br/>
+            </div>
+        </div>
+        <div class="wrapper center" ng-if="isLogged">
+            <div class="loginCard">
+                <!-- <button class="register" ng-click="openRegisterModal()" ng-if="!isLogged" ng-style="appCtrl.accessibilityFont">{{'Register' | translate}}</button> <br/> -->
                 <div class="row options" ng-if="isLogged">
                 	<div class="col-100" ng-style="appCtrl.accessibilityFont">
-                    	<span>{{ userLogged }}</span>
+						<img width="100px" ng-if="appCtrl.provider == 'facebook'" src="img/login_logo/facebook.png" />
+						<img width="100px" ng-if="appCtrl.provider == 'easin'" src="img/login_logo/easin.png" />
+						<img width="100px" ng-if="appCtrl.provider == 'twitter'" src="img/login_logo/twitter.png" />
+						<img width="100px" ng-if="appCtrl.provider == 'linkedin'" src="img/login_logo/linkedin.png" />
+						<img width="100px" ng-if="appCtrl.provider == 'strava'" src="img/login_logo/strava.png" />
+						<img width="100px" ng-if="appCtrl.provider == 'eulogin'" src="img/login_logo/eulogin.png" />
+                    	<br/>
+						<span>{{ userLogged }}</span>
                     </div>
                 </div>
-                <button class="register" ng-click="openChangePwdModal()" ng-if="isLogged" ng-style="appCtrl.accessibilityFont">{{'Change_pwd' | translate}}</button> <br/>
+                <button class="register" ng-click="openChangePwdModal()" ng-if="isLogged && appCtrl.provider == 'easin'" ng-style="appCtrl.accessibilityFont">{{'Change_pwd' | translate}}</button> <br/>
                 <button class="register" ng-click="logout()" ng-if="isLogged" ng-style="appCtrl.accessibilityFont">{{'Logout' | translate}}</button> <br/>
                 <!-- <button class="register" ng-click="test()">TRY CHECKSESSION</button> <br/> -->
-                <img src="img/logo_mygeoss.svg">
+                <!-- <img src="img/logo_mygeoss.svg"> -->
             </div>
         </div>  
     </ion-content>

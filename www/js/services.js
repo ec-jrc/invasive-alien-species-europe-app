@@ -7,98 +7,116 @@ angular.module('MYGEOSS.services', [])
 	var currentSpecie = ""; //object, the selected specie informations
 	var obj = {};
 
- obj.getAll = function(area, realPath, languageCode){
-    var def = $q.defer();
-    var success;
-    var success2;
-    var error;
-    var error2;
-    if (area.trim() != "") {
-        var localSpeciesFile = realPath + "species_" + area + "-" + languageCode + ".json";
-    	$http.get(localSpeciesFile).then(
-    		function(fileExists) {
-    			console.log("File " + localSpeciesFile + " exists!");
-    		    if (area.trim() == "") {
-    		        $http.get(realPath + "species-"+languageCode+".json").then(
-    		        	function(success){
-    		        		def.resolve(success.data);
-    		            },
-    		            function(error){
-    		            	def.reject(error);
-    		            }
-    		        );
-    		        return def.promise;
-    		    } else {
-    		        $http.get(realPath + "species-"+languageCode+".json").then(
-    		        	function(success){
-    		        		var firstArray = success.data.species;
-    		            	$http.get(realPath + "species_" + area + "-" + languageCode + ".json").then(
-    		            		function(success2){
-    		            			var secondArray = success2.data.species;
-    		            	        finalArray = { "species" : firstArray.concat(secondArray) };
-    		            	        def.resolve(finalArray);
-    		            	     },
-    		            	    function(error2){
-    		            	    	def.reject(error2);
-    		            	    }
-    		            	);
-    		        	},
-    		        	function(error){
-    		        		def.reject(error);
-    		        	}
-    		        );
-    		        return def.promise;
-    		    }
-    		}, 
-    		function(fileDoesNotExist) {
-    			console.log("FILE " + localSpeciesFile + " NOT FOUND!");
-    	        $http.get(realPath + "species-"+languageCode+".json").then(
-    	        	function(success){
-    	        		def.resolve(success.data);
-    	            },
-    	            function(error){
-    	            	def.reject(error);
-    	            }
-    	        );
-    	        return def.promise;
-    		}
-    	);
+
+	obj.sleep = function (milliseconds) {
+		var start = new Date().getTime();
+		for (var i = 0; i < 1e7; i++) {
+			if ((new Date().getTime() - start) > milliseconds){
+				break;
+		    }
+		}
+	}
+
+	obj.readSpeciesFile = function (file) {
+		var stringData = $.ajax({
+            url: file,
+            async: false,
+            cache: false,
+            data: "timestamp=" + new Date().getTime()
+        }).responseText;
+		return stringData;
     }
     
-    if (area.trim() == "") {
-        $http.get(realPath + "species-"+languageCode+".json").then(
-        	function(success){
-        		def.resolve(success.data);
-            },
-            function(error){
-            	def.reject(error);
-            }
-        );
-        return def.promise;
-    } else {
-        $http.get(realPath + "species-"+languageCode+".json").then(
-        	function(success){
-        		var firstArray = success.data.species;
-            	$http.get(realPath + "species_" + area + "-" + languageCode + ".json").then(
-            		function(success2){
-            			var secondArray = success2.data.species;
-            	        finalArray = { "species" : firstArray.concat(secondArray) };
-            	        //console.log(JSON.stringify(finalArray));
-            	        def.resolve(finalArray);
-            	     },
-            	    function(error2){
-            	    	def.reject(error2);
-            	    }
-            	);
-        	},
-        	function(error){
-        		def.reject(error);
-        	}
-        );
-        return def.promise;
+	obj.getAll = function(area, realPath, languageCode){
+	    var def = $q.defer();
+        $(document).ready(function() {
+          $.ajaxSetup({ cache: false });
+        });
+        if (area.length == 0) {
+            var localSpeciesFile = realPath + "species-" + languageCode + ".json";
+            return $.getJSON(localSpeciesFile).then(function(data) {
+               console.log("Species loaded: " + data.species.length);
+               return data;
+            });
+        } else {
+            var localSpeciesFile = realPath + "species-" + languageCode + ".json";
+            var areaSpeciesFile = realPath + "species_" + area[0].id + "-" + languageCode + ".json";
+            return $.getJSON(localSpeciesFile).then(function(data1) {
+               return $.getJSON(areaSpeciesFile).then(function(data2) {
+								 var generalSpeciesJSON = data1.species;
+				 			   var areaSpeciesJSON = data2.species;
+					 		   areaSpeciesJSON.forEach(function (element) {
+								    element.area_name = area[0].name;
+								    element.area_id = area[0].id;
+							 	 });
+								 temporarySpeciesList = generalSpeciesJSON.concat(areaSpeciesJSON);
+                  console.log("Species loaded: " + temporarySpeciesList.length);
+                  var finalSpeciesList = { "species" : temporarySpeciesList };
+                  return finalSpeciesList;
+               },function(error){
+                  var generalSpeciesJSON = data1.species;
+                  console.log("Species loaded: " + generalSpeciesJSON.length);
+                  var finalSpeciesList = { "species" : generalSpeciesJSON };
+                  return finalSpeciesList;
+               });
+            });
+        }
     }
-  };
-  
+    /*
+    obj.getAll = function(area, realPath, languageCode){
+	    var def = $q.defer();
+	    var localSpeciesFile = realPath + "species-" + languageCode + ".json";
+        var checkLocalSpeciesFile = $.getJSON(localSpeciesFile,
+		//$http.get(localSpeciesFile).then(
+	    		function(success) {
+	    			var responseText = obj.readSpeciesFile(realPath + "species-" + languageCode + ".json");
+	    			var generalSpeciesJSON = JSON.parse(responseText);
+	    			var temporarySpeciesList = generalSpeciesJSON.species;
+	    			if (area.length > 0) {
+	    				area.forEach(function(entry, idx, array) {
+	        				console.log("I try to verify if file for " + entry.id + " exists!");
+                            console.log(realPath + "species_" + entry.id + "-" + languageCode + ".json");
+	            			var responseText = obj.readSpeciesFile(realPath + "species_" + entry.id + "-" + languageCode + ".json");
+	            			if ((responseText !== undefined) && (responseText != "")) {
+	                			var localSpeciesJSON = JSON.parse(responseText);
+	                			localSpeciesJSON = localSpeciesJSON.species;
+	                			localSpeciesJSON.forEach(function (element) {
+	                				element.area_name = entry.name;
+	                				element.area_id = entry.id;
+	                			});
+	                			temporarySpeciesList = temporarySpeciesList.concat(localSpeciesJSON);
+	                			generalSpeciesJSON = temporarySpeciesList;
+	                			console.log("Species loaded: " + generalSpeciesJSON.length);
+	                			var finalSpeciesList = { "species" : generalSpeciesJSON };
+	                			if (idx == array.length-1) {
+	                        		def.resolve(finalSpeciesList);
+	                			}
+	            			} else {
+	            				console.log("File not found for " + entry.id);
+	                			generalSpeciesJSON = temporarySpeciesList;
+	                			console.log("Species loaded: " + generalSpeciesJSON.length);
+	                			var finalSpeciesList = { "species" : generalSpeciesJSON };
+	                			if (idx == array.length-1) {
+	                        		def.resolve(finalSpeciesList);
+	                			}
+	            			}
+	    				});
+	    				generalSpeciesJSON = temporarySpeciesList;
+	    			} else {
+	    				generalSpeciesJSON = temporarySpeciesList;
+	        			console.log("Species loaded: " + generalSpeciesJSON.length);
+	        			var finalSpeciesList = { "species" : generalSpeciesJSON };
+	            		def.resolve(finalSpeciesList);
+	    			}
+	    		},
+	    		function(error) {
+	        		def.reject(error);
+	    		}
+	    );
+	    return def.promise;
+	}
+    */
+
 	obj.setCurrentSpecie = function(specie){
 		currentSpecie = specie;
 	};
@@ -112,9 +130,9 @@ angular.module('MYGEOSS.services', [])
 
 /* $easinFactoryREST
 * Communicate with the EASIN REST API
-*/ 
+*/
 .factory('$easinFactoryREST', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
-  var customQueryCache = $cacheFactory('customQueryCache'); 
+  var customQueryCache = $cacheFactory('customQueryCache');
   return $resource(SERVER.serverApiUrl + "reports/:reportId", {reportId:'@id'},
 			{
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
@@ -122,13 +140,13 @@ angular.module('MYGEOSS.services', [])
 				'save':   {method:'POST', timeout: 60000},
 				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
-				'delete': {method:'DELETE', timeout: 10000} 
+				'delete': {method:'DELETE', timeout: 10000}
 			}
   );
 }])
 
 .factory('$easinFactoryRESTProdHttp', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
-  var customQueryCache = $cacheFactory('customQueryCacheProdHttp'); 
+  var customQueryCache = $cacheFactory('customQueryCacheProdHttp');
   return $resource(CONFIG.serverProdApiUrlHttp + "reports/:reportId", {reportId:'@id'},
 			{
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
@@ -136,13 +154,13 @@ angular.module('MYGEOSS.services', [])
 				'save':   {method:'POST', timeout: 60000},
 				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
-				'delete': {method:'DELETE', timeout: 10000} 
+				'delete': {method:'DELETE', timeout: 10000}
 			}
   );
 }])
 
 .factory('$easinFactoryRESTProdHttps', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
-  var customQueryCache = $cacheFactory('customQueryCacheProdHttps'); 
+  var customQueryCache = $cacheFactory('customQueryCacheProdHttps');
   return $resource(CONFIG.serverProdApiUrlHttps + "reports/:reportId", {reportId:'@id'},
 			{
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
@@ -150,13 +168,13 @@ angular.module('MYGEOSS.services', [])
 				'save':   {method:'POST', timeout: 60000},
 				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
-				'delete': {method:'DELETE', timeout: 10000} 
+				'delete': {method:'DELETE', timeout: 10000}
 			}
   );
 }])
 
 .factory('$easinFactoryRESTTestHttp', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
-  var customQueryCache = $cacheFactory('customQueryCacheTestHttp'); 
+  var customQueryCache = $cacheFactory('customQueryCacheTestHttp');
   return $resource(CONFIG.serverTestApiUrlHttp + "reports/:reportId", {reportId:'@id'},
 			{
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
@@ -164,13 +182,13 @@ angular.module('MYGEOSS.services', [])
 				'save':   {method:'POST', timeout: 60000},
 				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
-				'delete': {method:'DELETE', timeout: 10000} 
+				'delete': {method:'DELETE', timeout: 10000}
 			}
   );
 }])
 
 .factory('$easinFactoryRESTTestHttps', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
-  var customQueryCache = $cacheFactory('customQueryCacheTestHttps'); 
+  var customQueryCache = $cacheFactory('customQueryCacheTestHttps');
   return $resource(CONFIG.serverTestApiUrlHttps + "reports/:reportId", {reportId:'@id'},
 			{
 				'update': {method: 'PUT', timeout: 60000, headers:{'Content-Type': 'application/json'}},
@@ -178,14 +196,14 @@ angular.module('MYGEOSS.services', [])
 				'save':   {method:'POST', timeout: 60000},
 				'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 				'remove': {method:'DELETE', timeout: 10000},
-				'delete': {method:'DELETE', timeout: 10000} 
+				'delete': {method:'DELETE', timeout: 10000}
 			}
   );
 }])
 
 /* $easinFactoryRESTUser
 * Communicate with the EASIN REST API (user)
-*/ 
+*/
 .factory('$easinFactoryRESTUser', ['$resource','CONFIG', 'SERVER', '$cacheFactory', function ($resource, CONFIG, SERVER, $cacheFactory) {
   var customQueryCache = $cacheFactory('customQueryCacheUser');
   //console.log("CALL: " + SERVER.serverApiUrl + "reports/user/" + $scope.userLoggedMD5);
@@ -196,7 +214,7 @@ angular.module('MYGEOSS.services', [])
 			'save':   {method:'POST', timeout: 60000},
 			'query':  {method:'GET', isArray:true, timeout: 90000, cache: false},
 			'remove': {method:'DELETE', timeout: 10000},
-			'delete': {method:'DELETE', timeout: 10000} 
+			'delete': {method:'DELETE', timeout: 10000}
 		}
 	);
 }])
@@ -214,10 +232,10 @@ angular.module('MYGEOSS.services', [])
     obj.initOptionsCameraCamera = function(){
       optionsCameraCamera = {
         quality : 75,
-        destinationType : Camera.DestinationType.FILE_URI,
-        //destinationType: Camera.DestinationType.DATA_URL,
-        targetWidth : 700,
-        //targetHeight: 800,
+        //destinationType : Camera.DestinationType.FILE_URI,
+        destinationType: Camera.DestinationType.DATA_URL,
+        targetWidth : 800,
+        targetHeight: 800,
         sourceType: Camera.PictureSourceType.CAMERA,
         encodingType: Camera.EncodingType.JPEG,
         correctOrientation: true,
@@ -231,13 +249,13 @@ angular.module('MYGEOSS.services', [])
         quality : 75,
         //destinationType : Camera.DestinationType.FILE_URI,
         destinationType: Camera.DestinationType.DATA_URL,
-        //targetWidth : 800,
-        //targetHeight: 800,
+        targetWidth : 800,
+        targetHeight: 800,
         correctOrientation: false,
         //sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
         sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
         encodingType: Camera.EncodingType.JPEG,
-        saveToPhotoAlbum: true,
+        saveToPhotoAlbum: false,
         allowEdit: false
       }
     };
@@ -267,12 +285,13 @@ angular.module('MYGEOSS.services', [])
           $cordovaCamera.getPicture(optionsCameraLibrary).then(
            function(imageData){
               console.log('success photoLibrary');
-              console.log(imageData);
+              //console.log(imageData);
+			  console.log("Image base64");
               def.resolve(imageData);
             },
             function(error){
-               console.error('error photoLibrary');
-               console.error(error);
+               console.log('error photoLibrary');
+               console.log(error);
                def.reject(error);
             }
           );
@@ -285,11 +304,11 @@ angular.module('MYGEOSS.services', [])
       ionic.Platform.ready(function() {
           $cordovaFile.removeFile(path, file).then(
             function(success){
-              console.log("Success remove picture : "+path+file);
+              //console.log("Success remove picture : "+path+file);
               def.resolve(success);
             },
             function(error){
-              console.error("Error remove picture : "+path+file);
+              //console.error("Error remove picture : "+path+file);
               def.reject(error);
             }
           );
@@ -302,12 +321,12 @@ angular.module('MYGEOSS.services', [])
       ionic.Platform.ready(function() {
           $cordovaFile.moveFile(path, file, newPath, newFile).then(
             function(success){
-              console.log("Success move picture : "+path+file+" to "+newPath+newFile);
+              //console.log("Success move picture : "+path+file+" to "+newPath+newFile);
               def.resolve(success);
             },
             function(error){
               console.error(error);
-              console.error("Error move picture : "+path+file+" to "+newPath+newFile);
+              //console.error("Error move picture : "+path+file+" to "+newPath+newFile);
               def.reject(error);
             }
           );
@@ -320,10 +339,11 @@ angular.module('MYGEOSS.services', [])
       ionic.Platform.ready(function() {
           $cordovaFile.readAsDataURL(path, file).then(
             function(success){
-              console.log("succes read data as url");
+              console.log("Success read data as url");
               def.resolve(success);
             },
             function(error){
+              console.log("Error read data as url");
               def.reject(error);
             }
           );
@@ -332,9 +352,17 @@ angular.module('MYGEOSS.services', [])
     };
 
     obj.generateName = function(){
-      var date = new Date();
-      name = date.getTime();
-      return name;
+      var len = 15;
+      var arr = "abcdefghilmnopqrstuvzwyjkx";
+      var ans = "temp_";
+      for (var i=len; i>0; i--) {
+          ans+=
+          arr[Math.floor(Math.random() * arr.length)];
+      }
+      return ans;
+      //var date = new Date();
+      //name = date.getTime();
+      //return name;
     };
 
     obj.getLibraryPathAndroid = function(data){
@@ -345,8 +373,8 @@ angular.module('MYGEOSS.services', [])
           //plugin https://www.npmjs.com/package/cordova-plugin-filepath
           //deferred.resolve(data);
           window.FilePath.resolveNativePath(data, function(result) {
-            console.log("resolveNativePath");
-            console.log(result);
+            //console.log("resolveNativePath");
+            //console.log(result);
             deferred.resolve(result);
             //deferred.resolve('file://' + result);
           }, function (error) {
@@ -378,14 +406,14 @@ angular.module('MYGEOSS.services', [])
 * @param {string} Images[].file - File's name + extension
 * @param {boolean} Anonymous - If the observation is sent anonymous or not
 * @param {Object[]} coordinates - Array of coordinates
-* @param {number} coordinates[0] - Latitude 
-* @param {number} coordinates[1] - Longitude 
-* @param {string} geometryType - Type of the geomtrique object (for the moment only Point) 
+* @param {number} coordinates[0] - Latitude
+* @param {number} coordinates[1] - Longitude
+* @param {string} geometryType - Type of the geomtrique object (for the moment only Point)
 */
-.factory('$easinFactory', ['$q', '$easinFactoryREST', '$easinFactoryRESTProdHttp', '$easinFactoryRESTProdHttps', '$easinFactoryRESTTestHttp', '$easinFactoryRESTTestHttps', 'SERVER', 'CONFIG', '$photoFactory', '$authenticationFactory', function($q, $easinFactoryREST, $easinFactoryRESTProdHttp, $easinFactoryRESTProdHttps, $easinFactoryRESTTestHttp, $easinFactoryRESTTestHttps, SERVER, CONFIG, $photoFactory, $authenticationFactory){
+.factory('$easinFactory', ['$q', '$easinFactoryREST', '$easinFactoryRESTProdHttp', '$easinFactoryRESTProdHttps', '$easinFactoryRESTTestHttp', '$easinFactoryRESTTestHttps', 'SERVER', 'CONFIG', '$photoFactory', '$authenticationFactory', '$easinFactoryLocal', function($q, $easinFactoryREST, $easinFactoryRESTProdHttp, $easinFactoryRESTProdHttps, $easinFactoryRESTTestHttp, $easinFactoryRESTTestHttps, SERVER, CONFIG, $photoFactory, $authenticationFactory, $easinFactoryLocal){
   var obj = {};
 
-  obj.sendObservation = function(LSID, ICCID, ObservedAt, Abundance, Precision, Comment, Images, Anonymous, coordinates, geometryType){
+  obj.sendObservation = function(LSID, ICCID, ObservedAt, Abundance, Precision, Comment, Images, Anonymous, coordinates, geometryType, pendingID){
     //config application/json!!!
     var def = $q.defer();
     var specieObservation = {
@@ -407,10 +435,14 @@ angular.module('MYGEOSS.services', [])
     var i = 0;
     while (i < Images.length){
       //console.log('images: '+Images[i].path+""+Images[i].file);
-      arrayPromise.push($photoFactory.readAsDataURL(Images[i].path, Images[i].file));
+      if (Images[i].hasOwnProperty('content')) {
+        arrayPromise.push(Images[i].content);
+      } else {
+        arrayPromise.push($photoFactory.readAsDataURL(cordova.file.dataDirectory, Images[i].file));
+      }
       i++;
     }
-                           
+
                            //dataSuccess = arrayPromise;
 
     $q.all(arrayPromise).then(
@@ -424,7 +456,7 @@ angular.module('MYGEOSS.services', [])
         var OAUTHID = $authenticationFactory.getUserEmailReport();
         var appVersion;
         var catVersion;
-        
+
                            //console.log("Punto 2");
                            //'cdvfile://localhost/files/'
 	  	window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(entry) {
@@ -455,7 +487,7 @@ angular.module('MYGEOSS.services', [])
 			                  "Image": convertedBase64,
 			                  "Status": "Submitted",
 			                  "Anonymous": Anonymous,
-			                  "hashOAUTHID": hashOAUTHID 
+			                  "hashOAUTHID": hashOAUTHID
 			                },
 			                "geometry" : {
 			                  "coordinates": coordinates,
@@ -470,43 +502,40 @@ angular.module('MYGEOSS.services', [])
 			                "type": "Feature",
 			                "observedAt": ObservedAt
 			              };
-                          
-						  console.log(SERVER.serverApiUrl);
+
+						  //console.log(SERVER.serverApiUrl);
 						  //console.log("Punto 5");
 						  var easinFactoryREST;
-						  if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttp) easinFactoryREST = $easinFactoryRESTProdHttp; 
-						  if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttps) easinFactoryREST = $easinFactoryRESTProdHttps; 
-						  if (SERVER.serverApiUrl == CONFIG.serverTestApiUrlHttp) easinFactoryREST = $easinFactoryRESTTestHttp; 
-						  if (SERVER.serverApiUrl == CONFIG.serverTestApiUrlHttps) easinFactoryREST = $easinFactoryRESTTestHttps; 
-							  
+						  if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttp) easinFactoryREST = $easinFactoryRESTProdHttp;
+						  if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttps) easinFactoryREST = $easinFactoryRESTProdHttps;
+						  if (SERVER.serverApiUrl == CONFIG.serverTestApiUrlHttp) easinFactoryREST = $easinFactoryRESTTestHttp;
+						  if (SERVER.serverApiUrl == CONFIG.serverTestApiUrlHttps) easinFactoryREST = $easinFactoryRESTTestHttps;
+                          //console.log(SERVER.serverApiUrl);
+                          //if (pendingID !== null) {
+                          //   console.log("Pending observation sent. ID: " + pendingID);
+                          //    $easinFactoryLocal.deleteObservation(pendingID);
+                          //}
 						  easinFactoryREST.save(specieObservation, function(){
-						  //$q.all(promiseDeletePhoto); //remove pictures
-							  var i = 0;
-							  while (i < dataSuccess.length){
-								  $photoFactory.removePhoto(Images[i].path, Images[i].file); // remove pictures from tmp folder to empty space
-								  i++;
-							  }
-					      	  def.resolve("Data sent to the server"); 
+                              if (pendingID !== null) $easinFactoryLocal.deleteObservation(pendingID);
+					      	  def.resolve("Data sent to the server");
 					      }, function(error){
-					    	  console.error(error); 
+					    	  console.error(error);
 					          //console.error(angular.toJson(specieObservation));
 					          def.reject("Error sending data to the server");
-					          })
-
-					
+                          })
 				});
 			});
 		});
 
 //
-	  	
+
       },
       function(error){
         def.reject(error[i]);
       }
     );
 
-    return def.promise; 
+    return def.promise;
   };
 
   return obj;
@@ -527,8 +556,11 @@ angular.module('MYGEOSS.services', [])
     while (i < images.length){
       //console.log('images: '+images[i].path+""+images[i].file);
       var newFile = $photoFactory.generateName()+".jpg";
-      arrayPromise.push($photoFactory.movePhoto(images[i].path, images[i].file, cordova.file.dataDirectory, newFile));
-      images[i].path = cordova.file.dataDirectory;
+      //var dataDirectory = cordova.file.dataDirectory;
+      //dataDirectory = dataDirectory.replace("file://","");
+      //images[i].path = dataDirectory;
+      //console.log(dataDirectory);
+      arrayPromise.push($photoFactory.movePhoto(cordova.file.dataDirectory, images[i].file, cordova.file.dataDirectory, newFile));
       images[i].file = newFile;
       i++;
     }
@@ -554,14 +586,33 @@ angular.module('MYGEOSS.services', [])
 
   obj.updateObservation = function(specie, images, coordinates, date, abundance, habitat, comment, status, id){
     var def = $q.defer();
-    var query = "UPDATE reports SET specie = ?, images = ?, coordinates = ?, date = ?, abundance = ?, habitat = ?, comment = ?, status = ? WHERE id = '"+id+"'";
 
-    $cordovaSQLite.execute($dataBaseFactory.get(), query, [angular.toJson(specie), angular.toJson(images), angular.toJson(coordinates), date, angular.toJson(abundance), habitat, comment, status]).then(function(res) {
-        def.resolve("Report updated");
-    }, function (err) {
-        console.error(err);
-        def.reject("Update report error : "+ err);
-    });
+    //change position of the pictures
+    var arrayPromise = [];
+    var i = 0;
+    while (i < images.length){
+    //console.log('images: '+images[i].path+""+images[i].file);
+        var newFile = $photoFactory.generateName()+".jpg";
+        //images[i].path = cordova.file.dataDirectory;
+        arrayPromise.push($photoFactory.movePhoto(cordova.file.dataDirectory, images[i].file, cordova.file.dataDirectory, newFile));
+        images[i].file = newFile;
+        i++;
+    }
+
+    $q.all(arrayPromise).then(
+      function(success){
+        var query = "UPDATE reports SET specie = ?, images = ?, coordinates = ?, date = ?, abundance = ?, habitat = ?, comment = ?, status = ? WHERE id = '"+id+"'";
+        $cordovaSQLite.execute($dataBaseFactory.get(), query, [angular.toJson(specie), angular.toJson(images), angular.toJson(coordinates), date, angular.toJson(abundance), habitat, comment, status]).then(function(res) {
+            def.resolve("Report updated");
+        }, function (err) {
+            console.error(err);
+            def.reject("Update report error : "+ err);
+        });
+      },
+      function(error){
+        def.reject(error);
+      }
+    );
     return def.promise;
   };
 
@@ -581,7 +632,7 @@ angular.module('MYGEOSS.services', [])
   obj.getObservationByID = function(id){
     var def = $q.defer();
     var query = "SELECT * FROM reports WHERE id='"+id+"'";
-    
+
     $cordovaSQLite.execute($dataBaseFactory.get(), query, []).then(function(res) {
         if(res.rows.length > 0) {
           var report = {};
@@ -603,7 +654,7 @@ angular.module('MYGEOSS.services', [])
   obj.getObservationByIDStatus = function(id, status){
     var def = $q.defer();
     var query = "SELECT * FROM reports WHERE id='"+id+"' AND status='"+status+"'";
-    
+
     $cordovaSQLite.execute($dataBaseFactory.get(), query, []).then(function(res) {
         if(res.rows.length > 0) {
           var report = {};
@@ -626,7 +677,7 @@ angular.module('MYGEOSS.services', [])
     var def = $q.defer();
     var query = "SELECT * FROM reports";
     var arrayObservation = [];
-    
+
     $cordovaSQLite.execute($dataBaseFactory.get(), query, []).then(function(res) {
         if(res.rows.length > 0) {
             for(var i = 0; i < res.rows.length; i++) {
@@ -634,7 +685,6 @@ angular.module('MYGEOSS.services', [])
             }
             def.resolve(arrayObservation);
         } else {
-            console.log("No result found");
             def.reject("No result");
         }
     }, function (err) {
@@ -648,7 +698,7 @@ angular.module('MYGEOSS.services', [])
     var def = $q.defer();
     var query = "SELECT * FROM reports WHERE status = '"+status+"'";
     var arrayObservation = [];
-    
+
     $cordovaSQLite.execute($dataBaseFactory.get(), query, []).then(function(res) {
         if(res.rows.length > 0) {
             for(var i = 0; i < res.rows.length; i++) {
@@ -667,6 +717,7 @@ angular.module('MYGEOSS.services', [])
   };
 
   obj.deleteObservation = function(id){
+    //console.log("ID in cancellazione: " + id);
     var def = $q.defer();
     obj.getObservationByID(id).then(
       function(entryToDelete){
@@ -678,7 +729,7 @@ angular.module('MYGEOSS.services', [])
           var arrayPromise = [];
           var i = 0;
           while(i < images.length){
-            arrayPromise.push($photoFactory.removePhoto(images[i].path, images[i].file));
+            arrayPromise.push($photoFactory.removePhoto(cordova.file.dataDirectory, images[i].file));
             i++;
           }
           if (arrayPromise.length > 0){
@@ -696,7 +747,7 @@ angular.module('MYGEOSS.services', [])
              console.log("Entry deleted no photo");
             def.resolve("Entry deleted");
           }
-          
+
         }, function (err) {
             console.error(err);
             def.reject("Delete entry error : "+ err);
@@ -706,7 +757,7 @@ angular.module('MYGEOSS.services', [])
 
       }
     );
-    
+
     return def.promise;
   };
 
@@ -780,12 +831,18 @@ angular.module('MYGEOSS.services', [])
 
     return def.promise;
   };
-    
+
   obj.getStatic = function(item, lang){
     var def = $q.defer();
+	//console.log(CONFIG.staticFileContentURL+lang+"/"+item+".html");
 
     obj.getDatabaseContent(item, lang).then(function(dbEntry){
       if (dbEntry == "no result"){ //if the entry does not exist yet in DB
+        $http.get("./data/static/"+lang+"/"+item+".html", {cache: true, timeout: 5000}).then(function(success){
+          obj.setDatabaseContent(item, lang, success.data);
+          def.resolve(success.data);
+        });
+		/*
         $http.get(CONFIG.staticFileContentURL+lang+"/"+item+".html", {cache: true, timeout: 5000}).then(function(success){
           obj.setDatabaseContent(item, lang, success.data);
           def.resolve(success.data);
@@ -795,17 +852,18 @@ angular.module('MYGEOSS.services', [])
             def.resolve(success.data);
           });
         });
+		*/
       }else{ // if entry already exist -> check with server date and update if needed.
         $http({method: 'HEAD',url: CONFIG.staticFileContentURL+lang+"/"+item+".html", timeout: 5000}).then(
           function(serverHeader){
-            console.error("serverHeader", serverHeader);
-            console.error("dbEntry.date", dbEntry.date);
-            console.error("lastmod", lastmod);
-
             var headers = serverHeader.headers();
             var lastmod = headers['last-modified'];
 
-            /*if (lastmod>dbEntry.date) {*/
+            //console.log("serverHeader", serverHeader);
+            //console.log("dbEntry.date", dbEntry.date);
+            //console.log("lastmod", lastmod);
+
+            if (lastmod>dbEntry.date) {
               $http.get(CONFIG.staticFileContentURL+lang+"/"+item+".html", {cache: true, timeout: 5000}).then(function(success){
             	//console.log("ITEM: " + item);
             	//console.log("LANG: " + lang);
@@ -813,15 +871,15 @@ angular.module('MYGEOSS.services', [])
                 obj.updateDatabaseContent(item, lang, success.data);
                 def.resolve(success.data);
               }, function(error){
-                console.error('error ONFIG.staticFileContentURL+lang+"/"+item+".html"', error);
+                console.error("Error " + CONFIG.staticFileContentURL+lang+"/"+item+".html", error);
                 // $http.get("./data/static/"+lang+"/"+item+".html", {cache: true, timeout: 5000}).then(function(success){
                 //   def.resolve(success.data);
                 // });
                 def.resolve(dbEntry.html);
               });
-            /*}else{
+            }else{
               def.resolve(dbEntry.html);
-            }*/
+            }
           }, function(error){
             // $http.get("./data/static/"+lang+"/"+item+".html", {cache: true, timeout: 5000}).then(function(success){
             //   def.resolve(success.data);
@@ -870,9 +928,6 @@ angular.module('MYGEOSS.services', [])
 					//alert(error.code);
 					//alert(error.message);
 					$("#coord-icon").show();
-					//if ($localstorage.get('language') == "en") alert("No GPS signal detected. The application will use the default coordinates set to longitude: 9.254419, latitude: 50.102223");
-					//if ($localstorage.get('language') == "it") alert("Nessun segnale GPS rilevato. L'applicazione utilizzerà le coordinate di default impostate con longitudine 9.254419 e latitudine 50.102223");
-					//if ($localstorage.get('language') == "de") alert("Kein GPS-Signal erkannt. Die Anwendung verwendet die Standard-Koordinaten auf Länge 9.254419 und Breite: 50.102223 gesetzt");
 				}
 			);
 		});
@@ -960,7 +1015,7 @@ angular.module('MYGEOSS.services', [])
   obj.encryptData = function(jsonData){
     var encrypt = obj.getPublicKey();
     var encrypted = encrypt.encrypt(jsonData);
-    
+
     return encrypted;
   };
 
@@ -1054,6 +1109,18 @@ angular.module('MYGEOSS.services', [])
 
   obj.setUserEmailReport = function(userEmail){
     $localstorage.set('userEmailReport', userEmail);
+  };
+
+  /* User's provider used to login */
+  obj.getUserProviderLogin = function(){
+    if ($localstorage.get('userProviderLogin') === undefined || $localstorage.get('userProviderLogin') === 'undefined'){
+      obj.setUserProviderLogin('');
+    }
+    return $localstorage.get('userProviderLogin');
+  };
+
+  obj.setUserProviderLogin = function(userProviderLogin){
+    $localstorage.set('userProviderLogin', userProviderLogin);
   };
 
   /* GetNonce
@@ -1209,7 +1276,7 @@ angular.module('MYGEOSS.services', [])
 
     obj.getNonce().then(
       function(success){
-        var postData = {       
+        var postData = {
           Email: email,
           AppSecret: appSecret,
           GotNonce: success.NonceNumber,
@@ -1250,7 +1317,7 @@ angular.module('MYGEOSS.services', [])
 
     obj.getNonce().then(
       function(success){
-        var postData = {       
+        var postData = {
           Email: email,
           AppSecret: appSecret,
           GotNonce: success.NonceNumber
@@ -1285,7 +1352,7 @@ angular.module('MYGEOSS.services', [])
       }
     };
 
-    var postData = {       
+    var postData = {
       Email: email,
       AppSecret: appSecret,
       NewPassword: newPassword,
@@ -1304,7 +1371,7 @@ angular.module('MYGEOSS.services', [])
         def.reject(error);
       }
     );
-      
+
     return def.promise;
   };
 
@@ -1358,7 +1425,7 @@ angular.module('MYGEOSS.services', [])
   var obj = {};
 
   // obj.availableLanguageKey = ["bg","es","cs","da","de","et","el","fr","ga","hr","it","lv","lt","hu","mt","nl","pl","pt","ro","sk","sl","fi","sv","en"];
-  obj.availableLanguageKey = ["en", "de", "it", "es"];
+  obj.availableLanguageKey = ["en", "de", "it", "es","ro","el"];
 
   obj.get = function(){
     var def = $q.defer();
@@ -1395,4 +1462,3 @@ angular.module('MYGEOSS.services', [])
   return obj;
 }])
 ;
-

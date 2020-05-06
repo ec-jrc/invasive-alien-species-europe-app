@@ -131,8 +131,6 @@ angular.module('MYGEOSS.directives', [])
                   } else {
                 	  var sob_species = "-";
                   }
-                  console.log("SPECIE ID from REST: " + species_id);
-                  console.log("SPECIE ID from SOB: " + sob_species);
                   if (sob_species == species_id) {
                       if (sob.properties.Status === "Submitted"){
                     	    if ($scope.environment != "PROD") console.log("Found SUBMITTED");
@@ -146,8 +144,49 @@ angular.module('MYGEOSS.directives', [])
                             }).addTo($scope.map);
                           }else if (sob.properties.Status == "Validated" || sob.properties.Status == "Prevalidated" || sob.properties.Status == "Unclear"){
                         	if ($scope.environment != "PROD") console.log("Found VALIDATED, PREVALIDATED or UNCLEAR");
+
+                            var originalAbundanceLabel = sob.properties.Abundance;
+                            var correctedAbundanceLabel = originalAbundanceLabel;
+                            // Correct Abundance (individuals) label in the current language
+                            if (originalAbundanceLabel.indexOf("Numero di individui") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("Numero di individui", $filter('translate')('number_individuals')); // IT
+                            if (originalAbundanceLabel.indexOf("Anzahl an Individuen") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("Anzahl an Individuen", $filter('translate')('number_individuals')); // DE
+                            if (originalAbundanceLabel.indexOf("αριθμός ατόμων") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("αριθμός ατόμων", $filter('translate')('number_individuals')); // EL
+                            if (originalAbundanceLabel.indexOf("number of individuals") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("number of individuals", $filter('translate')('number_individuals')); // EN
+                            if (originalAbundanceLabel.indexOf("número de individuos") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("número de individuos", $filter('translate')('number_individuals')); // ES
+                            if (originalAbundanceLabel.indexOf("număr de indivizi") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("număr de indivizi", $filter('translate')('number_individuals')); // RO
+                            // Correct Abundance (coverage) label in the current language
+                            if (originalAbundanceLabel.indexOf("copertura in m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("copertura in m²", $filter('translate')('coverage')); // IT
+                            if (originalAbundanceLabel.indexOf("Abdeckung in m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("Abdeckung in m²", $filter('translate')('coverage')); // DE
+                            if (originalAbundanceLabel.indexOf("κάλυψη σε m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("κάλυψη σε m²", $filter('translate')('coverage')); // EL
+                            if (originalAbundanceLabel.indexOf("coverage in m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("coverage in m²", $filter('translate')('coverage')); // EN
+                            if (originalAbundanceLabel.indexOf("cobertura en m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("cobertura en m²", $filter('translate')('coverage')); // ES
+                            if (originalAbundanceLabel.indexOf("acoperire în m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("acoperire în m²", $filter('translate')('coverage')); // RO
+                            if (originalAbundanceLabel.indexOf("copertura in km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("copertura in km²", $filter('translate')('coverage')); // IT
+                            if (originalAbundanceLabel.indexOf("Abdeckung in km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("Abdeckung in km²", $filter('translate')('coverage')); // DE
+                            if (originalAbundanceLabel.indexOf("κάλυψη σε km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("κάλυψη σε km²", $filter('translate')('coverage')); // EL
+                            if (originalAbundanceLabel.indexOf("coverage in km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("coverage in km²", $filter('translate')('coverage')); // EN
+                            if (originalAbundanceLabel.indexOf("cobertura en km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("cobertura en km²", $filter('translate')('coverage')); // ES
+                            if (originalAbundanceLabel.indexOf("acoperire în km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("acoperire în km²", $filter('translate')('coverage')); // RO
+
+                            var originalPrecisionLabel = sob.properties.Precision;
+                            var correctedPrecisionLabel = originalPrecisionLabel;
+                            // Correct Precision (measured) label in the current language
+                            if (originalPrecisionLabel.indexOf("Misurata") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Misurata", $filter('translate')('measured')); // IT
+                            if (originalPrecisionLabel.indexOf("gemessen") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("gemessen", $filter('translate')('measured')); // DE
+                            if (originalPrecisionLabel.indexOf("Μετρημένη") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Μετρημένη", $filter('translate')('measured')); // EL
+                            if (originalPrecisionLabel.indexOf("Measured") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Measured", $filter('translate')('measured')); // EN
+                            if (originalPrecisionLabel.indexOf("Medido") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Medido", $filter('translate')('measured')); // ES
+                            if (originalPrecisionLabel.indexOf("Măsurat") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Măsurat", $filter('translate')('measured')); // RO
+                            // Correct Precision (measured) label in the current language
+                            if (originalPrecisionLabel.indexOf("Estimat") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimat", $filter('translate')('estimated')); // RO
+                            if (originalPrecisionLabel.indexOf("Stimata") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Stimata", $filter('translate')('estimated')); // IT
+                            if (originalPrecisionLabel.indexOf("geschätzt") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("geschätzt", $filter('translate')('estimated')); // DE
+                            if (originalPrecisionLabel.indexOf("Εκτιμώμενη") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Εκτιμώμενη", $filter('translate')('estimated')); // EL
+                            if (originalPrecisionLabel.indexOf("Estimated") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimated", $filter('translate')('estimated')); // EN
+                            if (originalPrecisionLabel.indexOf("Estimado") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimado", $filter('translate')('estimated')); // ES
+
                             L.geoJson(sob).addTo($scope.map).bindPopup(
-                               sob.properties.Abundance +  " (" + sob.properties.Precision +" )" +
+                              correctedAbundanceLabel +  " (" + correctedPrecisionLabel +")" +
                               "<br/><b>"+$filter('translate')('Date')+" : </b>" + $filter('limitTo')(sob.createdAt, 10, 0) + " " + $filter('limitTo')(sob.createdAt, 7, 12) +
                               "<br/><b>"+$filter('translate')('Status')+" : </b>" + sob.properties.Status +
                               "<br/><b>ID : </b>" + sob._id +
@@ -214,9 +253,11 @@ angular.module('MYGEOSS.directives', [])
       
       $scope.saveDraftButton = false;
       $scope.sendDataButton = false;
+  	  $scope.coordinates = {latitude: "", longitude: ""};
+
+
       
       //window.onscroll = function() { alert("Scroll") };
-
 
       /*if($stateParams.id > 0){ //if it's a saved draft
         //alert('ok parameter');
@@ -227,7 +268,6 @@ angular.module('MYGEOSS.directives', [])
       }*/
       $easinFactoryLocal.getObservationByID($stateParams.id).then(
         function(savedReport){ //if there is a saved draft in the DB
-
           //coordinates
           if(angular.fromJson(savedReport.coordinates).length < 2){
             $geolocationFactory.get().then(
@@ -259,49 +299,57 @@ angular.module('MYGEOSS.directives', [])
           $scope.abundance = angular.fromJson(savedReport.abundance);
           $scope.habitat = savedReport.habitat;
           $scope.comment = savedReport.comment;
-          
+          $scope.reportStatus = savedReport.status;
+          $scope.main.titleReportDetails = $filter('translate')("REPORT_SIGHTING_TITLE");
+          if ($scope.reportStatus == "pending") $scope.main.titleReportDetails = $filter('translate')("outgoing_records");
+
           //specie
           $scope.specie = angular.fromJson(savedReport.specie);
           if($scope.specie.common_name === undefined || $scope.specie.common_name === 'undefined' || $scope.specie.common_name === ""){
             $scope.displaySelectSpecie = $filter('translate')("select_specie");
           }else{
             $scope.displaySelectSpecie = $scope.specie.common_name;
+            $scope.currSpecie = {};
+            $scope.currSpecie.specie = {};
+            $scope.currSpecie.specie.photos = [];
+            $scope.currSpecie.specie.photos.push({ src : $scope.specie.photos[0].src });
+            $scope.currSpecie.specie.real_path = cordova.file.dataDirectory;
           }
 
           //TODO MANAGE IMAGES
+          var def = $q.defer();
           $scope.images = [];
           var imageIterateur = 0;
           var savedImages = angular.fromJson(savedReport.images);
+          if ($scope.environment != "PROD") console.log(savedImages);
+          
           if (savedImages.length > 0){
-            $scope.images = savedImages;
-          }
-          // if (savedImages.length > 0){
-          //   var arrayPromiseImages = [];
-          //   while(imageIterateur < savedImages.length){
-          //     arrayPromiseImages.push($photoFactory.readAsDataURL(savedImages[imageIterateur].path, savedImages[imageIterateur].file));
-          //     imageIterateur++;
-          //   }
-          //   $q.all(arrayPromiseImages).then(
-          //     function(success){
-          //       imageIterateur = 0;
-          //       while(imageIterateur < success.length){
-          //         $scope.images.push({
-          //             file: savedImages[imageIterateur].file,
-          //             path: savedImages[imageIterateur].path,
-          //             base64: success[imageIterateur]
-          //         });
-          //         //savedImages[imageIterateur].base64 = success[imageIterateur];
-          //         imageIterateur++;
-          //       }
-
-          //     },
-          //     function(err){
-
-          //     }
-          //   );
-          // }else{
-
-          // }
+             var arrayPromiseImages = [];
+             while(imageIterateur < savedImages.length){
+                arrayPromiseImages.push($photoFactory.readAsDataURL(cordova.file.dataDirectory, savedImages[imageIterateur].file));
+               imageIterateur++;
+             }
+             $q.all(arrayPromiseImages).then(
+               function(success){
+                 imageIterateur = 0;
+                 while(imageIterateur < success.length){
+                   $scope.images.push({
+                       file: savedImages[imageIterateur].file,
+                       path: savedImages[imageIterateur].path,
+                       content: success[imageIterateur]
+                   });
+                   imageIterateur++;
+                 }
+                 def.resolve("Base64 Added to Images");
+               },
+               function(err){
+                  console.log(err);
+                  def.resolve(err);
+               }
+             );
+           }else{
+                console.log("No images");
+           } // Limite parte aggiunta
         },
         function(error){ //If it's a new draft
 
@@ -340,7 +388,7 @@ angular.module('MYGEOSS.directives', [])
        ** --------------
        */
 
-      $speciesFactory.getAll($scope.sitealert.id, $scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
+      $speciesFactory.getAll($scope.sitealert, $scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
         $scope.species = success.species;
         var common_name = "--- " + $filter('translate')("other_species") + " ---";
         var dummySpecies = {"LSID":"urn:lsid:alien.jrc.ec.europa.eu:species:R00000:0.0","scientific_name":"~other_species~","common_name": common_name,"type":"-","family":"-","report":[],"distribution":[],"photos":[{"src":"empty.jpg","no":1,"author":""}],"further_information":["",""],"invasion":["","","",""],"behavior":["-, -, -, -, -","","",""],"area_filter":["-"],"habitat_filter":["-"],"habitat":["-","-"],"confusion":["-","-"],"appearance":["-","-","-"]};
@@ -352,6 +400,7 @@ angular.module('MYGEOSS.directives', [])
 
       $scope.changeSpecie = function(specie){
         $scope.specie = specie;
+        if ($scope.environment != "PROD") console.log(specie);
         $scope.currSpecie.specie = specie;
         $scope.displaySelectSpecie = $scope.specie.common_name;
       };
@@ -484,24 +533,48 @@ angular.module('MYGEOSS.directives', [])
 
       $scope.openModalReportSightingMap2();
 
-      function inside(point, vs) {
-  	    // ray-casting algorithm based on
-  	    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-
-  	    var x = point[0], y = point[1];
-
-  	    var inside = false;
-  	    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-  	        var xi = vs[i][0], yi = vs[i][1];
-  	        var xj = vs[j][0], yj = vs[j][1];
-
-  	        var intersect = ((yi > y) != (yj > y))
-  	            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-  	        if (intersect) inside = !inside;
-  	    }
-
-  	    return inside;
-      };
+	  function insideMulti(point, vs) {
+		    // ray-casting algorithm based on
+		    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+	
+		    var x = point[0], y = point[1];
+	
+		    var inside = false;
+		    var listPoly = vs;
+		    for (var k = 0; k < listPoly.length; k++) {
+		    	var currPoly = listPoly[k];
+		    	currPoly = currPoly[0];
+			    for (var i = 0, j = currPoly.length - 1; i < currPoly.length; j = i++) {
+			        var xi = currPoly[i][0], yi = currPoly[i][1];
+			        var xj = currPoly[j][0], yj = currPoly[j][1];
+		
+			        var intersect = ((yi > y) != (yj > y))
+			            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+			        if (intersect) inside = true;
+			    }
+		    }
+	
+		    return inside;
+	  };
+		
+	  function insideSingle(point, vs) {
+		    // ray-casting algorithm based on
+		    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+	
+		    var x = point[0], y = point[1];
+	
+		    var inside = false;
+		    var currPoly=vs[0];
+		    for (var i = 0, j = currPoly.length - 1; i < currPoly.length; j = i++) {
+		        var xi = currPoly[i][0], yi = currPoly[i][1];
+		        var xj = currPoly[j][0], yj = currPoly[j][1];
+		
+		        var intersect = ((yi > y) != (yj > y))
+		            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+		        if (intersect) inside = !inside;
+		    }
+		    return inside;
+	  };
 
       $scope.refreshUserMarker = function() {
           if ($scope.mapClicked === false) {
@@ -509,15 +582,20 @@ angular.module('MYGEOSS.directives', [])
         	  $scope.map.container.removeLayer($scope.initialMarker);
               $scope.initialMarker = new L.marker([$scope.main.lat, $scope.main.lng], {clickable: true}).addTo($scope.map.container);
               if ($scope.environment != "PROD") console.log("Marker spostato");
-    	      	$timeout(function() { 
-    	  			$scope.refreshUserMarker();
-    	  		}, 10000);
+        	  var currPageTemplate = window.location.href; 
+              if (currPageTemplate.indexOf("reportSighting") !== -1) {
+	    	      $timeout(function() { 
+	    	    	  $scope.refreshUserMarker();
+	    	  	  }, 2500);
+              }
           } else {
         	  if ($scope.environment != "PROD") console.log("Marker spostato manualmente. Interrompo aggiornamento da GPS.");
           }
       }
 
       $scope.openModalReportSightingMap = function(){
+    	if ($scope.environment != "PROD") console.log("Provengo da Draft: " + $scope.getFromDraft);
+    	if ($scope.getFromDraft == true) $scope.mapClicked = true;
         var numberMarker = 0;
         var addedMarker;
         if (($scope.coordinates.longitude == "") && ($scope.coordinates.latitude == "")) {
@@ -549,7 +627,7 @@ angular.module('MYGEOSS.directives', [])
               }
               var sites = $scope.sites;
               // Reset species list without local spieces
-              $speciesFactory.getAll("", $scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
+              $speciesFactory.getAll([], $scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
                   $scope.species = success.species;
                   var common_name = "--- " + $filter('translate')("other_species") + " ---";
                   var dummySpecies = {"LSID":"urn:lsid:alien.jrc.ec.europa.eu:species:R00000:0.0","scientific_name":"~other_species~","common_name": common_name,"type":"-","family":"-","report":[],"distribution":[],"photos":[{"src":"empty.jpg","no":1,"author":""}],"further_information":["",""],"invasion":["","","",""],"behavior":["-, -, -, -, -","","",""],"area_filter":["-"],"habitat_filter":["-"],"habitat":["-","-"],"confusion":["-","-"],"appearance":["-","-","-"]};
@@ -558,23 +636,34 @@ angular.module('MYGEOSS.directives', [])
               	  	  $scope.species[key].real_path = $scope.realPath;
               	  });
               });
+			  var polygon_array = [];
               angular.forEach(sites, function(value, key) {
-            	  var polygon_geometry = value.coordinates[0];
+            	  var polygon_geometry = value.coordinates;
             	  var polygon_name = value.SITENAME;
             	  var polygon_code = value.SITECODE;
-            	  var im_inside = inside([ e.latlng.lng, e.latlng.lat ], polygon_geometry);
-                  if ( im_inside ){
-                	  if ($scope.environment != "PROD") console.log("SITE: " + polygon_name);
-                	  if ($scope.environment != "PROD") console.log("Inside: " + im_inside);
-                      $speciesFactory.getAll(polygon_code, $scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
-                          $scope.species = success.species;
-                          var common_name = "--- " + $filter('translate')("other_species") + " ---";
-                          var dummySpecies = {"LSID":"urn:lsid:alien.jrc.ec.europa.eu:species:R00000:0.0","scientific_name":"~other_species~","common_name": common_name,"type":"-","family":"-","report":[],"distribution":[],"photos":[{"src":"empty.jpg","no":1,"author":""}],"further_information":["",""],"invasion":["","","",""],"behavior":["-, -, -, -, -","","",""],"area_filter":["-"],"habitat_filter":["-"],"habitat":["-","-"],"confusion":["-","-"],"appearance":["-","-","-"]};
-                          $scope.species.push(dummySpecies);
-	                  	  angular.forEach($scope.species, function(value, key){
-	                  	  	  $scope.species[key].real_path = $scope.realPath;
-	                  	  });
-                      });
+        	  	  var polygon_type = value.TYPE;
+        	      var polygon_active = value.ACTIVE;
+				  var im_inside;
+			  	  if (polygon_active == "YES"){
+	        	  	  if (polygon_type == "SINGLE") { im_inside = insideSingle([ e.latlng.lng, e.latlng.lat ], polygon_geometry); }
+	        	      if (polygon_type == "MULTI") { im_inside = insideMulti([ e.latlng.lng, e.latlng.lat ], polygon_geometry); }
+                      if ($scope.environment != "PROD") console.log(im_inside);
+	                  if ( im_inside ){
+                          if ($scope.environment != "PROD") console.log("SITE: " + polygon_name);
+                          if ($scope.environment != "PROD") console.log("Inside: " + im_inside);
+                          var polygon_element = {};
+                          polygon_element.id = polygon_code;
+                          polygon_array.push(polygon_element);
+                          $speciesFactory.getAll(polygon_array, $scope.realPath, $scope.selectedLanguage.language.idL).then(function(success){
+                              $scope.species = success.species;
+                              var common_name = "--- " + $filter('translate')("other_species") + " ---";
+                              var dummySpecies = {"LSID":"urn:lsid:alien.jrc.ec.europa.eu:species:R00000:0.0","scientific_name":"~other_species~","common_name": common_name,"type":"-","family":"-","report":[],"distribution":[],"photos":[{"src":"empty.jpg","no":1,"author":""}],"further_information":["",""],"invasion":["","","",""],"behavior":["-, -, -, -, -","","",""],"area_filter":["-"],"habitat_filter":["-"],"habitat":["-","-"],"confusion":["-","-"],"appearance":["-","-","-"]};
+                              $scope.species.push(dummySpecies);
+                              angular.forEach($scope.species, function(value, key){
+                                  $scope.species[key].real_path = $scope.realPath;
+                              });
+                          });
+                     }
                   }
               });
             }); 
@@ -610,11 +699,94 @@ angular.module('MYGEOSS.directives', [])
         );
       };
 
+      /**
+       * Convert a base64 string in a Blob according to the data and contentType.
+       *
+       * @param b64Data
+       *            {String} Pure base64 string without contentType
+       * @param contentType
+       *            {String} the content type of the file i.e (image/jpeg -
+       *            image/png - text/plain)
+       * @param sliceSize
+       *            {Int} SliceSize to process the byteCharacters
+       * @see http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+       * @return Blob
+       */
+      function b64toBlob(b64Data, contentType, sliceSize) {
+              contentType = contentType || '';
+              sliceSize = sliceSize || 512;
+
+              var byteCharacters = atob(b64Data);
+              var byteArrays = [];
+
+              for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                  var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+                  var byteNumbers = new Array(slice.length);
+                  for (var i = 0; i < slice.length; i++) {
+                      byteNumbers[i] = slice.charCodeAt(i);
+                  }
+
+                  var byteArray = new Uint8Array(byteNumbers);
+
+                  byteArrays.push(byteArray);
+              }
+
+            var blob = new Blob(byteArrays, {type: contentType});
+            return blob;
+      }
+
       /*
       ** Pictures
       ** ------------
       */
-      $scope.camera = function(){
+      /**
+       * Create a Image file according to its database64 content only.
+       *
+       * @param folderpath
+       *            {String} The folder where the file will be created
+       * @param filename
+       *            {String} The name of the file that will be created
+       * @param content
+       *            {Base64 String} Important : The content can't contain the
+       *            following string (data:image/png[or any other
+       *            format];base64,). Only the base64 string is expected.
+       */
+      function savebase64AsImageFile(folderpath,filename,content,contentType){
+          // Convert the base64 string in a Blob
+          var DataBlob = b64toBlob(content,contentType);
+
+          window.resolveLocalFileSystemURL(folderpath, function(dir) {
+              dir.getFile(filename, {create:true}, function(file) {
+                  file.createWriter(function(fileWriter) {
+                      fileWriter.write(DataBlob);
+                      if ($scope.environment != "PROD") console.log("Temporary image created: '" + filename + "'");
+                  }, function(){
+                      $scope.downloadError = true;
+                      if ($scope.environment != "PROD") console.log("Error creating temporary image: '" + filename + "'");
+                  });
+              });
+          });
+      }
+                    
+    function randomString(len,arr) {
+        var ans = "";
+        for (var i=len; i>0; i--) {
+            ans+=
+            arr[Math.floor(Math.random() * arr.length)];
+        }
+        return ans;
+    }
+
+    function executePause(ms){
+        var start = new Date().getTime();
+        var end = start;
+        while(end < start + ms) {
+            end = new Date().getTime();
+        }
+    }
+
+    $scope.camera = function(){
         $ionicLoading.show({
           template: "<ion-spinner icon='bubbles'></ion-spinner>",
           delay: 0
@@ -622,6 +794,12 @@ angular.module('MYGEOSS.directives', [])
         ionic.Platform.ready(function() {
 	        $photoFactory.photoCamera().then(
 	          function(imgUri){
+                var temp_filename = "temp_" + randomString(15, "1234567890abcdefghilmnopqrstuvzwyjkx") + ".jpg";
+                var imageData = {path: cordova.file.dataDirectory, file: temp_filename, content: "data:image/jpeg;base64," + imgUri};
+                $scope.images.push(imageData);
+                savebase64AsImageFile(imageData.path, imageData.file, imgUri, "image/jpeg");
+                $ionicLoading.hide();
+                /*
 	            window.resolveLocalFileSystemURL(imgUri, function(fileEntry) {
 	            	if ($scope.environment != "PROD") console.log("got file: " + fileEntry.fullPath);
 	
@@ -647,7 +825,7 @@ angular.module('MYGEOSS.directives', [])
 	              // on some emulators), copy to a new FileEntry.
 	              if ($scope.environment != "PROD") console.error('resolveLocalFileSystemURL');
 	            });
-	
+                */
 	          },
 	          function(error){ 
 	            $ionicLoading.hide();
@@ -657,11 +835,17 @@ angular.module('MYGEOSS.directives', [])
         });
       };
 
-      $scope.library = function(){
+
+    $scope.library = function(){
         ionic.Platform.ready(function() {
             $photoFactory.photoLibrary().then(
             		function(imgUri) {
-
+                        var temp_filename = "temp_" + randomString(15, "1234567890abcdefghilmnopqrstuvzwyjkx") + ".jpg";
+                        var imageData = {path: cordova.file.dataDirectory, file: temp_filename, content: "data:image/jpeg;base64," + imgUri};
+                        $scope.images.push(imageData);
+                        savebase64AsImageFile(imageData.path, imageData.file, imgUri, "image/jpeg");
+                        $ionicLoading.hide();
+            /*
             window.imagePicker.getPictures(
               function(results) {
                   for (var i = 0; i < results.length; i++) {
@@ -703,7 +887,7 @@ angular.module('MYGEOSS.directives', [])
                   quality: 75
 
               }
-          );
+          ); */
             		});
         });
       }
@@ -840,7 +1024,7 @@ angular.module('MYGEOSS.directives', [])
             //todo : verify coordinates order
             if ($cordovaNetwork.isOnline() === true){ //if online send data
               $scope.sendDataButton = true; 
-              $easinFactory.sendObservation($scope.specie.LSID, $rootScope.UUID, $scope.date, $scope.abundance.number+" "+$scope.abundance.scale, $scope.abundance.precision, "Habitat : "+$scope.habitat+". Comment : "+$scope.comment, $scope.images, 'false',  [$scope.coordinates.longitude, $scope.coordinates.latitude], "Point").then(
+              $easinFactory.sendObservation($scope.specie.LSID, $rootScope.UUID, $scope.date, $scope.abundance.number+" "+$scope.abundance.scale, $scope.abundance.precision, "Habitat : "+$scope.habitat+". Comment : "+$scope.comment, $scope.images, 'false',  [$scope.coordinates.longitude, $scope.coordinates.latitude], "Point", null).then(
                 function(success){
                   if($stateParams.id > 0){ //if it was a saved draft, delete it from the DB
                     $easinFactoryLocal.deleteObservation($stateParams.id);
@@ -932,8 +1116,9 @@ angular.module('MYGEOSS.directives', [])
           }else{
             var images = [];
             angular.forEach($scope.images, function(image, key){
-              obj = { 
-                path: image.path,
+              //image.path
+              obj = {
+                path: $scope.realPath,
                 file: image.file
               }
               images.push(obj);
@@ -957,14 +1142,22 @@ angular.module('MYGEOSS.directives', [])
               $scope.abundance.precision = "";
           }
           
-          if ($scope.coordinates.longitude=== undefined || $scope.coordinates.longitude === 'undefined' || $scope.coordinates.longitude === ""){
-              status = 'incomplete';
-              $scope.coordinates.longitude = "";
-          }
-          if ($scope.coordinates.latitude=== undefined || $scope.coordinates.latitude === 'undefined' || $scope.coordinates.latitude === ""){
-              status = 'incomplete';
-              $scope.coordinates.latitude = "";
-          }
+	      if (typeof $scope.coordinates.longitude !== "undefined") {
+	          if ($scope.coordinates.longitude=== undefined || $scope.coordinates.longitude === 'undefined' || $scope.coordinates.longitude === ""){
+	              status = 'incomplete';
+	              $scope.coordinates.longitude = "";
+	          }
+		  } else {
+	         $scope.coordinates.longitude = "";
+		  }
+	      if (typeof $scope.coordinates.latitude !== "undefined") {
+	          if ($scope.coordinates.latitude=== undefined || $scope.coordinates.latitude === 'undefined' || $scope.coordinates.latitude === ""){
+	              status = 'incomplete';
+	              $scope.coordinates.latitude = "";
+	          }
+		  } else {
+	          $scope.coordinates.latitude = "";
+		  }
           var coordinates = [$scope.coordinates.longitude, $scope.coordinates.latitude];
           var dateIsNumber = false;
           if (typeOf($scope.date) == "date") {
@@ -979,10 +1172,12 @@ angular.module('MYGEOSS.directives', [])
           if($stateParams.id > 0){ //If paramaeters, update
              $easinFactoryLocal.updateObservation(specie, images, coordinates, $scope.date, $scope.abundance, $scope.habitat, $scope.comment, status, $stateParams.id).then(
               function(success){
+                  var message = $filter('translate')('success_updating_draft');
+                  if (status == 'pending') message = $filter('translate')('outgoing_msg');
                   $ionicLoading.hide();
                   $ionicPopup.alert({
                      title: $filter('translate')('successForgotPassword_label'),
-                     template: $filter('translate')('success_updating_draft'),
+                     template: message,
                    }).then(function(success){
                       $ionicHistory.nextViewOptions({
                         historyRoot: true
@@ -1002,12 +1197,12 @@ angular.module('MYGEOSS.directives', [])
           }else{ //if not parameters, add new
             $easinFactoryLocal.saveObservation(specie, images, coordinates, $scope.date, $scope.abundance, $scope.habitat, $scope.comment, status).then(
               function(success){
+                  var message = $filter('translate')('success_updating_draft');
+                  if (status == 'pending') message = $filter('translate')('outgoing_msg');
                   $ionicLoading.hide();
-
-
                    $ionicPopup.alert({
                      title: $filter('translate')('successForgotPassword_label'),
-                     template: $filter('translate')('success_saving_draft'), 
+                     template: message,
                    }).then(function(success){
                       $ionicHistory.nextViewOptions({
                         historyRoot: true
@@ -1118,6 +1313,16 @@ angular.module('MYGEOSS.directives', [])
               
 
               $scope.map.setView(new L.LatLng(sob.geometry.coordinates[1], sob.geometry.coordinates[0]), 17);
+              if (sob.properties.Status === "Discarded"){
+                  L.geoJson(sob, {
+                      style: function(feature) {
+                        return {color: "#000000"};
+                      },
+                      pointToLayer: function(feature, latlng) {
+                        return new L.CircleMarker(latlng, {radius: 6, fillOpacity: 0.85});
+                      }
+                    }).addTo($scope.map);
+              }
               if (sob.properties.Status === "Submitted"){
             	if ($scope.environment != "PROD") console.log("Found SUBMITTED");
                   L.geoJson(sob, {
@@ -1130,8 +1335,49 @@ angular.module('MYGEOSS.directives', [])
                   }).addTo($scope.map);
                 }else if (sob.properties.Status == "Validated" || sob.properties.Status == "Prevalidated" || sob.properties.Status == "Unclear"){
                   if ($scope.environment != "PROD") console.log("Found VALIDATED, PREVALIDATED or UNCLEAR");
+
+                  var originalAbundanceLabel = sob.properties.Abundance;
+                  var correctedAbundanceLabel = originalAbundanceLabel;
+                  // Correct Abundance (individuals) label in the current language
+                  if (originalAbundanceLabel.indexOf("Numero di individui") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("Numero di individui", $filter('translate')('number_individuals')); // IT
+                  if (originalAbundanceLabel.indexOf("Anzahl an Individuen") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("Anzahl an Individuen", $filter('translate')('number_individuals')); // DE
+                  if (originalAbundanceLabel.indexOf("αριθμός ατόμων") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("αριθμός ατόμων", $filter('translate')('number_individuals')); // EL
+                  if (originalAbundanceLabel.indexOf("number of individuals") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("number of individuals", $filter('translate')('number_individuals')); // EN
+                  if (originalAbundanceLabel.indexOf("número de individuos") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("número de individuos", $filter('translate')('number_individuals')); // ES
+                  if (originalAbundanceLabel.indexOf("număr de indivizi") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("număr de indivizi", $filter('translate')('number_individuals')); // RO
+                  // Correct Abundance (coverage) label in the current language
+                  if (originalAbundanceLabel.indexOf("copertura in m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("copertura in m²", $filter('translate')('coverage')); // IT
+                  if (originalAbundanceLabel.indexOf("Abdeckung in m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("Abdeckung in m²", $filter('translate')('coverage')); // DE
+                  if (originalAbundanceLabel.indexOf("κάλυψη σε m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("κάλυψη σε m²", $filter('translate')('coverage')); // EL
+                  if (originalAbundanceLabel.indexOf("coverage in m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("coverage in m²", $filter('translate')('coverage')); // EN
+                  if (originalAbundanceLabel.indexOf("cobertura en m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("cobertura en m²", $filter('translate')('coverage')); // ES
+                  if (originalAbundanceLabel.indexOf("acoperire în m²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("acoperire în m²", $filter('translate')('coverage')); // RO
+                  if (originalAbundanceLabel.indexOf("copertura in km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("copertura in km²", $filter('translate')('coverage')); // IT
+                  if (originalAbundanceLabel.indexOf("Abdeckung in km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("Abdeckung in km²", $filter('translate')('coverage')); // DE
+                  if (originalAbundanceLabel.indexOf("κάλυψη σε km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("κάλυψη σε km²", $filter('translate')('coverage')); // EL
+                  if (originalAbundanceLabel.indexOf("coverage in km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("coverage in km²", $filter('translate')('coverage')); // EN
+                  if (originalAbundanceLabel.indexOf("cobertura en km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("cobertura en km²", $filter('translate')('coverage')); // ES
+                  if (originalAbundanceLabel.indexOf("acoperire în km²") > -1) correctedAbundanceLabel = originalAbundanceLabel.replace("acoperire în km²", $filter('translate')('coverage')); // RO
+
+                  var originalPrecisionLabel = sob.properties.Precision;
+                  var correctedPrecisionLabel = originalPrecisionLabel;
+                  // Correct Precision (measured) label in the current language
+                  if (originalPrecisionLabel.indexOf("Misurata") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Misurata", $filter('translate')('measured')); // IT
+                  if (originalPrecisionLabel.indexOf("gemessen") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("gemessen", $filter('translate')('measured')); // DE
+                  if (originalPrecisionLabel.indexOf("Μετρημένη") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Μετρημένη", $filter('translate')('measured')); // EL
+                  if (originalPrecisionLabel.indexOf("Measured") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Measured", $filter('translate')('measured')); // EN
+                  if (originalPrecisionLabel.indexOf("Medido") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Medido", $filter('translate')('measured')); // ES
+                  if (originalPrecisionLabel.indexOf("Măsurat") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Măsurat", $filter('translate')('measured')); // RO
+                  // Correct Precision (measured) label in the current language
+                  if (originalPrecisionLabel.indexOf("Estimat") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimat", $filter('translate')('estimated')); // RO
+                  if (originalPrecisionLabel.indexOf("Stimata") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Stimata", $filter('translate')('estimated')); // IT
+                  if (originalPrecisionLabel.indexOf("geschätzt") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("geschätzt", $filter('translate')('estimated')); // DE
+                  if (originalPrecisionLabel.indexOf("Εκτιμώμενη") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Εκτιμώμενη", $filter('translate')('estimated')); // EL
+                  if (originalPrecisionLabel.indexOf("Estimated") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimated", $filter('translate')('estimated')); // EN
+                  if (originalPrecisionLabel.indexOf("Estimado") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimado", $filter('translate')('estimated')); // ES
+
                   L.geoJson(sob).addTo($scope.map).bindPopup(
-                     sob.properties.Abundance +  " (" + sob.properties.Precision +" )" +
+                	correctedAbundanceLabel +  " (" + correctedPrecisionLabel +")" +
                     "<br/><b>"+$filter('translate')('Date')+" : </b>" + $filter('limitTo')(sob.createdAt, 10, 0) + " " + $filter('limitTo')(sob.createdAt, 7, 12) +
                     "<br/><b>"+$filter('translate')('Status')+" : </b>" + sob.properties.Status +
                     "<br/><b>ID : </b>" + sob._id +

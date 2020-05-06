@@ -3,20 +3,24 @@
         <!-- <ion-nav-back-button class="customBackButton"> -->
         <!-- </ion-nav-back-button> -->
         <ion-nav-buttons side="left">
-         	<a ui-sref="app.login"><img border="1" width="30px" height="30px" src="img/{{iconLogged}}"/></a>
-         	<img ng-if="sitealert.id != ''" border="1" width="30px" height="30px" src="img/local_icon.png"/>
+         	<a ng-if="isLogged" ui-sref="app.login"><img border="1" width="30px" height="30px" src="img/login_on.png"/></a>
+         	<a ng-if="isLogged == false" ui-sref="app.login"><img border="1" width="30px" height="30px" src="img/login_off.png"/></a>
+         	<img ng-if="sitealert.length > 0" border="1" width="30px" height="30px" src="img/local_icon.png"/>
          	<img ng-if="download == true" border="1" width="30px" height="30px" src="img/download.png"/>
          	<i ng-if="download == true && downloadPerc >= 1 && downloadPerc < 100">{{downloadPerc | number : 0}}%</i>
          	<i ng-if="download == true && downloadPerc < 1">SYNC</i>
          	<i ng-if="download == true && downloadPerc == 100">CHECK</i>
+         	<!-- 
          	<i ng-if="download == true && appDownloadPerc >= 1 && appDownloadPerc < 100">{{appDownloadPerc | number : 0}}%</i>
          	<i ng-if="download == true && appDownloadPerc < 1">SYNC</i>
          	<i ng-if="download == true && appDownloadPerc == 100">CHECK</i>
+         	-->
         </ion-nav-buttons>
          <ion-nav-title>
             {{'HOME_TITLE' | translate}}
         </ion-nav-title>
         <ion-nav-buttons side="right">
+         	<img ng-if="gps_enabled == false" border="1" width="30px" height="30px" src="img/gps_disabled.png"/>
          	<img ng-if="main.connected == false" border="1" width="30px" height="30px" src="img/offline.png"/>
          	<button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
             </button>

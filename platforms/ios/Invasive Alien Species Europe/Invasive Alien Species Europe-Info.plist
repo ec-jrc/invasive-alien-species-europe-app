@@ -3,101 +3,73 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>en_US</string>
 	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>Invasive Alien Species Europe</string>
 	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIcons</key>
-	<dict/>
-	<key>CFBundleIcons~ipad</key>
-	<dict/>
+	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>eu.europa.publications.mygeossias</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>de</string>
-		<string>en</string>
-		<string>es</string>
-		<string>it</string>
-		<string>ro</string>
-	</array>
 	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3.0</string>
+	<string>3.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.3.0</string>
+	<string>3.0.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>ec.europa.eu</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSTemporaryExceptionMinimumTLSVersion</key>
-				<string>1.2</string>
-				<key>NSTemporaryExceptionRequiresForwardSecrecy</key>
-				<false/>
-			</dict>
-			<key>jrc.it</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSTemporaryExceptionMinimumTLSVersion</key>
-				<string>1.2</string>
-				<key>NSTemporaryExceptionRequiresForwardSecrecy</key>
-				<false/>
-			</dict>
-		</dict>
-	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>The application uses the camera to take picture for the observation</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Your current location will be displayed on the map and used for nearby search result and to geolocalize user's observations.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your current location will be displayed on the map and used for nearby search result and to geolocalize user's observations.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The application use your position to display the observations near your location</string>
 	<key>NSMainNibFile</key>
-	<string></string>
+	<string/>
 	<key>NSMainNibFile~ipad</key>
-	<string></string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app requires photo library access to select images for every observation sent by the user.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>The application needs to access your library to send picture in your observation.</string>
-	<key>UIInterfaceOrientation</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
+	<string/>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>ECASMobileSDK</key>
+	<dict>
+		<key>ECASBaseURL</key>
+		<string>https://ecas.ec.europa.eu</string>
+		<key>requestFullUserDetails</key>
+		<string>true</string>
+		<key>requestDesktopGrantingTicket</key>
+		<string>true</string>
+		<key>AssuranceLevel</key>
+		<string>LOW</string>
+		<key>GroupFilters</key>
+		<string>*</string>
+		<key>ServiceURL</key>
+		<string>https://localhost/android/mygeoss2</string>
+	</dict>
+	<key>UILaunchStoryboardName</key>
+	<string>CDVLaunchScreen</string>
 </dict>
 </plist>

@@ -10127,9 +10127,12 @@ ion-header-bar .title {
     /*checked*/ }
     #specieList div.subFilters div.row {
       padding-top: 0;
-      padding-bottom: 0; }
+      padding-bottom: 0;
+	  height: 50px;
+	  margin-top:-6px; }
       #specieList div.subFilters div.row div.col {
-        margin: 0; }
+        margin: 0; 
+		padding: 2px; }
     #specieList div.subFilters button#anyAnimal {
       background: url(../img/filter_animal.svg) left center no-repeat;
       width: 50px;
@@ -10154,40 +10157,52 @@ ion-header-bar .title {
       vertical-align: middle;
       margin-left: -50px;
       padding-left: 50px;
-      height: 50px;
+      height: 40px;
       width: 135px; }
       #specieList div.subFilters input[type="checkbox"] + label span {
         visibility: hidden; }
     #specieList div.subFilters input[type="checkbox"] + label {
       padding-left: 50px; }
     #specieList div.subFilters input[type="checkbox"]#anyAnimal + label {
-      background: url(../img/filter_animal.svg) left center no-repeat; }
+      background: url(../img/filter_animal.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#amphibians + label {
-      background: url(../img/filter_Amphibia.svg) left center no-repeat; }
+      background: url(../img/filter_Amphibia.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#birds + label {
-      background: url(../img/filter_Aves.svg) left center no-repeat; }
+      background: url(../img/filter_Aves.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#invertebrates + label {
-      background: url(../img/filter_Arthropoda.svg) left center no-repeat; }
+      background: url(../img/filter_Arthropoda.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#fish + label {
-      background: url(../img/filter_Actinopterygii.svg) left center no-repeat; }
+      background: url(../img/filter_Actinopterygii.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#mammals + label {
-      background: url(../img/filter_Mammalia.svg) left center no-repeat; }
+      background: url(../img/filter_Mammalia.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#reptiles + label {
-      background: url(../img/filter_Reptila.svg) left center no-repeat; }
+      background: url(../img/filter_Reptila.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#mollusks + label {
+      background: url(../img/filter_Mollusks.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#polychaetes + label {
+      background: url(../img/filter_Polychaetes.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#tunicates + label {
+      background: url(../img/filter_Tunicates.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#anyAnimal:checked + label {
-      background: url(../img/filter_animal-active.svg) left center no-repeat; }
+      background: url(../img/filter_animal-active.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#amphibians:checked + label {
-      background: url(../img/filter_Amphibia-active.svg) left center no-repeat; }
+      background: url(../img/filter_Amphibia-active.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#birds:checked + label {
-      background: url(../img/filter_Aves-active.svg) left center no-repeat; }
+      background: url(../img/filter_Aves-active.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#invertebrates:checked + label {
-      background: url(../img/filter_Arthropoda-active.svg) left center no-repeat; }
+      background: url(../img/filter_Arthropoda-active.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#fish:checked + label {
-      background: url(../img/filter_Actinopterygii-active.svg) left center no-repeat; }
+      background: url(../img/filter_Actinopterygii-active.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#mammals:checked + label {
-      background: url(../img/filter_Mammalia-active.svg) left center no-repeat; }
+      background: url(../img/filter_Mammalia-active.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#reptiles:checked + label {
-      background: url(../img/filter_Reptila-active.svg) left center no-repeat; }
+      background: url(../img/filter_Reptila-active.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#mollusks:checked + label {
+      background: url(../img/filter_Mollusks-active.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#polychaetes:checked + label {
+      background: url(../img/filter_Polychaetes-active.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#tunicates:checked + label {
+      background: url(../img/filter_Tunicates-active.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters .closeSubFilter {
       text-align: right;
       font-size: 1.2rem;
@@ -10204,7 +10219,7 @@ ion-header-bar .title {
     margin-top: 130px;
     background-color: #cde1d2; }
     #specieList ion-content.marginTop {
-      margin-top: 380px; }
+      margin-top: 320px; } /* 420px with Crete species */
     #specieList ion-content div.row {
       width: 100%;
       height: 100px;
@@ -10499,17 +10514,18 @@ specie-report-sighting {
       color: #e22727; }
     specie-report-sighting #specie_report_sighting .row:nth-child(even) {
       background-color: #c6df8a; }
-    specie-report-sighting #specie_report_sighting .speciePcitures .no-picture {
+    specie-report-sighting #specie_report_sighting .speciePictures .no-picture {
       color: #000000; }
-      specie-report-sighting #specie_report_sighting .speciePcitures .no-picture p {
+      specie-report-sighting #specie_report_sighting .speciePictures .no-picture p {
         padding-top: 3px; }
-      specie-report-sighting #specie_report_sighting .speciePcitures .no-picture img {
+      specie-report-sighting #specie_report_sighting .speciePictures .no-picture img {
         width: 1em; }
-      specie-report-sighting #specie_report_sighting .speciePcitures .no-picture.error {
+      specie-report-sighting #specie_report_sighting .speciePictures .no-picture.error {
         color: red; }
-    specie-report-sighting #specie_report_sighting .speciePcitures img.sob_thumbnail {
-      height: 40px;
-      width: 40px;
+    specie-report-sighting #specie_report_sighting .speciePictures img.sob_thumbnail {
+      width: 30%;
+      height: auto;
+      max-height: 100px;
       margin-right: 5px; }
     specie-report-sighting #specie_report_sighting button.form-button {
       background-color: #FFFFFF;
@@ -10787,13 +10803,46 @@ specie-report-sighting {
         text-align: center;
         color: #918416; }
   #myRecords ion-content .serverRecords {
-    background-color: #ecf0b7; }
-    #myRecords ion-content .serverRecords .serverRecordsList {
-      padding: 15px 0px 0 10px; }
-      #myRecords ion-content .serverRecords .serverRecordsList li {
-        font-size: 1.2em;
-        width: 100%;
-        height: 52px; }
+    background-color: #f4f6d5; }
+    #myRecords ion-content .serverRecords div.row.serverRecordsList {
+      width: 100%;
+      background-color: #ecf0b7;
+      padding: 5px 0 0 5px;
+      margin: 0;
+      border-bottom: 4px solid #d8df69; }
+      #myRecords ion-content .serverRecords div.row.serverRecordsList .label p {
+        font-size: 1.3em;
+        margin-bottom: 0; }
+      #myRecords ion-content .serverRecords div.row.serverRecordsList .label span {
+        font-size: 0.8em;
+        font-style: italic; }
+      #myRecords ion-content .serverRecords div.row.serverRecordsList .action {
+        text-align: center;
+        color: #918416; }
+
+.listMyRecords {
+    display: block;
+}
+.listVisible {
+    display: none;
+}
+
+/**
+ * Logo Scrollable
+ * --------------------------------------------------
+ */
+.logoScrollable {
+	height:150px !important; height /**/: 150px;
+	padding: 4px;
+	border:0px solid #EEE; border-right:0 solid;
+	overflow:auto
+}
+.logoScrollableInfo {
+	height:250px !important; height /**/: 250px;
+	padding: 4px;
+	border:0px solid #EEE; border-right:0 solid;
+	overflow:auto
+}
 
 /**
  * Contact
@@ -10804,7 +10853,7 @@ specie-report-sighting {
   /* background-image: url(../img/background.png); */ }
   #contact ion-content {
     height: 100%;
-    font-size: 20px; }
+    font-size: 18px; }
     #contact ion-content div.contactText {
       height: 100%;
       padding: 0;
@@ -10827,9 +10876,9 @@ specie-report-sighting {
   /* background-image: url(../img/background.png); */ }
   #about ion-content {
     height: 100%;
-    font-size: 20px; }
+    font-size: 18px; }
     #about ion-content div.aboutText {
-      height: 100%;
+      max-height: 100%;
       line-height: 1;
       padding-left: 0;
       padding-right: 0; }
@@ -10840,7 +10889,7 @@ specie-report-sighting {
         color: #ffffff; }
         #about ion-content div.aboutText .col .linkLike {
           font-style: italic;
-          color: #ffffff; }
+          color: #d4aaaa; }
 
 /**
  * Links
@@ -10851,7 +10900,7 @@ specie-report-sighting {
   /* background-image: url(../img/background.png); */ }
   #links ion-content {
     height: 100%;
-    font-size: 20px; }
+    font-size: 18px; }
     #links ion-content h4 {
       font-size: 120%; }
     #links ion-content div.linksText {
@@ -10872,9 +10921,40 @@ specie-report-sighting {
  * Login
  * --------------------------------------------------
  */
+
+.loginIcon {
+    /* height: 50%; */
+    width: 50%;
+	margin-top:20%;
+}
+.loginText {
+	margin-top: 10px;
+	display:inline-block;
+	font-style: bold;
+	color: #ffffff;
+}
+
 #login {
   background-color: #e8d291;
   /* background-image: url(../img/background.png); */ }
+  #login ion-content section.login-container {
+    height: 94%;
+    width: 100%;
+    margin: auto; }
+    #login ion-content section.login-container div.row {
+      height: 100%;
+      overflow: hidden;
+      -webkit-justify-content: flex-start;
+      -moz-justify-content: flex-start;
+      justify-content: flex-start; }
+      #login ion-content section.login-container div.row div.col-50 {
+        height: calc(100% / 3.125);
+        /** padding: 2.5px; **/
+        margin-top: 0.5%;
+        margin-bottom: 0.5%; 
+        margin-right: 0.5%;
+        margin-left: 0.5% }
+
   #login ion-content {
     height: 100%;
     font-size: 24px; }
@@ -11296,6 +11376,49 @@ ion-view#specieList .speciesPageFooter {
   width: 49%
 }
 
+.btnDownload {
+  backface-visibility: hidden;
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  white-space: nowrap;
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #779dbb;
+  border-width: 1px 1px 1px 1px;
+  padding: 6px 6px 6px 6px;
+  color: #779dbb;
+  font-size: 16px;
+  font-family: Courier New;
+  font-weight: 900;
+  font-style: normal;
+  width: 46%
+}
+
+#iconLoginFacebook {
+	background-color: #e1c36b;
+}
+
+#iconLoginTwitter {
+	background-color: #e1c36b;
+}
+
+#iconLoginLinkedin {
+	background-color: #e1c36b;
+}
+
+#iconLoginStrava {
+	background-color: #e1c36b;
+}
+
+#iconLoginEasin {
+	background-color: #e1c36b;
+}
+
+#iconLoginEulogin {
+	background-color: #e1c36b;
+}
+
 #iconSpecieList {
 	background-color: #559973;
 }
@@ -11334,7 +11457,7 @@ ion-view#specieList .speciesPageFooter {
     height: 36px;
     border-radius: 3px;
     overflow: hidden;
-    background: #ffffff url("img/icon-select.png") no-repeat 90% 50%;
+    background: #ffffff; /* url("img/icon-select.png") no-repeat 90% 50% */
     margin-bottom: 1px;
 }
 
@@ -11351,3 +11474,37 @@ ion-view#specieList .speciesPageFooter {
 .species-select-style select:focus {
     outline: none;
 }
+
+.selectSpeciesFilter {
+  width: 100%;
+  color: #6a8599;
+  height: 35px;
+  border: 1px solid #CCCCCC;
+  border-radius: 0 0 0 0 !important;
+  text-align: left;
+  padding-left: 5px;
+  background: #FFFFFF url("../img/select_arrow-down-border.png") no-repeat right; }
+  .selectSpeciesFilter select {
+    text-align: left;
+    color: #000000;
+    width: 100%;
+    padding-right: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none;
+    background: transparent !important;
+    height: 35px;
+    appearance: none;
+    -moz-appearance: none;
+    /* Firefox */
+    -webkit-appearance: none;
+    /* Safari and Chrome */ }
+
+.imgThumb:before {
+content: ' ';
+display: block;
+position: absolute;
+height: 50px;
+width: 50px;
+background-image: url(img/no-gps.png);

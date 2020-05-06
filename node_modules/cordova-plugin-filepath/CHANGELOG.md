@@ -1,3 +1,11 @@
+# 1.5.8
+
+* Added "no longer actively maintained" message to README
+
+# 1.5.7
+
+* [Fixes issue #60](https://github.com/hiddentao/cordova-plugin-filepath/issues/60)
+
 # 1.5.6
 
 * [Fixes issue #50](https://github.com/hiddentao/cordova-plugin-filepath/issues/50)
