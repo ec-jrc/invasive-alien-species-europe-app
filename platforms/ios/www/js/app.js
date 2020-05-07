@@ -3,14 +3,14 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controllers', 'MYGEOSS.services', 'MYGEOSS.constants', 'MYGEOSS.directives', 'angular-carousel', 'angular-click-outside', 'pascalprecht.translate'])
+angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth', 'MYGEOSS.controllers', 'MYGEOSS.services', 'MYGEOSS.constants', 'MYGEOSS.directives', 'angular-carousel', 'angular-click-outside', 'pascalprecht.translate'])
 
 .config(['$translateProvider', function ($translateProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languages/locale-',
         suffix: '.json'
     });
-    $translateProvider.determinePreferredLanguage('en');
+    //$translateProvider.determinePreferredLanguage('en');
     //$translateProvider.fallbackLanguage(language);
 }])
 
@@ -20,10 +20,10 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 	  permissions.requestPermission(permissions.CAMERA, successCamera, errorCamera);
 	  permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE, successFile, errorFile);
 	  
-	  function errorCamera() { console.warn('Camera permission is not turned on'); }
+	  function errorCamera() { console.log('Some permissions has not been not turned on'); }
       function successCamera( status ) { if( !status.hasPermission ) errorCamera(); }
 	  
-	  function errorFile() { console.warn('Camera permission is not turned on'); }
+	  function errorFile() { console.log('Some permissions has not been not turned on'); }
       function successFile( status ) { if( !status.hasPermission ) errorFile(); }
 
     if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -51,7 +51,9 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
     $photoFactory.initOptionsCameraCamera();
     $photoFactory.initOptionsCameraLibrary();
     
+    SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttps;
     // Check if HTTPS protocol is available for EASIN authentication service
+    /* ==== TO BE REMOVED ====
     $.ajax({ url: SERVER.authenticationBaseURL + "mobile/register", timeout: 5000})
     .always(function(answer) {
     	if (CONFIG.environment != "PROD") console.log("Network Authentication: " + answer.status);
@@ -60,8 +62,9 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
   	  } else {
   		  SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttp;
   	  }
-  	if (CONFIG.environment != "PROD") console.log(SERVER.authenticationBaseURL);
     });
+    */
+  	if (CONFIG.environment != "PROD") console.log(SERVER.authenticationBaseURL);
     // Check if HTTPS protocol is available for EASIN REST services
     if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttps;
     if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttps;
@@ -258,11 +261,12 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
     RequestFileAccess();
     copyVersionFile();
     copyIdTableFile();
-    copySpeciesFile('en');
-    copySpeciesFile('it');
-    copySpeciesFile('de');
-    copySpeciesFile('es');
-    copySpeciesFile('ro');
+    copySpeciesFile("en");
+    copySpeciesFile("it");
+    copySpeciesFile("de");
+    copySpeciesFile("es");
+    copySpeciesFile("ro");
+    copySpeciesFile("el");
     
     //DATABASE init
     //var db = $cordovaSQLite.openDB("mygeoss.db");
@@ -355,115 +359,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
     //    -moz-text-size-adjust, -webkit-text-size-adjust, and -ms-text-size-adjust.
     // });
     
-    /**
-     * Convert a base64 string in a Blob according to the data and contentType.
-     * 
-     * @param b64Data {String} Pure base64 string without contentType
-     * @param contentType {String} the content type of the file i.e (image/jpeg - image/png - text/plain)
-     * @param sliceSize {Int} SliceSize to process the byteCharacters
-     * @see http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
-     * @return Blob
-     */
-    function b64toBlob(b64Data, contentType, sliceSize) {
-    	    contentType = contentType || '';
-            sliceSize = sliceSize || 512;
-
-            var byteCharacters = atob(b64Data);
-            var byteArrays = [];
-
-            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-                var byteNumbers = new Array(slice.length);
-                for (var i = 0; i < slice.length; i++) {
-                    byteNumbers[i] = slice.charCodeAt(i);
-                }
-
-                var byteArray = new Uint8Array(byteNumbers);
-
-                byteArrays.push(byteArray);
-            }
-
-          var blob = new Blob(byteArrays, {type: contentType});
-          return blob;
-    }
-
-    /**
-     * Create a Image file according to its database64 content only.
-     * 
-     * @param folderpath {String} The folder where the file will be created
-     * @param filename {String} The name of the file that will be created
-     * @param content {Base64 String} Important : The content can't contain the following string (data:image/png[or any other format];base64,). Only the base64 string is expected.
-     */
-    function savebase64AsImageFile(folderpath,filename,content,contentType,md5,lastPicture){
-        // Convert the base64 string in a Blob
-        var DataBlob = b64toBlob(content,contentType);
-        
-        window.resolveLocalFileSystemURL(folderpath, function(dir) {
-    		dir.getFile(filename, {create:true}, function(file) {
-                file.createWriter(function(fileWriter) {
-                    fileWriter.write(DataBlob);
-                	if (CONFIG.environment != "PROD") console.log("Downloaded '" + filename + "'");
-                    if(filename.search("_thumb.") == -1) setTimeout(function() { calculateMD5(folderpath, filename, md5, lastPicture); }, 10000);
-                }, function(){
-            		$rootScope.downloadError = true;
-                	if (CONFIG.environment != "PROD") console.log("Error downloading '" + filename + "'");
-                });
-    		});
-        });
-    }
     
-    function calculateMD5(folderpath, filename, md5, lastPicture){
-        FileHash.md5(folderpath+filename,function(e){
-        	var currentMD5 = e.result;
-        	if (CONFIG.environment != "PROD") console.log(filename + " - " + md5 + " - " + lastPicture);
-        	if (md5.trim() != currentMD5.trim()) {
-        		if (CONFIG.environment != "PROD") console.log(filename + " - MD5 DB:" + md5 + " MD5:"+ currentMD5);
-        		$rootScope.downloadError = true;
-        	}
-        	if (lastPicture == "true") {
-        	    $rootScope.download = false;
-        		if ($rootScope.downloadError == false) {
-            		navigator.notification.alert("Download completed!",null,"Info","OK");
-            		writeDownloadFile({ "Download" : "Complete"});
-        		} else {
-            		navigator.notification.alert("Download completed with errors!",null,"Info","OK");
-        		}
-        	} 
-        });
-    }
-    
-	function writeDownloadFile(data) {
-		var type = window.PERSISTENT;
-	    var size = 5*1024*1024;
-	    var finished = 0;
-	    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-	    window.requestFileSystem(type, size, successCallback, errorCallback)
-
-	    function successCallback(fs) {
-        	var fileName = "download_complete.json";
-	        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
-	            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
-	                fileEntry.createWriter(function (fileWriter) {
-	                    fileWriter.onwriteend = function (e) {
-	                    	if (CONFIG.environment != "PROD") console.log('Write of file "' + fileName + '"" completed.');
-	                    	fileWritten = true;
-	                    };
-	                    fileWriter.onerror = function (e) {
-	                    	fileWritten = false;
-	                    };
-	                    var blob = new Blob([data], { type: 'text/plain' });
-	                    fileWriter.write(blob);
-	                }, errorHandler.bind(null, fileName));
-	            }, errorHandler.bind(null, fileName));
-	        }, errorHandler.bind(null, fileName));
-	    }    
-	    
-	    function errorCallback(error) {
-	    	alert("ERROR: " + error.code)
-	    }
-	}
-
 	var errorHandler = function (fileName, e) {  
         var msg = '';
 
@@ -491,7 +387,6 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
         if (CONFIG.environment != "PROD") console.log('Error (' + fileName + '): ' + msg);
         if (msg == "File not found") {
         	copyVersionFile();
-	        getLastVersionFromREST();
         }
     }
     
@@ -524,374 +419,16 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'MYGEOSS.controll
 	    		
 	}
 
-	function writeVersionFile(data) {
-		var type = window.PERSISTENT;
-	    var size = 5*1024*1024;
-	    var finished = 0;
-	    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-	    window.requestFileSystem(type, size, successCallback, errorCallback)
-
-	    function successCallback(fs) {
-        	var fileName = "last_version.json";
-	        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
-	            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
-	                fileEntry.createWriter(function (fileWriter) {
-	                    fileWriter.onwriteend = function (e) {
-	                    	if (CONFIG.environment != "PROD") console.log('Write of file "' + fileName + '"" completed.');
-	                    	fileWritten = true;
-	                    };
-	
-	                    fileWriter.onerror = function (e) {
-	                    	if (CONFIG.environment != "PROD") console.log('Write failed: ' + e.toString());
-	                    	fileWritten = false;
-	                    };
-	
-	                    var blob = new Blob([data], { type: 'text/plain' });
-	                    fileWriter.write(blob);
-	                }, errorHandler.bind(null, fileName));
-	            }, errorHandler.bind(null, fileName));
-	        }, errorHandler.bind(null, fileName));
-	    }    
-	    
-	    function errorCallback(error) {
-	    	alert("ERROR: " + error.code)
-	    }
-	}
-	    
-	function createLocalJSONFile(lng,data) {
-		var type = window.PERSISTENT;
-	    var size = 5*1024*1024;
-	    var finished = 0;
-	    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-	    window.requestFileSystem(type, size, successCallback, errorCallback)
-
-	    function successCallback(fs) {
-        	var fileName = "species-" + lng + ".json";
-        	var fileWritten;
-	        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
-	            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
-	                fileEntry.createWriter(function (fileWriter) {
-	                    fileWriter.onwriteend = function (e) {
-	                    	if (CONFIG.environment != "PROD") console.log('Write of file "' + fileName + '"" completed.');
-	                    	fileWritten = true;
-	                    };
-	
-	                    fileWriter.onerror = function (e) {
-	                    	if (CONFIG.environment != "PROD") console.log('Write failed: ' + e.toString());
-	                    	fileWritten = false;
-	                    };
-	
-	                    var blob = new Blob([data], { type: 'text/plain' });
-	                    fileWriter.write(blob);
-	                }, errorHandler.bind(null, fileName));
-	            }, errorHandler.bind(null, fileName));
-	        }, errorHandler.bind(null, fileName));
-	    }    
-	    
-	    function errorCallback(error) {
-	    	alert("ERROR: " + error.code)
-	    }
-	}
-
-	function createLocalIdJSONFile(data) {
-		var type = window.PERSISTENT;
-	    var size = 5*1024*1024;
-	    var finished = 0;
-	    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-	    window.requestFileSystem(type, size, successCallback, errorCallback)
-	    data = JSON.parse(data);
-	    data.push({id:"R00000",name:"Non EASIN Species"});
-	    data = JSON.stringify(data);
-
-	    function successCallback(fs) {
-        	var fileName = "idNameTable.json";
-        	var fileWritten;
-	        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
-	            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
-	                fileEntry.createWriter(function (fileWriter) {
-	                    fileWriter.onwriteend = function (e) {
-	                    	if (CONFIG.environment != "PROD") console.log('Write of file "' + fileName + '"" completed.');
-	                    	fileWritten = true;
-	                    };
-	
-	                    fileWriter.onerror = function (e) {
-	                    	if (CONFIG.environment != "PROD") console.log('Write failed: ' + e.toString());
-	                    	fileWritten = false;
-	                    };
-	
-	                    var blob = new Blob([data], { type: 'text/plain' });
-	                    fileWriter.write(blob);
-	                }, errorHandler.bind(null, fileName));
-	            }, errorHandler.bind(null, fileName));
-	        }, errorHandler.bind(null, fileName));
-	    }    
-	    
-	    function errorCallback(error) {
-	    	alert("ERROR: " + error.code)
-	    }
-	}
-	
-	function getFileAndPics(catalog, version) {
-	    $rootScope.download = true;
-	    $rootScope.appDownloadPerc = 0;
-	    var tempLocalFile = {"catalog":catalog,"version":version};
-		var objOutput = JSON.stringify(tempLocalFile);
-		writeVersionFile(objOutput);
-		$.ajax({url: SERVER.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).done(function(dataEn) {
-			objOutput = JSON.stringify(dataEn);
-			createLocalJSONFile("en", objOutput);
-			$.ajax({url: SERVER.serverApiUrl + "species?app&lng=it&cat=" + catalog + "&ver=" + version}).done(function(dataIt) {
-				objOutput = JSON.stringify(dataIt);
-				createLocalJSONFile("it", objOutput);
-				$.ajax({url: SERVER.serverApiUrl + "species?app&lng=de&cat=" + catalog + "&ver=" + version}).done(function(dataDe) {
-					objOutput = JSON.stringify(dataDe);
-					createLocalJSONFile("de", objOutput);
-					$.ajax({url: SERVER.serverApiUrl + "species?app&lng=es&cat=" + catalog + "&ver=" + version}).done(function(dataEs) {
-						objOutput = JSON.stringify(dataEs);
-						createLocalJSONFile("es", objOutput);
-						$.ajax({url: SERVER.serverApiUrl + "species?app&lng=ro&cat=" + catalog + "&ver=" + version}).done(function(dataRo) {
-							objOutput = JSON.stringify(dataRo);
-							createLocalJSONFile("ro", objOutput);
-							$.ajax({url: SERVER.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).done(function(dataEn) {
-								objOutput = JSON.stringify(dataEn);
-								createLocalJSONFile("en", objOutput);
-
-								speciesList = dataEn.species;
-								// Remove Download file
-								var path = cordova.file.dataDirectory;
-								var filename = "download_complete.json";
-								window.resolveLocalFileSystemURL(path, function(dir) {
-									dir.getFile(filename, {create:false}, function(fileEntry) {
-								              fileEntry.remove(function(){
-								            	  if (CONFIG.environment != "PROD") console.log("Download reinitialization");
-								              },function(error){
-								            	  if (CONFIG.environment != "PROD") console.log("Error during Download reinitialization");
-								              },function(){
-								            	  if (CONFIG.environment != "PROD") console.log("No complete Download on previous pictures downloading");
-								              });
-									});
-								});
-								var curSpeciesA = 0;
-								var lastPicture = false;
-								for (var i = 0; i < speciesList.length; i++) {
-									species_id = speciesList[i].LSID.split(":")[4];
-									if (CONFIG.environment != "PROD") console.log("Downloading " + species_id);
-									executePause(100);
-									$.ajax({url: SERVER.serverApiUrl + "species/photos/"+species_id}).done(function(dataPics) {
-										curSpeciesA++;
-										var curPicsA = 0;
-										for (var p = 0; p < dataPics.length; p++) {
-											var curSpeciesB = curSpeciesA;
-											curPicsA++;
-											var id_easin = dataPics[p].id_easin;
-											if (CONFIG.environment != "PROD") console.log("Obtained " + id_easin);
-											var no = dataPics[p].no;
-											var fullPathName = cordova.file.dataDirectory + dataPics[p].filename;
-											if (CONFIG.environment != "PROD") console.log(fullPathName + "[" + curSpeciesB + "/" + speciesList.length + " - " + curPicsA + "/" + dataPics.length + "]");
-											if ((curSpeciesB == speciesList.length) && (curPicsA == dataPics.length)) { lastPicture = true; }
-											if (no == 1) {
-												executePause(100);
-												$.ajax({url: SERVER.serverApiUrl + "species/photos/"+id_easin+"?no="+no+"&thumb"}).then(function(dataThumb) {
-													var picThumbnail = dataThumb[0].thumbnail;
-													var block = picThumbnail.split(";");
-													var dataType = block[0].split(":")[1];
-													var dataType = "image/jpg";
-													var realData = block[1].split(",")[1];
-													var folderpath = cordova.file.dataDirectory;
-													var filename = dataThumb[0].filename;
-													filename = filename.replace("_01.","_thumb.");
-													var md5 = dataThumb[0].md5;
-													var lastPic = "false";
-													$rootScope.appDownloadPerc = curSpeciesB*100/speciesList.length;
-													savebase64AsImageFile(folderpath,filename,realData,dataType,md5,lastPic);
-												},
-												function(jqXHR, textStatus, errorThrown) {
-													if (CONFIG.environment != "PROD") console.log(JSON.stringify(jqXHR));
-													if (CONFIG.environment != "PROD") console.log(textStatus);
-													if (CONFIG.environment != "PROD") console.log(errorThrown);
-													if (CONFIG.environment != "PROD") console.log("ERROR downloading " + id_easin +" ("+no+") thumb");
-													// Remove Download file
-													var path = cordova.file.dataDirectory;
-													var filename = "download_complete.json";
-													window.resolveLocalFileSystemURL(path, function(dir) {
-														dir.getFile(filename, {create:false}, function(fileEntry) {
-													              fileEntry.remove(function(){
-													            	  if (CONFIG.environment != "PROD") console.log("Download reinitialization");
-													              },function(error){
-													            	  if (CONFIG.environment != "PROD") console.log("Error during Download reinitialization");
-													              },function(){
-													            	  if (CONFIG.environment != "PROD") console.log("No complete Download on previous pictures downloading");
-													              });
-														});
-													});
-													$rootScope.downloadError = true;												}
-												);
-											}
-											executePause(100);
-											$.ajax({url: SERVER.serverApiUrl + "species/photos/"+id_easin+"?no="+no+"&last="+lastPicture}).then(function(dataPic) {
-												var picBase64 = dataPic[0].base64;
-												var block = picBase64.split(";");
-												var dataType = block[0].split(":")[1]; // for example: "image/png"
-												var dataType = "image/jpg";
-												var realData = block[1].split(",")[1]; // for example: "iVBORw0KGg...."
-												var folderpath = cordova.file.dataDirectory;
-												var filename = dataPic[0].filename;
-												var md5 = dataPic[0].md5;
-												var lastPic = dataPic[0].last;
-												$rootScope.appDownloadPerc = curSpeciesB*100/speciesList.length;
-												savebase64AsImageFile(folderpath,filename,realData,dataType,md5,lastPic);
-											},
-											function(jqXHR, textStatus, errorThrown) {
-												if (CONFIG.environment != "PROD") console.log(JSON.stringify(jqXHR));
-												if (CONFIG.environment != "PROD") console.log(textStatus);
-												if (CONFIG.environment != "PROD") console.log(errorThrown);
-												if (CONFIG.environment != "PROD") console.log("ERROR downloading " + id_easin +" ("+no+") thumb");
-												// Remove Download file
-												var path = cordova.file.dataDirectory;
-												var filename = "download_complete.json";
-												window.resolveLocalFileSystemURL(path, function(dir) {
-													dir.getFile(filename, {create:false}, function(fileEntry) {
-												              fileEntry.remove(function(){
-												            	  if (CONFIG.environment != "PROD") console.log("Download reinitialization");
-												              },function(error){
-												            	  if (CONFIG.environment != "PROD") console.log("Error during Download reinitialization");
-												              },function(){
-												            	  if (CONFIG.environment != "PROD") console.log("No complete Download on previous pictures downloading");
-												              });
-													});
-												});
-												$rootScope.downloadError = true;
-											}
-											);
-										}
-									});
-								}
-							
-							});
-						});
-					});
-				});
-			});
-		});
-	}
-	
-	function getNewVersion(objOutput, catalog, version) {
-		if ($rootScope.download == false) {
-			writeVersionFile(objOutput);
-			$.ajax({url: SERVER.serverApiUrl + "species?light&lng=en&cat=" + catalog + "&ver=" + version}).then(function(dataEn) {
-				objOutput = JSON.stringify(dataEn);
-	   			createLocalIdJSONFile(objOutput);
-	            getFileAndPics(catalog, version);
-			});
-		} else {
-    		navigator.notification.alert($filter('translate')('download_in_progress'),null,$filter('translate')('REPORT_information'),"OK");
-		}
-	}
-	
-	function verifyPictures(catalog, version) {
-	    $rootScope.downloadError = false;
-		window.resolveLocalFileSystemURL(cordova.file.dataDirectory + "download_complete.json",
-                null,
-				function onSuccess(fileDataEntry)
-        		{
-					navigator.notification.confirm(
-							$filter('translate')('download_pictures') + catalog + "-" + version + ")?",
-							function (buttonIndex) {
-								if (buttonIndex == 1) {
-									if ($rootScope.download == false) {
-										getFileAndPics(catalog, version);
-									} else {
-							    		navigator.notification.alert($filter('translate')('download_in_progress'),null,$filter('translate')('REPORT_information'),"OK");
-									}
-								}
-							},
-							$filter('translate')('download_pictures_title'),
-						    ['OK',$filter('translate')('cancel')]
-					);
-        		});
-	}
-
-	  function inArray(target, array)
-	  {
-	    for(var i = 0; i < array.length; i++) 
-	    {
-	      if(array[i] === target)
-	      {
-	        return true;
-	      }
-	    }
-	    return false; 
-	  }
-
-	function getLastVersionFromREST() {
-	  // Check if HTTPS protocol is available for EASIN authentication service
-	  $.ajax({ url: SERVER.authenticationBaseURL + "mobile/register", timeout: 5000})
-	  .always(function(answer) {
-		  if (CONFIG.environment != "PROD") console.log("Network Authentication: " + answer.status);
-		var status_code = [200, 405];
-		if (inArray(answer.status, status_code) === false) {
-		  SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttp;
-		} else {
-		  SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttps;
-		}
-		if (CONFIG.environment != "PROD") console.log(SERVER.authenticationBaseURL);
-	  });
-  	  if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttps;
-	  if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttps;
-	  if (CONFIG.environment != "PROD") console.log("CHECKING " + SERVER.serverApiUrl + "species/last_version");
-	  $.ajax({ url: SERVER.serverApiUrl + "species/last_version", timeout: 5000})
-	  .always(function(answer) {
-		  if (CONFIG.environment != "PROD") console.log(JSON.stringify(answer));
-		  if ((answer.catalog !== undefined) && (answer.version !== undefined)) answer.status = 200;
-		  if (CONFIG.environment != "PROD") console.log("Network REST Services: " + answer.status);
-		  var status_code = [200, 405];
-		  if (inArray(answer.status, status_code) === false) {
-			  if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttp;
-			  if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttp;
-		  } else {
-			  if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttps;
-			  if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttps;
-		  }
-		  if (CONFIG.environment != "PROD") console.log(SERVER.serverApiUrl);
-		  $.ajax({url: SERVER.serverApiUrl + "species/last_version"}).then(function(dataVersion) {
-				var objOutput = JSON.stringify(dataVersion);	// Release returned from the REST Service
-				var remoteCatalogVersion = dataVersion.catalog + "." + dataVersion.version.toString();
-				if (CONFIG.environment != "PROD") console.log("Remote Catalog Version: " + remoteCatalogVersion);
-				readVersionFile(function (data) {
-					var currentVersion = JSON.stringify(data);	// Current release stored on the mobile device
-					var localCatalogVersion = data.catalog + "." + data.version.toString();
-					if (CONFIG.environment != "PROD") console.log("Local Catalog Version: " + localCatalogVersion);
-					// Different versions: store the new one
-					if (localCatalogVersion < remoteCatalogVersion) {
-						navigator.notification.confirm(
-								$filter('translate')('new_version1') + dataVersion.catalog + "-" + dataVersion.version + $filter('translate')('new_version2'),  // message
-								function (buttonIndex) {
-									if (buttonIndex == 1) {
-										getNewVersion(objOutput, dataVersion.catalog, dataVersion.version);              // callback to invoke with index of button pressed
-									} else {
-										verifyPictures(data.catalog, data.version);
-									}
-								},
-								$filter('translate')('new_version_title'),            // title
-							    ['OK',$filter('translate')('cancel')]          // buttonLabels
-						);
-					} else {
-						if (CONFIG.environment != "PROD") console.log("Verify only pictures");
-						verifyPictures(dataVersion.catalog, dataVersion.version);
-					}
-				});
-			});
-	  });
-
-	}
 	
     copyEmptyPicFile();
-	getLastVersionFromREST();
+	/* DISABLED FOR TEST getLastVersionFromREST(); */
     //copyLocalVersionFile('TEST');
-    copyLocalVersionFile('JRCISPRA');
+    copyLocalVersionFile('TEST1');
+    copyLocalVersionFile('TEST2');
     copyLocalVersionFile('DANUBE');
     copyLocalVersionFile('MALTA');
-    copyLocalVersionFile('SPAIN');
+    copyLocalVersionFile('IBERIAN_PENINSULA');
+    copyLocalVersionFile('CRETE_HORIZ');
 
   });
 })

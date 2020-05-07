@@ -7,9 +7,10 @@ angular.module('MYGEOSS.constants', [])
 .constant('CONFIG', {
 	environment: 'PROD',
 	// PROD ------------------------------------------------------------------------
-	//serverProdApiUrlHttp: 'http://inspireaq.jrc.ec.europa.eu/easin/backend/',
-	serverProdApiUrlHttp: 'https://easin.jrc.ec.europa.eu/mobile/',
-	serverProdApiUrlHttps: 'https://easin.jrc.ec.europa.eu/mobile/',
+	//serverProdApiUrlHttp: 'https://easin.jrc.ec.europa.eu/mobile/',
+	//serverProdApiUrlHttps: 'https://easin.jrc.ec.europa.eu/mobile/',
+	serverProdApiUrlHttp: 'https://citizensdata.jrc.ec.europa.eu/easin/backend/',
+	serverProdApiUrlHttps: 'https://citizensdata.jrc.ec.europa.eu/easin/backend/',
 	// TEST ------------------------------------------------------------------------
 	serverTestApiUrlHttp: 'http://csdata-stg.ies.jrc.it/easin/backend/',
 	serverTestApiUrlHttps: 'http://csdata-stg.ies.jrc.it/easin/backend/',
@@ -19,8 +20,9 @@ angular.module('MYGEOSS.constants', [])
 	authenticationBaseURLHttp: 'http://alien.jrc.ec.europa.eu/api.auth/',
 	authenticationBaseURLHttps: 'https://easin.jrc.ec.europa.eu/api.auth/',
 	// -----------------------------------------------------------------------------
-	staticFileContentURL: "http://digitalearthlab.jrc.ec.europa.eu/files/app/ias/",
-	contactMail : 'EC-MYGEOSS@ec.europa.eu',
+	//staticFileContentURL: "https://digitalearthlab.jrc.ec.europa.eu/files/app/ias/",
+	staticFileContentURL: "https://citizensdata.jrc.ec.europa.eu/files/app/ias/",
+	contactMail : 'JRC-CitizenSData@ec.europa.eu',
 	countDownTimer : 300,  // seconds needed to recall the REST services to check if there are new notifications (default 1 hour: 3600 secs)
 	sessionExpirationTime: '604800000', //1hour
 	tileLayer: 'https://europa.eu/webtools/maps/tiles/osm-ec/{z}/{x}/{y}.png'
@@ -42,8 +44,8 @@ angular.module('MYGEOSS.constants', [])
 })
 
 .value('SERVER', {
-	serverApiUrl: 'https://easin.jrc.ec.europa.eu/mobile/',
-	//serverApiUrl: 'http://csdata-stg.ies.jrc.it/easin/backend/',
+	//serverApiUrl: 'https://easin.jrc.ec.europa.eu/mobile/',
+	serverApiUrl: 'https://citizensdata.jrc.ec.europa.eu/easin/backend/',
 	//serverApiUrl: 'http://inspireaq.jrc.ec.europa.eu/easin/backend/',
 	authenticationBaseURL: 'https://easin.jrc.ec.europa.eu/api.auth/'
 });

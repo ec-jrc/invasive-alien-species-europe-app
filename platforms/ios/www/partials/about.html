@@ -14,13 +14,31 @@
     <ion-content scroll="true" overflow-scroll="true" padding="false" ng-style="appCtrl.accessibilitySpecial">
         <div class="row center aboutText" ng-style="appCtrl.accessibilitySpecial">
             <div class="col" ng-style="appCtrl.accessibilityFont"> <!--  bind-unsafe-html="dynamicContent" -->
-            	Invasive Alien Species Europe v{{app_version.version}}<br/>
-            	EASIN Catalog v{{last_version.catalog}}-{{last_version.version}}<br/>
-            	<span ng-show="sitealert.id != ''">{{sitealert.name}} Catalog v{{last_local_version.catalog}}-{{last_local_version.version}}<br/></span>
+            	<b>Invasive Alien Species Europe v{{app_version.version}}<br/>
+            	EASIN Catalogue v{{last_version.catalog}}-{{last_version.version}}<br/></b>
+            	<span ng-repeat="catalogAreaInfo in last_local_version" ng-show="sitealert.length > 0"><b>{{catalogAreaInfo.name}} Catalogue v{{catalogAreaInfo.catalog}}-{{catalogAreaInfo.version}}</b><br/></span>
             	<span ng-show="environment == 'TEST'">TEST<br/></span>
             	<br/>
-            	<p ng-bind-html="dynamicContent"></p>
-                <img src="img/logo_mygeoss.svg">
+            	<p bind-unsafe-html="dynamicContent"></p>
+				<p>{{'partnerships_click_1' | translate}} <a class="linkLike" ui-sref="app.links">{{'partnerships_click_2' | translate}}</a>.</p>
+				<!--
+				<p><b>{{'local_partners' | translate}}:</b></p>
+				<div class="row">
+					<div class="col-75" align="right">
+	        			<div class="logoScrollable" ng-style="appCtrl.accessibilitySpecial">
+				            <div ng-repeat="site in logo_list" item-width="100%">
+					            <div ng-repeat="logo in site.img" item-width="100%">
+					                <img ng-src="img/branding/{{site.id}}/{{logo}}" width="65%"/>
+				            	</div>
+				            </div>
+				        </div>
+	 		        </div>
+			        <div class="col-25" align="left">
+			        	<br/>
+			        	&nbsp;&nbsp;<img src="img/arrowScroll.png" height="100px"/>
+			        </div>
+			    </div>
+				-->
             </div>
         </div>
     </ion-content>

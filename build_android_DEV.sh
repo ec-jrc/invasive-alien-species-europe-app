@@ -1,3 +1,3 @@
-rm platforms/android/build/outputs/apk/android-debug.apk
+rm platforms/android/app/build/outputs/apk/debug/app-debug.apk
 cordova build android
-cp platforms/android/build/outputs/apk/android-debug.apk /mnt/share/easin.apk 
+sudo cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /mnt/shared/easin.apk 

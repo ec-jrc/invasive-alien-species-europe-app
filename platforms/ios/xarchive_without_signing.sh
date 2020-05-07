@@ -1,1 +1,0 @@
-xcodebuild -project Invasive\ Alien\ Species\ Europe.xcodeproj -scheme Invasive\ Alien\ Species\ Europe -configuration Release clean archive -archivePath build/Invasive\ Alien\ Species\ Europe.xarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO

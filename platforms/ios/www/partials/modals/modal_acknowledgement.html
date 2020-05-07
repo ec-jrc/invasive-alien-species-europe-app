@@ -7,7 +7,12 @@
     </ion-header-bar>
     <ion-content>
     	<div bind-unsafe-html="modalDynamicContent" ng-style="appCtrl.accessibilityFont">
-        	<!-- <p ng-style="appCtrl.accessibilityFont">This application has been developed by INTRASOFT International S.A. for the European Commission Joint Research Centre within the MYGEOSS project, which has received funding from the European Union’s Horizon 2020 research and innovation programme.</p> -->
+        </div>
+		<br/>
+		<p>{{'partnerships_click_1' | translate}} <a class="linkLike" ng-click="closeModalAcknowledgementLinks()">{{'partnerships_click_2' | translate}}</a>.</p>
+    	<div style="text-align: center">
+    		<br/>
+        	<img src="img/logo_mygeoss.svg" width="106px">
         </div>
     </ion-content>
 </ion-modal-view>

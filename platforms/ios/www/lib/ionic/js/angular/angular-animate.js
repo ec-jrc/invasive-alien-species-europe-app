@@ -1,8 +1,8 @@
-/**
- * @license AngularJS v1.4.3
- * (c) 2010-2015 Google, Inc. http://angularjs.org
- * License: MIT
- */
+/*
+ AngularJS v1.7.8
+ (c) 2010-2018 Google, Inc. http://angularjs.org
+ License: MIT
+*/
 (function(window, angular, undefined) {'use strict';
 
 /* jshint ignore:start */

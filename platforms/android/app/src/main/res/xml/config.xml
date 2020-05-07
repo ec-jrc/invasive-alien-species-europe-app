@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="eu.europa.publications.mygeossias" version="3.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Permissions">
+        <param name="android-package" value="com.android.plugins.Permissions" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="DatePickerPlugin">
+        <param name="android-package" value="com.plugin.datepicker.DatePickerPlugin" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="FileHash">
+        <param name="android-package" value="lordkbx.FileHash.FileHash" />
+    </feature>
+    <feature name="FilePath">
+        <param name="android-package" value="com.hiddentao.cordova.filepath.FilePath" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="SQLitePlugin">
+        <param name="android-package" value="io.sqlc.SQLitePlugin" />
+    </feature>
+    <feature name="Keyboard">
+        <param name="android-package" value="io.ionic.keyboard.IonicKeyboard" />
+        <param name="onload" value="true" />
+    </feature>
+    <access origin="https://ssl.gstatic.com/accessibility/javascript/android/*" />
+    <feature name="MobileAccessibility">
+        <param name="android-package" value="com.phonegap.plugin.mobileaccessibility.MobileAccessibility" />
+    </feature>
+    <feature name="ECASMobile">
+        <param name="android-package" value="eu.europa.ec.ecasmobile.client.cordova.plugin.ECASMobilePlugin" />
+    </feature>
+    <name>Invasive Alien Species Europe</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <access origin="content:///*" />
+    <access origin="http://localhost:8080" />
+    <allow-navigation href="http://localhost:8080/*" />
+    <allow-intent href="http://localhost:8080/*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <allow-intent href="market:*" />
+    <allow-navigation href="*" />
+    <splash density="land-ldpi" src="resources/android/splash/drawable-land-ldpi-screen.9.png" />
+    <splash density="land-mdpi" src="resources/android/splash/drawable-land-mdpi-screen.9.png" />
+    <splash density="land-hdpi" src="resources/android/splash/drawable-land-hdpi-screen.9.png" />
+    <splash density="land-xhdpi" src="resources/android/splash/drawable-land-xhdpi-screen.9.png" />
+    <splash density="land-xxhdpi" src="resources/android/splash/drawable-land-xxhdpi-screen.9.png" />
+    <splash density="land-xxxhdpi" src="resources/android/splash/drawable-land-xxxhdpi-screen.9.png" />
+    <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.9.png" />
+    <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.9.png" />
+    <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.9.png" />
+    <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.9.png" />
+    <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.9.png" />
+    <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.9.png" />
+    <splash density="xlarge-land-mdpi" src="resources/android/splash/drawable-xlarge-land-mdpi-screen.9.png" />
+    <splash density="xlarge-land-hdpi" src="resources/android/splash/drawable-xlarge-land-hdpi-screen.9.png" />
+    <splash density="xlarge-land-xhdpi" src="resources/android/splash/drawable-xlarge-land-xhdpi-screen.9.png" />
+    <splash density="xlarge-port-mdpi" src="resources/android/splash/drawable-xlarge-port-mdpi-screen.9.png" />
+    <splash density="xlarge-port-hdpi" src="resources/android/splash/drawable-xlarge-port-hdpi-screen.9.png" />
+    <splash density="xlarge-port-xhdpi" src="resources/android/splash/drawable-xlarge-port-xhdpi-screen.9.png" />
+    <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
+    <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
+    <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
+    <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+    <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="29" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+</widget>

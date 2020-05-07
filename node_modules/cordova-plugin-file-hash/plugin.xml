@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:rim="http://www.blackberry.com/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-file-hash" version="0.4.1">
+    <name>FileHash</name>
+    <description>Cordova FileHash Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,file,hash,file-hash,checksum,cordova-plugin,cordova-plugin-file-hash</keywords>
+    <repo>https://github.com/LordKBX/cordova-plugin-file-hash.git</repo>
+    <issue>https://github.com/LordKBX/cordova-plugin-file-hash/issues</issue>
+
+    <js-module src="www/FileHash.js" name="FileHash">
+        <clobbers target="FileHash" />
+    </js-module>
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="FileHash" >
+                <param name="android-package" value="lordkbx.FileHash.FileHash"/>
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+        </config-file>
+        <source-file src="src/android/FileHash.java" target-dir="src/lordkbx/FileHash" />
+    </platform>
+
+    <!-- ios  -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="FileHash">
+                <param name="ios-package" value="CDVFileHash"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/CDVFileHash.h" />
+        <source-file src="src/ios/CDVFileHash.m" />
+    </platform>
+</plugin>
