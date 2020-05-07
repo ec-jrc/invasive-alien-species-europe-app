@@ -1,0 +1,44 @@
+<ion-view id="specie">
+    <ion-nav-bar class="header specie" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+         	<a ng-if="isLogged" ui-sref="app.login"><img border="1" width="30px" height="30px" src="img/login_on2.png"/></a>
+         	<a ng-if="isLogged == false" ui-sref="app.login"><img border="1" width="30px" height="30px" src="img/login_off2.png"/></a>
+        </ion-nav-buttons>
+        <ion-nav-title>
+            {{currSpecie.specie.common_name}}
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <div class="bar bar-subheader specie-tab-navigation row">
+        <div class="col col-25" ng-click="activeTemplate='specie_photos'">
+            <img ng-if="activeTemplate !== 'specie_photos'" ng-src="img/camera.svg" alt="photos">
+            <img ng-if="activeTemplate === 'specie_photos'" ng-src="img/camera-active.svg" alt="photos">
+        </div>
+        <div class="col col-25" ng-click="activeTemplate='specie_information'">
+            <img ng-if="activeTemplate !== 'specie_information'" ng-src="img/information.svg" alt="information">
+            <img ng-if="activeTemplate === 'specie_information'" ng-src="img/information-active.svg" alt="information">
+        </div>
+        <div class="col col-25" ng-click="activeTemplate='specie_map'">
+            <img ng-if="activeTemplate !== 'specie_map'" ng-src="img/world.svg" alt="map">
+            <img ng-if="activeTemplate === 'specie_map'" ng-src="img/world-active.svg" alt="map">
+        </div>
+        <div class="col col-25" ng-click="activeTemplate='specie_report_sighting'">
+            <img ng-if="activeTemplate !== 'specie_report_sighting'" ng-src="img/add.svg" alt="add sob">
+            <img ng-if="activeTemplate === 'specie_report_sighting'" ng-src="img/add-active.svg" alt="add sob">
+        </div>
+    </div>
+
+    <ion-content class="has-subheader" scroll="true" overflow-scroll="true" id="specie_report_sighting_content">
+        <specie-photos ng-if="activeTemplate === 'specie_photos'" data-tap-disabled="false"></specie-photos>
+        <specie-information ng-if="activeTemplate === 'specie_information'"></specie-information>
+        <specie-map ng-if="activeTemplate === 'specie_map'" data-tap-disabled="true"></specie-map>
+        <specie-report-sighting ng-if="activeTemplate === 'specie_report_sighting'"></specie-report-sighting>
+    </ion-content>
+
+</ion-view>

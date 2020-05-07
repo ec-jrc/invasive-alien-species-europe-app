@@ -1,0 +1,95 @@
+<ion-view title="{{ 'MY_RECORDS_TITLE' | translate }}" id="myRecords">
+	<ion-nav-bar class="header myrecords" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+         	<a ng-if="isLogged" ui-sref="app.login"><img border="1" width="30px" height="30px" src="img/login_on.png"/></a>
+         	<a ng-if="isLogged == false" ui-sref="app.login"><img border="1" width="30px" height="30px" src="img/login_off.png"/></a>
+        </ion-nav-buttons>
+        <ion-nav-title>
+            {{ 'MY_RECORDS_TITLE' | translate }}
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+	<ion-content scroll="true">
+        <div class="savedRecords">
+            <h2><img src="img/{{main.imgDraft}}" height="20px" ng-click="expandMenu($event,'draft')"/> {{'SAVED_RECORDS' | translate}}</h2>
+            <div ng-show="main.listDraft === true">
+                <div class="row savedRecordsList" ng-repeat="savedObservation in main.savedObservations | orderBy:'-id' track by $index">
+                    <div class="col-33 label">
+                        <p ng-click='modify({{savedObservation.id}})'>{{savedObservation.date}} <br/> {{savedObservation.specie.common_name}} <br/> <span>{{savedObservation.specie.scientific_name}}</span></p>
+                    </div>
+                    <div class="col-67 row action center">
+                        <div class="col-33">
+                            <img src="img/myrecord_save.png" ng-if="(savedObservation.status === 'complete') && (buttonSendDisabled === false)" ng-click="actionSendEntry({{savedObservation.id}})">
+                            <img src="img/myrecord_save_disabled.png" ng-if="(savedObservation.status === 'incomplete') || (buttonSendDisabled === true)">
+                            <br/>
+                            {{'send' | translate}}
+                        </div>
+                        <div class="col-33" ng-click="actionRemoveEntry({{savedObservation.id}})">
+                            <img src="img/myrecord_delete.png"><br/>
+                            {{'delete' | translate}}
+                        </div>
+                        <div class="col-33" ng-click='modify({{savedObservation.id}})'>
+                            <img src="img/myrecord_edit.png"><br/>
+                            {{'modify' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+        <div class="savedRecords" ng-if="main.pendingObservations.length >0">
+            <h2><img src="img/{{main.imgPending}}" height="20px" ng-click="expandMenu($event,'pending')"/> {{'outgoing_records' | translate}}</h2>
+            <div ng-show="main.listPending === true">
+                <div class="row savedRecordsList" ng-repeat="pendingObservation in main.pendingObservations | orderBy:'-id' track by $index"  ng-click='modify({{pendingObservation.id}})'>
+                    <div class="col-33 label">
+                        <p>{{pendingObservation.date}}</p>
+                    </div>
+                    <div class="col-66">
+                        <div class="col-100 label">
+                            <p>{{pendingObservation.specie.common_name}}
+                            <br/><span>{{pendingObservation.specie.scientific_name}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="serverRecords">
+			<h2><img src="img/{{main.imgSent}}" height="20px" ng-click="expandMenu($event,'sent')"/> {{'SEND_RECORDS' | translate}}</h2>
+            <div ng-show="main.listSent === true && main.serverObservations.length > 0">
+                <div class="row serverRecordsList">
+                    <div class="col-67 label">
+                        <p class="label">{{'SEND_RECORDS' | translate}} (<label>{{(main.serverObservations|filter:main.speciesFiltered).length}}/{{main.serverObservations.length}}</label>)</p>
+                    </div>
+                </div>
+                <div class="selectSpeciesFilter">
+                    <select ng-model="main.speciesFiltered">
+                        <option value="" selected>{{'all' | translate}}</option>
+                        <option ng-repeat="singleSpecie in speciesForFilter | orderBy:'scientific_name'" value="{{singleSpecie.scientific_name}}">{{singleSpecie.scientific_name}}</option>
+                    </select>
+                    <br/><br/>
+                </div>
+                <div class="row serverRecordsList" ng-repeat="serverObservation in main.serverObservations | filter:main.speciesFiltered | orderBy:'-createdAt' track by $index" ui-sref="app.sob({sobId: serverObservation._id})">
+                    <div class="col-33 label">
+                        <p>{{serverObservation.createdAt | limitTo : 10 }} {{serverObservation.createdAt | limitTo : 8 : 11 }}</p>
+                    </div>
+                    <div class="col-10">
+                        <img src="{{dataDirectory}}{{serverObservation.properties.thumbnail}}" width="100%" ng-show="serverObservation.properties.thumbnail != 'empty.jpg'" onerror="if (this.src != 'empty.jpg') this.src = 'img/empty.png'">
+                    </div>
+                    <div class="col-55">
+                        <div class="col-100 label">
+                            <p>{{ serverObservation.properties.LSIDDesc }}
+                            <br/><span>{{serverObservation.properties.Status}}</span> <span ng-if="serverObservation.properties.Updated > 0" class="updateLabel">UPDATED</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<span ng-if="main.connected == false" class="error_message">{{'offline_txt' | translate}}</span>
+		</div>
+	</ion-content>
+</ion-view>
+

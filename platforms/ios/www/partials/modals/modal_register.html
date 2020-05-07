@@ -1,0 +1,50 @@
+<ion-modal-view id="registerModal">
+    <ion-header-bar align-title="left">
+        <h1 class="title">{{'create_account' | translate}}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeRegisterModal()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+    <!-- <ion-scroll> -->
+        <form name="registrationForm" novalidate ng-style="appCtrl.accessibilityFont">
+        
+            <div class="list">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'email' | translate}} *</span>
+                    <input type="email" placeholder="{{'email' | translate}} *" ng-model="registrationForm.email" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'user_name' | translate}} *</span>
+                    <input type="text" placeholder="{{'user_name' | translate}} *" ng-model="registrationForm.username" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'first_name' | translate}} *</span>
+                    <input type="text" placeholder="{{'first_name' | translate}} *" ng-model="registrationForm.firstname" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'last_name' | translate}} *</span>
+                    <input type="text" placeholder="{{'last_name' | translate}} *" ng-model="registrationForm.lastname" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'password' | translate}} *</span>
+                    <input type="password" placeholder="{{'password' | translate}} *" ng-model="registrationForm.password" ng-class="{'error': registrationForm.password != registrationForm.confirmpassword}" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'confirm_pwd' | translate}} *</span>
+                    <input type="password" placeholder="{{'confirm_pwd' | translate}} *" ng-model="registrationForm.confirmpassword" ng-class="{'error': registrationForm.password != registrationForm.confirmpassword}" required>
+                </label>
+                <label class="item">
+                    <!-- <span class="input-label">{{'password_rulez1' | translate}}<br/>{{'password_rulez2' | translate}}</span>  -->
+                    <p>{{'password_rulez1' | translate}}<br/>{{'password_rulez2' | translate}}</p>
+                    <br/>
+				    <p>{{'fields_marked' | translate}} * {{'are_mandatory' | translate}} </p>
+                </label>
+            </div>
+            <button class="button button-block button-balanced" ng-disabled="registrationForm.$invalid || registrationForm.password != registrationForm.confirmpassword" ng-click='register(registrationForm)'>
+              {{'submit' | translate}}
+            </button>
+        </form>
+        <!-- </ion-scroll> -->
+    </ion-content>
+</ion-modal-view>

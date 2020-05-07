@@ -1,0 +1,21 @@
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+  compile(name:'ecasmobileclientsdk-debug-0_0_18', ext:'aar')
+
+  compile 'com.android.support:appcompat-v7:23.1.1'
+  compile 'com.squareup.okhttp:okhttp:2.4.0'
+  // compile 'com.android.support:support-annotations:23.1.1'
+}
+
+android {
+  packagingOptions {
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/LICENCE'
+  }
+}

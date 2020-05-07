@@ -1,0 +1,123 @@
+<div scroll class="contain" id="specie_report_sighting" ng-style="appCtrl.accessibilityFont">
+    <div id="reportSightingButtons">
+		<button ng-disabled="saveDraftButton" class="btnPagingReport" ng-click="saveDraft()" ng-if="reportStatus != 'pending'">{{'REPORT_save_draft' | translate}}</button>
+		<button ng-disabled="sendDataButton" class="btnPagingReport" ng-click="sendData()" ng-if="reportStatus != 'pending'">{{'REPORT_send' | translate}}</button>
+        <br ng-if="reportStatus == 'pending'">
+        <br ng-if="reportStatus == 'pending'">
+	</div>
+    	
+	<form>
+    <div style="height: 60px; width: 1px; display: block;"></div>
+		<div class="row">
+			<div class="col">
+				<span class="mandatory">{{'REPORT_species' | translate}}</span>
+			</div>
+		</div>
+
+		<div class="row select_specie" ng-if="cameFromReportSighting !== true">
+			<div class="col col-20 alignCenter">
+				<img width="50px" width="50px" ng-src="{{realPath}}{{currSpecie.specie.photos[0].src}}" />
+			</div>
+			<div class="col col-80">
+				<button class="form-button">{{currSpecie.specie.common_name}}</button>
+			</div>
+		</div>
+		<div class="row select_specie" ng-if="cameFromReportSighting === true">
+			<div class="col col-20 alignCenter">
+				<img width="50px" width="50px" ng-src="{{realPath}}{{currSpecie.specie.photos[0].src}}" />
+			</div>
+			<div class="col col-80" ng-if="reportStatus != 'pending'">
+				<button class="form-button" ng-class="errorSelectSpecie" ng-click="openModalReportSightingSpecieList()">{{displaySelectSpecie}}</button>
+			</div>
+            <div class="col col-80" ng-if="reportStatus == 'pending'">
+                <span>{{displaySelectSpecie}}</span>
+            </div>
+		</div>
+  
+		<div class="padding"><span class="mandatory">{{'REPORT_upload_photo' | translate}}</span></div><!-- Photos -->
+		<div class="row speciePictures">
+			<div class="col col-20 alignCenter">
+				<div ng-if="reportStatus != 'pending'"><img src="img/add-image.svg" alt="add-image" ng-click="addPhoto()"></div>
+			</div>
+			<div class="col col-80" ng-if="reportStatus != 'pending'">
+				<span ng-if="images.length > 0">
+                    <img ng-repeat="(key, image) in images track by $index" ng-click="deletePhoto(key)" ng-src="{{image.content}}" class="sob_thumbnail" >
+				</span>
+				<span ng-if="images.length <= 0" class="no-picture" ng-class="errorPicture">
+					<p>{{'click' | translate}} <img src="img/add-image.svg" alt="add-image" ng-click="addPhoto()"> {{'to_add_picture' | translate}}</p>
+				</span>
+			</div>
+            <div class="col col-80" ng-if="reportStatus == 'pending'">
+                <span ng-if="images.length > 0">
+                    <img ng-repeat="(key, image) in images track by $index" ng-src="{{image.content}}" class="sob_thumbnail" >
+                </span>
+            </div>
+		</div>
+		<div class="padding">{{'REPORT_information' | translate}}</div><!-- Information -->
+		<div class="row localisation"> <!-- Location -->
+			<div class="col col-20 alignCenter">
+				<span class="mandatory" ng-if="reportStatus != 'pending'"><img src="img/localisation.svg" ng-click="openModalReportSightingMap()" alt="localisation"></span>
+                <span class="mandatory" ng-if="reportStatus == 'pending'"><img src="img/localisation.svg" alt="localisation"></span>
+			</div>
+			<div class="col col-80">
+				<button class="form-button" ng-class="errorSelectCoordinates" data-tap-disabled="true" ng-click="openModalReportSightingMap()" ng-if="reportStatus != 'pending'">{{coordinates.latitude}}, {{coordinates.longitude}} <img id="coord-icon" src="img/no-gps.png" /></button>
+                <span ng-if="reportStatus == 'pending'">{{coordinates.latitude}}, {{coordinates.longitude}}</span>
+  			</div>
+		</div>
+		<div class="row date"> <!-- Date -->
+			<div class="col col-20 alignCenter">
+				<img src="img/date.svg" ng-click="pickDate()" alt="date" ng-if="reportStatus != 'pending'">
+                <img src="img/date.svg" alt="date" ng-if="reportStatus == 'pending'">
+			</div>
+			<div class="col col-80">
+				<button class="form-button" ng-click="pickDate()" ng-if="reportStatus != 'pending'">{{date | date:'yyyy-MM-dd'}}</button>
+                <span ng-if="reportStatus == 'pending'">{{date | date:'yyyy-MM-dd'}}</span>
+			</div>
+		</div>
+		<div class="row rangeContainer">
+			<div class="col col-20 alignCenter">
+				<span class="mandatory"><img src="img/range.svg" alt="range"></span>
+			</div>
+			<div class="col col-80">
+				<div class="row noPadding"> <!-- Quantity -->
+					<div class="col col-67 noPadding customPadding">
+						    <div class="unit">
+							    <select ng-model="abundance.scale" ng-disabled="reportStatus == 'pending'">
+								    <option>{{'coverage' | translate}}</option>
+								    <option>{{'number_individuals' | translate}}</option>
+							    </select>
+							</div>
+					</div>
+					<div class="col col-33 noPadding">
+						<span><input ng-class="errorScale" class="range" type="number" value="1" min="1" max="50000" pattern="[0-9]*" ng-model="abundance.number" ng-disabled="reportStatus == 'pending'" placeholder="1-50000" ng-keypress="limitKeypress($event,abundance.number,5)"></span>
+					</div>
+				</div>
+				<input type="radio" name="precision" ng-model="abundance.precision" id="estimated" value="{{'estimated' | translate}}" ng-disabled="reportStatus == 'pending'"><label for="estimated"><span>{{'estimated' | translate}}</span></label>
+				<input type="radio" name="precision" ng-model="abundance.precision" id="measured" value="{{'measured' | translate}}" ng-disabled="reportStatus == 'pending'"><label for="measured"><span>{{'measured' | translate}}</span></label>
+			</div>
+		</div>
+		<div class="row habitat"> <!-- Habitat -->
+			<div class="col col-20 alignCenter">
+				<span class="mandatory"><img src="img/habitat.svg" alt="habitat" class="habitat-img"></span>
+			</div>
+			<div class="col col-80" ng-class="errorHabitat">
+				<input type="radio" name="habitat" id="marineAdd" value="marine" ng-model="habitat" ng-disabled="reportStatus == 'pending'"><label for="marineAdd"><span>{{'marine'|translate}}</span></label><br/>
+				<input type="radio" name="habitat" id="freshwaterAdd" value="freshwater" ng-model="habitat" ng-disabled="reportStatus == 'pending'"><label for="freshwaterAdd"><span>{{'freshwater'|translate}}</span></label><br/>
+				<input type="radio" name="habitat" id="terrestrialAdd" value="terrestrial" ng-model="habitat" ng-disabled="reportStatus == 'pending'"><label for="terrestrialAdd"><span>{{'terrestrial'|translate}}</span></label>
+			</div>
+		</div>
+		<div class="row commentContain"> <!-- Comment -->
+			<div class="col col-20 alignCenter">
+				<img src="img/comment.svg" alt="comment">
+			</div>
+			<div class="col col-80">
+				<textarea class="comment" placeholder="{{'REPORT_ADD_COMMENT' | translate}}" ng-model="comment" ng-disabled="reportStatus == 'pending'"></textarea>
+			</div>
+		</div>
+		<div class="row"> <!-- bottom informations -->
+			<div class="col">
+				<p>{{'fields_marked' | translate}} <span class="mandatory"></span> {{'are_mandatory' | translate}} </p>
+			</div>
+		</div>
+	</form>
+</div>

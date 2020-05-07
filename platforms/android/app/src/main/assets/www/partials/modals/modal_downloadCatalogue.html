@@ -1,0 +1,21 @@
+<ion-modal-view class="sidemenu-modal">
+    <ion-header-bar>
+        <h1 class="title">{{'new_version_title' | translate }}</h1>
+        <div class="buttons">
+            <button ng-if="downloadGenParameters.type == 'all'" class="button button-clear" ng-click="verifyPictures(downloadGenParameters.old_catalog, downloadGenParameters.old_version)"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+            <button ng-if="downloadGenParameters.type == 'onlypics'" class="button button-clear" ng-click="closeModalDownloadCatalogue()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        	<div class="row center" ng-style="appCtrl.accessibilitySpecial">
+		        <div class="col">
+    				<div bind-unsafe-html="downloadMessage"></div>
+    				<br/> 
+					<button ng-if="downloadGenParameters.type == 'all'" class="btnDownload" ng-click="okPressedModalDownloadCatalogue()">{{'buttonYes' | translate}}</button>
+					<button ng-if="downloadGenParameters.type == 'all'" class="btnDownload" ng-click="verifyPictures(downloadGenParameters.old_catalog, downloadGenParameters.old_version)">{{'buttonNo' | translate}}</button>
+					<button ng-if="downloadGenParameters.type == 'onlypics'"class="btnDownload" ng-click="okPressedModalDownloadCatalogueOnlyPics()">{{'buttonYes' | translate}}</button>
+					<button ng-if="downloadGenParameters.type == 'onlypics'" class="btnDownload" ng-click="closeModalDownloadCatalogue()">{{'buttonNo' | translate}}</button>
+				</div>
+		    </div>
+    </ion-content>
+</ion-modal-view>

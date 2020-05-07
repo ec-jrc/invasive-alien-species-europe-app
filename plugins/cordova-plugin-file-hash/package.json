@@ -1,0 +1,62 @@
+{
+  "_from": "cordova-plugin-file-hash@^0.4.1",
+  "_id": "cordova-plugin-file-hash@0.4.1",
+  "_inBundle": false,
+  "_integrity": "sha1-XSsMawPOtTlAWxva8KibDTHDO2Q=",
+  "_location": "/cordova-plugin-file-hash",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "cordova-plugin-file-hash@^0.4.1",
+    "name": "cordova-plugin-file-hash",
+    "escapedName": "cordova-plugin-file-hash",
+    "rawSpec": "^0.4.1",
+    "saveSpec": null,
+    "fetchSpec": "^0.4.1"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-file-hash/-/cordova-plugin-file-hash-0.4.1.tgz",
+  "_shasum": "5d2b0c6b03ceb539405b1bdaf0a89b0d31c33b64",
+  "_spec": "cordova-plugin-file-hash@^0.4.1",
+  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "author": {
+    "name": "LordKBX"
+  },
+  "bugs": {
+    "url": "https://github.com/LordKBX/cordova-plugin-file-hash/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-file-hash",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Cordova FileHash Plugin",
+  "homepage": "https://github.com/LordKBX/cordova-plugin-file-hash#readme",
+  "keywords": [
+    "cordova",
+    "file",
+    "hash",
+    "file-hash",
+    "checksum",
+    "cordova-plugin",
+    "cordova-plugin-file-hash",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "license": "Apache 2.0",
+  "name": "cordova-plugin-file-hash",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LordKBX/cordova-plugin-file-hash.git"
+  },
+  "version": "0.4.1"
+}

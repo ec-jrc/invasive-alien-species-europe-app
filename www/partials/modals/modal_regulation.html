@@ -1,0 +1,12 @@
+<ion-modal-view class="sidemenu-modal">
+    <ion-header-bar>
+        <h1 class="title">{{'REGULATION_TITLE' | translate}}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeModalRegulation()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+    <div ng-style="appCtrl.accessibilityFont" bind-unsafe-html="modalDynamicContent">
+    </div>
+    </ion-content>
+</ion-modal-view>

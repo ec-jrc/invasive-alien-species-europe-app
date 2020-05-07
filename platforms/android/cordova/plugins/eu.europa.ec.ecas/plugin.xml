@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" id="eu.europa.ec.ecas" version="25">
+    <name>ECASMobile</name>
+    <description>ECAS Mobile SDK for Cordova</description>
+    <license>        
+        ECAS Software        
+        Copyright (c) 2014-2018 European Commission        
+        Licensed under the EUPL        
+        You may not use this work except in compliance w
+        http://ec.europa.eu/idabc/eupl    
+    </license>
+    <author>DIGIT.D.3 - European Commission</author>
+    <keywords>cordova,cas,ecasmobile,authentication,eulogin</keywords>
+    <engines>
+        <engine name="cordova" version=">=7.0.0" />
+    </engines>
+    <js-module src="www/ecasmobile.js" name="ECASMobile">
+        <clobbers target="ECASMobile" />
+    </js-module>
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="ECASMobile">
+                <param name="android-package" value="eu.europa.ec.ecasmobile.client.cordova.plugin.ECASMobilePlugin" />
+            </feature>
+        </config-file>
+
+        <!--
+      !! DON'T FORGET TO UPDATE THE /src/android/ecasmobile-plugin.gradle FILE WITH THE NEW LIB !!
+      -->
+        <!-- resource-file src="libs/ecasmobileclientsdk-debug-0_0_18.aar" target="libs/ecasmobileclientsdk-debug-0_0_18.aar" /-->
+        <lib-file src="libs/ecasmobileclientsdk-debug-0_0_18.aar" />
+        <framework src="src/android/ecasmobile-plugin.gradle" custom="true" type="gradleReference" />
+        <!--
+      DEFINE PREFERENCES
+      -->
+        <preference name="ECAS_BASE_URL" />
+        <preference name="REQUEST_FULL_USERDETAILS" />
+        <preference name="REQUEST_DGT" />
+        <preference name="ASSURANCE_LEVEL" />
+        <preference name="GROUP_FILTERS" />
+        <preference name="SERVICE_URL" />
+        <!--
+      SET PREFERENCES IN FILE
+      -->
+        <resource-file src="assets/ecasmobile.xml" target="res/raw/ecasmobile.xml" />
+
+        <config-file target="app/src/main/res/raw/ecasmobile.xml" parent="/resources">
+            <string name="ECAS_BASE_URL">$ECAS_BASE_URL</string>
+            <boolean name="REQUEST_FULL_USERDETAILS">$REQUEST_FULL_USERDETAILS</boolean>
+            <boolean name="REQUEST_DGT">$REQUEST_DGT</boolean>
+            <string name="ASSURANCE_LEVEL">$ASSURANCE_LEVEL</string>
+            <string name="GROUP_FILTERS">$GROUP_FILTERS</string>
+            <string name="SERVICE_URL">$SERVICE_URL</string>
+        </config-file>
+        
+    </platform>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="ECASMobile">
+                <param name="ios-package" value="ECASMobilePlugin" />
+            </feature>
+        </config-file>
+        <source-file src="libs/libECASMobileClientSDK.a" framework="true"/>
+        <!--
+        DEFINE PREFERENCES
+        -->
+        <preference name="ECAS_BASE_URL" default="https://ecas.ec.europa.eu" />
+        <preference name="REQUEST_FULL_USERDETAILS" default="false" />
+        <preference name="REQUEST_DGT" default="true" />
+        <preference name="ASSURANCE_LEVEL" default="HIGH" />
+        <preference name="GROUP_FILTERS" default="*" />
+        <preference name="SERVICE_URL" default="http://localhost/ios/myapp" />
+        <!--
+        SET PREFERENCES IN FILE
+        -->
+        <config-file target="*-Info.plist" parent="ECASMobileSDK">
+            <dict>
+                <key>ECASBaseURL</key>
+                <string>$ECAS_BASE_URL</string>
+                <key>requestFullUserDetails</key>
+                <string>$REQUEST_FULL_USERDETAILS</string>
+                <key>requestDesktopGrantingTicket</key>
+                <string>$REQUEST_DGT</string>
+                <key>AssuranceLevel</key>
+                <string>$ASSURANCE_LEVEL</string>
+                <key>GroupFilters</key>
+                <string>$GROUP_FILTERS</string>
+                <key>ServiceURL</key>
+                <string>$SERVICE_URL</string>
+            </dict>
+        </config-file>
+        <header-file src="src/ios/ECASMobilePlugin.h" target-dir="ECASMobilePlugin"/>
+        <source-file src="src/ios/ECASMobilePlugin.m" target-dir="ECASMobilePlugin" />
+        <header-file src="libs/CASAuthenticationDelegate.h" target-dir="ECASMobilePlugin"/>
+        <header-file src="libs/CASAuthenticationView.h" target-dir="ECASMobilePlugin"/>
+        <header-file src="libs/CASCommonUtils.h" target-dir="ECASMobilePlugin"/>
+        <header-file src="libs/CASLog.h" target-dir="ECASMobilePlugin"/>
+        <header-file src="libs/ECASMobile.h" target-dir="ECASMobilePlugin"/>
+        <header-file src="libs/NSURLRequest+CAS.h" target-dir="ECASMobilePlugin"/>
+    </platform>
+    <platform name="windows">
+        <js-module src="src/windows/ECASMobileProxy.js" name="ECASMobileProxy">
+            <merges target=""/>
+        </js-module>
+        <resource-file src="assets/ecasmobile.resw" target="Assets/ecasmobile.resw" />
+        <framework src="src/windows/ecas_mobile_cordova_plugin_wp8.winmd" custom="true"/>
+        <framework src="src/windows/ecas-mobile-client-shared-wp8.dll" custom="true"/>
+    </platform>
+</plugin>

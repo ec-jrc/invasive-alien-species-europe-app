@@ -1,0 +1,13 @@
+<ion-scroll zooming="false" direction="y" style="width: 100%; height: 100%">	
+	<div id="sob_information" class="padding" ng-style="appCtrl.accessibilityFont">
+		<h4>{{'REPORT_species' | translate }} :</h4> {{SOB.properties.LSID | limitTo : 6 : 40}} <br> {{SOB.properties.LSIDDesc }} 
+		<h4>{{'Abundance' | translate }} :</h4> {{SOB.properties.Abundance}}, ({{SOB.properties.Precision}})
+		<h4>{{'Status' | translate }} :</h4>{{SOB.properties.Status}}
+		<h4>{{'DateObs' | translate }} :</h4> {{SOB.observedAt | limitTo:10}} | {{SOB.observedAt | limitTo:8:11}}
+		<h4>{{'Habitat' | translate }} : </h4> <img src="{{SOB.properties.Habitat === 'marine' ? 'img/add_habitat_marine-active.png' : ''}}{{SOB.properties.Habitat === 'freshwater' ? 'img/add_habitat_freshwater-active.png' : ''}}{{SOB.properties.Habitat === 'terrestrial' ? 'img/add_habitat_terrestrial-active.png' : ''}}"/><br/>
+		{{SOB.properties.Habitat}}<br/>
+		<h4>{{'Comment' | translate }} : </h4> {{SOB.properties.Comment}}
+		<h4>{{'Date' | translate }} :</h4> {{SOB.createdAt | limitTo:10}} | {{SOB.createdAt | limitTo:8:11}} 
+		<h4>{{'Update' | translate }} :</h4> {{SOB.updatedAt | limitTo:10}} | {{SOB.updatedAt | limitTo:8:11}}
+	</div>
+</ion-scroll>

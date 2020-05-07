@@ -1,0 +1,32 @@
+<ion-modal-view class="sidemenu-modal">
+    <ion-header-bar>
+        <h1 class="title">{{'no_updates_title' | translate }}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeModalLocalArea()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        	<div class="row center" ng-style="appCtrl.accessibilitySpecial">
+		        <div class="col">
+    				<p>{{'local_area_message1' | translate }} <b>{{sites_label_static}}</b>{{'local_area_message2' | translate }}</p>
+    				<br/><br/>
+    				<p ng-if="numLogos > 0">{{'local_partners' | translate}}:</p>
+					<div class="row">
+						<div class="col-75" align="right">
+		        			<div class="logoScrollable" ng-style="appCtrl.accessibilitySpecial">
+					            <div ng-repeat="site in sitealert_static" item-width="100%">
+						            <div ng-repeat="logo in site.logo" item-width="100%">
+						                <img ng-src="img/branding/{{site.id}}/{{logo}}" width="65%"/>
+					            	</div>
+					            </div>
+					        </div>
+		 		        </div>
+				        <div ng-if="numLogos > 0" class="col-25" align="left">
+				        	<br/>
+				        	&nbsp;&nbsp;<img src="img/arrowScroll.png" height="100px"/>
+				        </div>
+				    </div>
+		        </div>
+		    </div>
+    </ion-content>
+</ion-modal-view>

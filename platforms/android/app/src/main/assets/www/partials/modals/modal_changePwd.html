@@ -1,0 +1,36 @@
+<ion-modal-view id="changePwdModal" class="customModal">
+    <ion-header-bar align-title="left">
+        <h1 class="title">{{'MODAL_CHANGE_PWD' | translate}}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeChangePwdModal()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <form name="changePwdForm" novalidate ng-style="appCtrl.accessibilityFont">
+            <div class="list">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'email' | translate}}</span>
+                    <input type="email" placeholder="{{'email' | translate}}" ng-model="changePwdForm.email" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'old_pwd' | translate}}</span>
+                    <input type="password" placeholder="{{'old_pwd' | translate}}" ng-model="changePwdForm.oldpassword" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'new_pwd' | translate}}</span>
+                    <input type="password" placeholder="{{'new_pwd' | translate}}" ng-model="changePwdForm.newpassword" ng-class="{'error': changePwdForm.newpassword != changePwdForm.confirmpassword}" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">{{'confirm_pwd' | translate}}</span>
+                    <input type="password" placeholder="{{'confirm_pwd' | translate}}" ng-model="changePwdForm.confirmpassword" ng-class="{'error': changePwdForm.newpassword != changePwdForm.confirmpassword}" required>
+                </label>
+                <label class="item">
+                    <p>{{'password_rulez1' | translate}}<br/>{{'password_rulez2' | translate}}</p>
+                </label>
+            </div>
+            <button class="button button-block button-balanced" ng-disabled="changePwdForm.$invalid || changePwdForm.newpassword != changePwdForm.confirmpassword" ng-click='changePassword(changePwdForm)'>
+              {{'submit' | translate}}
+            </button>
+        </form>
+    </ion-content>
+</ion-modal-view>

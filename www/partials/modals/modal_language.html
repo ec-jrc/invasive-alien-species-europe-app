@@ -1,0 +1,13 @@
+<ion-modal-view class="sidemenu-modal" id="languageModal">
+    <ion-header-bar>
+        <h1 class="title title-center">{{'LANGUAGE' | translate }}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeModalLanguage()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+    <ion-list>
+        <ion-radio ng-repeat="language in languagesList" ng-click="changeLanguage(language)" ng-model="selectedLanguage.language.idL" ng-value="language.idL">{{language.label}}</ion-radio>
+    </ion-list>
+    </ion-content>
+</ion-modal-view>

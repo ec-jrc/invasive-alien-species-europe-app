@@ -1,0 +1,42 @@
+<ion-view id="links">
+    <ion-nav-bar class="header links" align-title="center">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-title>
+            {{'LINKS_TITLE' | translate}}
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content scroll="true" overflow-scroll="true" padding="false" ng-style="appCtrl.accessibilitySpecial">
+        <div class="row center linksText" ng-style="appCtrl.accessibilitySpecial">
+            <div class="col" ng-style="appCtrl.accessibilityFont">
+            	<img src="img/eu_logo.png" width="30%"/>
+            	<p bind-unsafe-html="dynamicContent"></p>
+		        <div class="col" ng-style="appCtrl.accessibilityFont">
+					<p>{{'local_partners' | translate}}:</p>
+					<div class="row">
+						<div class="col-75" align="right">
+		        			<div class="logoScrollable" ng-style="appCtrl.accessibilitySpecial">
+					            <div ng-repeat="site in logo_list" item-width="100%">
+						            <div ng-repeat="logo in site.img" item-width="100%">
+						                <img ng-src="img/branding/{{site.id}}/{{logo}}" width="65%"/><br/>
+										<a href="#" class="linkLike" ng-click="openExternalLinks($event,'{{site.link[$index]}}')">{{site.visibleLink[$index]}}</a><br/><br/>
+					            	</div>
+					            </div>
+					        </div>
+		 		        </div>
+				        <div class="col-25" align="left">
+				        	<br/>
+				        	&nbsp;&nbsp;<img src="img/arrowScroll.png" height="100px"/>
+				        </div>
+				    </div>
+		        </div>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

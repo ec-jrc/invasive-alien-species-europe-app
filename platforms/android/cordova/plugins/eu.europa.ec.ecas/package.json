@@ -1,0 +1,36 @@
+{
+  "name": "ecas-mobile-sdk-cordova",
+  "version": "0.0.15",
+  "description": "ECAS Mobile SDK for Cordova",
+  "cordova": {
+    "id": "eu.europa.ec.ecas",
+    "platforms": [
+      "android",
+      "ios",
+      "windows"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://vandeks@webgate.ec.europa.eu/CITnet/stash/scm/ecas/ecas-mobile-sdk-cordova.git"
+  },
+  "keywords": [
+    "cordova",
+    "cas",
+    "ecasmobile",
+    "authentication",
+    "eulogin",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-windows"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=6.0.0"
+    }
+  ],
+  "author": "DIGIT.D.3",
+  "license": "\n        ECAS Software\n        Copyright (c) 2014-2017 European Commission\n        Licensed under the EUPL\n        You may not use this work except in compliance with the Licence.\n        You may obtain a copy of the Licence at:\n        http://ec.europa.eu/idabc/eupl\n    "
+}

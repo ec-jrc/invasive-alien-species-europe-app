@@ -1,0 +1,118 @@
+<ion-view id="specieList">
+    <ion-nav-bar class="header specieList" align-title="center" no-tap-scroll="true">
+        <ion-nav-back-button class="customBackButton">
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+         	<a ng-click="updateSpeciesPage()"><img width="30px" height="30px" src="img/reload.png"/></a>
+        </ion-nav-buttons>
+        <ion-nav-title>
+            {{'SPECIES_LIST_TITLE' | translate}} - v{{last_version.catalog}}-{{last_version.version}}
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    
+    
+    
+
+    <div id="specieListFilters"> 
+        <div class="searchBar padding">
+            <input type="text" name="search" id="search" placeholder="{{'SPEC_LIST_txt_input' | translate}}" ng-model="customSearchCSnameInput" autocapitalize="none" autocorrect="off">
+            <input type="reset" value="X" ng-click="resetFilters()"> 
+        </div>
+        
+        <div class="main-filter">
+            <div class="main-filter-label">
+                <div>
+                    <span>{{'SPEC_LIST_type' | translate}}</span>
+                </div>
+                <div>
+                    <span>{{'SPEC_LIST_habitat' | translate}}</span>
+                </div>
+            </div>
+            <div class="main-filter-filter">
+                <div style="width: 165px;">
+                    <input type="checkbox" name="type" id="plante" ng-true-value="'Plantae'" ng-false-value="''" ng-model="filters.type" ng-change="changePlantaeFilters()"><label><span>&#33;</span></label>
+                    <button id="animal" ng-click="openAnimaliaFilters()" ng-style="subfilter.styleAnimaliaButton"></button>
+                    <input type="checkbox" name="area" id="local" ng-true-value="'local'" ng-false-value="''" ng-model="filters.area_filter" ng-show="sitealert.length > 0" ng-change="changeAreaFilters()"><label ng-show="sitealert.length > 0"><span>&#33;</span></label>
+                </div>
+                <div style="width: 165px;">
+                    <input type="checkbox" name="habitat" id="marine" ng-true-value="'marine'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
+                    <input type="checkbox" name="habitat" id="freshwater" ng-true-value="'freshwater'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
+                    <input type="checkbox" name="habitat" id="terrestrial" ng-true-value="'terrestrial'" ng-false-value="''" ng-model="filters.habitat_filter"><label><span>&#33;</span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="subFilters" ng-show="subfilter.openSubFilters === true">
+        <div class="row">
+            <div class="col col-50"><button id="anyAnimal" ng-click="changeFamilyAnyAnimalia()" ng-style="subfilter.styleAnimaliaSubFilterButton"></button><label class="testT" for="anyAnimal">{{'Any' | translate}}</label></div>
+            <div class="col col-50 closeSubFilter" style="padding-top:10px;" ng-click="subfilter.openSubFilters = false">{{'SPEC_LIST_CLOSE' | translate}}</div>
+        </div>
+        <div class="row">
+            <div class="col col-50 centerT"><input type="checkbox" name="family" id="amphibians" ng-true-value="'Amphibia'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="amphibians">{{'SPEC_LIST_Amph' | translate}}</label></div>
+            <div class="col col-50 centerT alignRight"><input type="checkbox" name="family" id="birds" ng-true-value="'Aves'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="birds" class="alignLeft">{{'SPEC_LIST_Bird' | translate}}</label></div>
+        </div>
+        <div class="row">
+            <div class="col col-50 centerT"><input type="checkbox" name="family" id="invertebrates" ng-true-value="'Arthropoda'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="invertebrates">{{'SPEC_LIST_Inver' | translate}}</label></div>   
+            <div class="col col-50 centerT alignRight"><input type="checkbox" name="family" id="mammals" ng-true-value="'Mammalia'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="mammals" class="alignLeft">{{'SPEC_LIST_Mammal' | translate}}</label></div>
+        </div>
+        <div class="row">
+            <div class="col col-50 centerT"><input type="checkbox" name="family" id="reptiles" ng-true-value="'Reptila'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="reptiles">{{'SPEC_LIST_Rep' | translate}}</label></div>
+            <div class="col col-50 centerT alignRight"><input type="checkbox" name="family" id="fish" ng-true-value="'Actinopterygii'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="actinopterygii" class="alignLeft">{{'SPEC_LIST_Fish' | translate}}</label></div>
+        </div>
+		<!-- // Temporary Disabled waiting Crete confirmation
+        <div class="row">
+            <div class="col col-50 centerT"><input type="checkbox" name="family" id="mollusks" ng-true-value="'Mollusks'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="mollusks">{{'SPEC_LIST_Mol' | translate}}</label></div>
+            <div class="col col-50 centerT alignRight"><input type="checkbox" name="family" id="polychaetes" ng-true-value="'Polychaetes'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="polychaetes" class="alignLeft">{{'SPEC_LIST_Pol' | translate}}</label></div>
+        </div>
+        <div class="row">
+            <div class="col col-50 centerT"><input type="checkbox" name="family" id="tunicates" ng-true-value="'Tunicates'" ng-false-value="''" ng-model="filters.family" ng-change="changeFamily()"><label class="testT" for="tunicates">{{'SPEC_LIST_Tun' | translate}}</label></div>
+            <div class="col col-50 centerT alignRight"></div>
+        </div>
+		-->
+    </div>
+
+    <ion-content id="divSpeciesList" ng-class="{marginTop: subfilter.openSubFilters === true}" overflow-scroll="false" scrollsubfilters>
+        <div class="container" ng-style="appCtrl.accessibilityFont">
+            <div ng-show="($index >= (main.speciesCurrPage-1)*main.speciesPageSize) && ($index < main.speciesCurrPage*main.speciesPageSize)" class="myCard" ng-repeat="specie in species | filter:filters | filter:customSearchCSname | orderBy: 'scientific_name' track by $index " ng-click="goToSpecie(specie)" item-width="100%">
+                <img ng-src="{{specie.real_path}}{{specie.photos[0].src}}" ng-show="specie.area_filter == 'general' || (specie.area_filter == 'local' && sitealert.length > 0)"/>
+                <div class="label" ng-show="specie.area_filter == 'general' || (specie.area_filter == 'local' && sitealert.length > 0)">
+                    <div ng-show="specie.area_filter == 'local'">
+                    	<img src="img/filter_local.svg" width="40px" height="40px" style="float: left; margin: 0px 15px 15px 0px;">{{specie.area_name}}
+                    </div>
+                    <br/>{{specie.common_name}}<br/><i>{{specie.scientific_name}}</i>
+                </div>
+            </div>
+        </div>
+        <!-- </ion-scroll> -->
+    <div style="height: 50px; width: 1px; display: block;" ng-if="dummyClass"></div>
+    </ion-content>
+    <div class="speciesPageFooter" data-tap-disabled="true">
+    	<div class="rowFooter">
+    		<div class="colFooterSpace">
+    			&nbsp;
+    		</div>
+    		<div class="colFooterButton">
+        		<button class="btnPaging" ng-disabled="main.speciesCurrPage == 1" ng-click="clickButtonPrev()"><img src="img/arrow_left.png" height="23px"/></button>
+    		</div>
+    		<div class="colFooterPage">
+	        	<span class="colFooterTextPage">
+	        		{{'page' | translate}}: 
+					<select class="species-select-style" ng-model="pageSelected" ng-change="updateCurrentPage(pageSelected)">
+						<option ng-selected="($index+1) == main.speciesCurrPage" ng-repeat="n in [].constructor(roundNumber(species.length/main.speciesPageSize)) track by $index+1" value="{{$index+1}}">{{$index+1}}</option>
+					</select> / {{ roundNumber(species.length/main.speciesPageSize) }}
+				</span>
+			</div>
+    		<div class="colFooterButton">
+        		<button class="btnPaging" ng-disabled="main.speciesCurrPage >= species.length/main.speciesPageSize" ng-click="clickButtonNext()"><img src="img/arrow_right.png" height="23px"/></button>
+        	</div>
+    		<div class="colFooterSpace">
+    			&nbsp;
+    		</div>
+        </div>
+    </div>
+    <div style="height: 1px; width: 1px; display: block;" ng-if="dummyClass"></div>
+</ion-view>

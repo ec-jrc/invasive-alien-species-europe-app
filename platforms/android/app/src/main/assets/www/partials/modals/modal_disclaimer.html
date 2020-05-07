@@ -1,0 +1,12 @@
+<ion-modal-view class="sidemenu-modal">
+    <ion-header-bar>
+        <h1 class="title title-center">{{'DISCLAIMER_TITLE' | translate }}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeModalDisclaimer()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+    	<div bind-unsafe-html="modalDynamicContent" ng-style="appCtrl.accessibilityFont">
+        </div>
+    </ion-content>
+</ion-modal-view>
