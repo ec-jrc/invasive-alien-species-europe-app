@@ -9757,19 +9757,7 @@ a.button {
  * Fonts
  * --------------------------------------------------
  */
-@font-face {
-  font-family: 'ECSquareSansPro';
-  src: url("../lib/fonts/ECSquareSansPro.eot");
-  src: url("../lib/fonts/ECSquareSansPro.eot?#iefix") format("embedded-opentype"), url("../lib/fonts/ECSquareSansPro.woff2") format("woff2"), url("../lib/fonts/ECSquareSansPro.woff") format("woff"), url("../lib/fonts/ECSquareSansPro.ttf") format("truetype"), url("../lib/fonts/ECSquareSansPro.svg#ECSquareSansPro") format("svg");
-  font-weight: normal;
-  font-style: normal; }
 
-@font-face {
-  font-family: 'KonsensMedium';
-  src: url("../lib/fonts/KonsensMedium.eot");
-  src: url("../lib/fonts/KonsensMedium.eot?#iefix") format("embedded-opentype"), url("../lib/fonts/KonsensMedium.woff2") format("woff2"), url("../lib/fonts/KonsensMedium.woff") format("woff"), url("../lib/fonts/KonsensMedium.ttf") format("truetype"), url("../lib/fonts/KonsensMedium.svg#KonsensMedium") format("svg");
-  font-weight: normal;
-  font-style: normal; }
 
 body,
 h1,
@@ -9790,7 +9778,7 @@ select,
 textarea,
 .ionic-body,
 .tab-item {
-  font-family: "ECSquareSansPro" !important; }
+  font-family: "Verdana" !important; }
 
 a {
   font-style: italic;
@@ -9907,7 +9895,7 @@ ion-header-bar .title {
       font-size: 15pt;
       cursor: hand;
       cursor: pointer; }
-      
+
 #languageModal ion-content {
   padding: 0px; }
 
@@ -10003,7 +9991,7 @@ ion-header-bar .title {
         height: calc(100% / 4.16);
         /** padding: 2.5px; **/
         margin-top: 0.5%;
-        margin-bottom: 0.5%; 
+        margin-bottom: 0.5%;
         margin-right: 0.5%;
         margin-left: 0.5% }
         @media screen and (min-width: 1024px) {
@@ -10131,7 +10119,7 @@ ion-header-bar .title {
 	  height: 50px;
 	  margin-top:-6px; }
       #specieList div.subFilters div.row div.col {
-        margin: 0; 
+        margin: 0;
 		padding: 2px; }
     #specieList div.subFilters button#anyAnimal {
       background: url(../img/filter_animal.svg) left center no-repeat;
@@ -10242,10 +10230,10 @@ ion-header-bar .title {
             }*/
       /* .specie-item{
                 background-position: center;
-                background-size: 100% auto; 
+                background-size: 100% auto;
                 height: 100px;
                 width: 100%;
-                
+
                 p{
                     font-size: 1.5em;
                     color: #ffffff;
@@ -10262,7 +10250,7 @@ ion-header-bar .title {
                         i{
                             font-style: italic;
                         }
-                    } 
+                    }
                 }
             }*/ }
       #specieList ion-content div.row .specie-item {
@@ -10951,7 +10939,7 @@ specie-report-sighting {
         height: calc(100% / 3.125);
         /** padding: 2.5px; **/
         margin-top: 0.5%;
-        margin-bottom: 0.5%; 
+        margin-bottom: 0.5%;
         margin-right: 0.5%;
         margin-left: 0.5% }
 
@@ -10994,7 +10982,7 @@ specie-report-sighting {
 #registerModal {
   /*ion-scroll{
         padding-top: 45px; //header;
-            min-height: calc(100% - 45px); 
+            min-height: calc(100% - 45px);
             position: absolute;
             width: 100%;
             form{
@@ -11233,7 +11221,7 @@ span.back-text {
   align-items: center; }
 
  #coord-icon {
-  display: none;  
+  display: none;
 }
 
 .updateLabel {
@@ -11313,7 +11301,7 @@ ion-view#specieList .speciesPageFooter {
       height: 25px;
       margin: auto;
       vertical-align: middle; }
-      
+
 .colFooterSpace {
   float: left;
   width: 10%;
