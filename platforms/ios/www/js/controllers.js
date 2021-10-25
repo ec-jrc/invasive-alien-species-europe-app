@@ -3978,7 +3978,7 @@ $scope.copyInMemoryConfigFile = function(configData) {
   $scope.stravaLogin = function() {
 	if ($scope.main.connected) {
 	    if ($scope.environment != "PROD") console.log("PREMUTO STRAVA");
-		$cordovaOauth.strava("44090", "2efcef310ce74b29f572c8cf5cf2441a84dfc432", ["profile:read_all"]).then(function (result) {
+		$cordovaOauth.strava("...", "...", ["profile:read_all"]).then(function (result) {
             var user_id = "STRAVA_" + result.athlete.id;
         	$scope.appCtrl.session = $authenticationFactory.updateSession(result.access_token, new Date().getTime(), true);
 		    var user = {
@@ -4015,7 +4015,7 @@ $scope.copyInMemoryConfigFile = function(configData) {
   $scope.linkedinLogin = function() {
 	if ($scope.main.connected) {
 	    if ($scope.environment != "PROD") console.log("PREMUTO LINKEDIN"); //["r_basicprofile", "r_liteprofile","r_emailaddress"]
-		$cordovaOauth.linkedin("77e7tng8cc4u17", "4sYlBylKLySEapHN", ["w_member_social", "r_liteprofile","r_emailaddress"],"aowiejfoiewjfs").then(function (result) {
+		$cordovaOauth.linkedin("...", "...", ["w_member_social", "r_liteprofile","r_emailaddress"],"aowiejfoiewjfs").then(function (result) {
             var access_token = result.access_token;
             var expire_date = result.expires_in;
 			var api_url = 'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))&oauth2_access_token=' + access_token;
@@ -4067,7 +4067,7 @@ $scope.copyInMemoryConfigFile = function(configData) {
   $scope.twitterLogin = function() {
 	if ($scope.main.connected) {
 	    if ($scope.environment != "PROD") console.log("PREMUTO TWITTER");
-		$cordovaOauth.twitter("4NhFXSkJx2AJPrP5oaBzRKgeO", "wGwepuXpjmvEdU39TmvUUt9uUEn9n3A9fhoTblkmmdEIgWO8oo").then(function (result) {
+		$cordovaOauth.twitter("...", "...").then(function (result) {
 			var twitter_userid = "TWITTER_" + result.user_id;
 			var twitter_screenname = result.screen_name;
 			$scope.details = twitter_userid;
@@ -4106,7 +4106,7 @@ $scope.copyInMemoryConfigFile = function(configData) {
   $scope.facebookLogin = function() {
      if ($scope.main.connected) {
         if ($scope.environment != "PROD") console.log("PREMUTO FACEBOOK");
-        $cordovaOauth.facebook("1268542026870211", ["email", "public_profile"], {redirect_uri: "https://localhost/callback"}).then(function(result) {
+        $cordovaOauth.facebook("...", ["email", "public_profile"], {redirect_uri: "https://localhost/callback"}).then(function(result) {
            //$scope.details = result.access_token;
            $http.get("https://graph.facebook.com/v2.2/me", {params: {access_token: result.access_token, fields: "name, email", format: "json"}}).then(function(user_info) {
 			   var facebook_email = "";
