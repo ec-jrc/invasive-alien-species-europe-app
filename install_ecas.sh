@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
  
-arr=("android" "ios")
+arr=("android")
  
 for platform in "${arr[@]}"
 do
@@ -18,10 +18,10 @@ do
  
   rm -rf ./platforms/$platform/cordova/plugins/eu.europa.ec.ecas/
  
-  #plugman uninstall --platform $platform --plugin eu.europa.ec.ecas --project ./platforms/$platform
+  plugman uninstall --platform $platform --plugin eu.europa.ec.ecas --project ./platforms/$platform
  
-  #plugman install --platform $platform --project ./platforms/$platform --plugin https://webgate.ec.europa.eu/CITnet/stash/scm/ecas/ecas-mobile-sdk-cordova.git --variable ECAS_BASE_URL=$BASE_URL --variable REQUEST_FULL_USERDETAILS=$REQUEST_FULL_USERDETAILS --variable REQUEST_DGT=$REQUEST_DGT --variable ASSURANCE_LEVEL=$ASSURANCE_LEVEL --variable GROUP_FILTERS=$GROUP_FILTERS --variable SERVICE_URL=$SERVICE_URL
+  #plugman install --platform $platform --project ./platforms/$platform --plugin https://spinefa:Temi75@webgate.ec.europa.eu/CITnet/stash/scm/ecas/ecas-mobile-sdk-cordova.git --variable ECAS_BASE_URL=$BASE_URL --variable REQUEST_FULL_USERDETAILS=$REQUEST_FULL_USERDETAILS --variable REQUEST_DGT=$REQUEST_DGT --variable ASSURANCE_LEVEL=$ASSURANCE_LEVEL --variable GROUP_FILTERS=$GROUP_FILTERS --variable SERVICE_URL=$SERVICE_URL
 
-  plugman install --platform $platform --project ./platforms/$platform --plugin /Users/fabianospinelli/Documents/Projects/ecas-mobile-sdk-cordova --variable ECAS_BASE_URL=$BASE_URL --variable REQUEST_FULL_USERDETAILS=$REQUEST_FULL_USERDETAILS --variable REQUEST_DGT=$REQUEST_DGT --variable ASSURANCE_LEVEL=$ASSURANCE_LEVEL --variable GROUP_FILTERS=$GROUP_FILTERS --variable SERVICE_URL=$SERVICE_URL
+  plugman install --platform $platform --project ./platforms/$platform --plugin /home/spinefa/Projects/ecas-mobile-sdk-cordova --variable ECAS_BASE_URL=$BASE_URL --variable REQUEST_FULL_USERDETAILS=$REQUEST_FULL_USERDETAILS --variable REQUEST_DGT=$REQUEST_DGT --variable ASSURANCE_LEVEL=$ASSURANCE_LEVEL --variable GROUP_FILTERS=$GROUP_FILTERS --variable SERVICE_URL=$SERVICE_URL
 
 done

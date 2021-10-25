@@ -1,0 +1,45 @@
+{
+  "_from": "cordova-plugin-sign-in-with-apple",
+  "_id": "cordova-plugin-sign-in-with-apple@0.1.2",
+  "_inBundle": false,
+  "_integrity": "sha512-SOVa2fwqT5aRGCclgjQIZAA0RsylX9vWtVwNK9sx6kTV65FjZ2CcOygyY//EIo9YNSGzHR+OExhu9EDagyZIpg==",
+  "_location": "/cordova-plugin-sign-in-with-apple",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-sign-in-with-apple",
+    "name": "cordova-plugin-sign-in-with-apple",
+    "escapedName": "cordova-plugin-sign-in-with-apple",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-sign-in-with-apple/-/cordova-plugin-sign-in-with-apple-0.1.2.tgz",
+  "_shasum": "663322936c7d6b3cf440beb808ee2939da134770",
+  "_spec": "cordova-plugin-sign-in-with-apple",
+  "_where": "/home/spinefa/Projects/iase",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/twogate/cordova-plugin-sign-in-with-apple/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "This plugin only supports iOS >= 13.",
+  "homepage": "https://github.com/twogate/cordova-plugin-sign-in-with-apple#readme",
+  "license": "MIT",
+  "main": "www/sign-in-with-apple.js",
+  "name": "cordova-plugin-sign-in-with-apple",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twogate/cordova-plugin-sign-in-with-apple.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.1.2"
+}

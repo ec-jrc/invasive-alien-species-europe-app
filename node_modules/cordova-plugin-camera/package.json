@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-camera@^4.1.0",
-  "_id": "cordova-plugin-camera@4.1.0",
+  "_from": "cordova-plugin-camera@6.0.0",
+  "_id": "cordova-plugin-camera@6.0.0",
   "_inBundle": false,
-  "_integrity": "sha512-fCLhWjWYn49q3X5xaypAPgTz6MAWSKFFQvD2Gpi5SuVlrRPRphtX2jIqR2zCBuDTBR082QVnlc+yUDXt65Mjgw==",
+  "_integrity": "sha512-FTFKep8HZI/2HkX+Gc/dUACfZGV9+k9waXlgoEOKXOiPPR/1zBw29Mw+adcz4FQUpdWyAgYDxNiaPUnP0P+H2Q==",
   "_location": "/cordova-plugin-camera",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "cordova-plugin-camera@^4.1.0",
+    "raw": "cordova-plugin-camera@6.0.0",
     "name": "cordova-plugin-camera",
     "escapedName": "cordova-plugin-camera",
-    "rawSpec": "^4.1.0",
+    "rawSpec": "6.0.0",
     "saveSpec": null,
-    "fetchSpec": "^4.1.0"
+    "fetchSpec": "6.0.0"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-camera/-/cordova-plugin-camera-4.1.0.tgz",
-  "_shasum": "6474a3e080c4662aa00fd7425705d301c693ddc0",
-  "_spec": "cordova-plugin-camera@^4.1.0",
-  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-camera/-/cordova-plugin-camera-6.0.0.tgz",
+  "_shasum": "083478c92cfaa59435326b5a2a28c56fa75ffdd5",
+  "_spec": "cordova-plugin-camera@6.0.0",
+  "_where": "/home/spinefa/Projects/iase",
   "author": {
     "name": "Apache Software Foundation"
   },
@@ -43,13 +43,7 @@
   "deprecated": false,
   "description": "Cordova Camera Plugin",
   "devDependencies": {
-    "eslint": "^4.3.0",
-    "eslint-config-semistandard": "^11.0.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.3.0",
-    "eslint-plugin-node": "^5.0.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "@cordova/eslint-config": "^3.0.0"
   },
   "engines": {
     "cordovaDependencies": {
@@ -61,6 +55,21 @@
         "cordova-android": ">=6.3.0"
       },
       "5.0.0": {
+        "cordova": ">=9.0.0",
+        "cordova-android": ">=9.0.0",
+        "cordova-ios": ">=5.1.0"
+      },
+      "5.0.4-dev": {
+        "cordova": ">=9.0.0",
+        "cordova-android": "<10.0.0",
+        "cordova-ios": ">=5.1.0"
+      },
+      "6.0.0": {
+        "cordova": ">=9.0.0",
+        "cordova-android": ">=10.0.0",
+        "cordova-ios": ">=5.1.0"
+      },
+      "7.0.0": {
         "cordova": ">100"
       }
     }
@@ -83,9 +92,9 @@
     "url": "git+https://github.com/apache/cordova-plugin-camera.git"
   },
   "scripts": {
-    "eslint": "node node_modules/eslint/bin/eslint www && node node_modules/eslint/bin/eslint src && node node_modules/eslint/bin/eslint tests",
-    "test": "npm run eslint"
+    "lint": "eslint .",
+    "test": "npm run lint"
   },
   "types": "./types/index.d.ts",
-  "version": "4.1.0"
+  "version": "6.0.0"
 }

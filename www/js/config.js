@@ -4,7 +4,7 @@
 
 angular.module('MYGEOSS.constants', [])
 
-.constant('CONFIG', {
+.value('CONFIG', {
 	environment: 'PROD',
 	// PROD ------------------------------------------------------------------------
 	//serverProdApiUrlHttp: 'https://easin.jrc.ec.europa.eu/mobile/',
@@ -12,20 +12,22 @@ angular.module('MYGEOSS.constants', [])
 	serverProdApiUrlHttp: 'https://citizensdata.jrc.ec.europa.eu/easin/backend/',
 	serverProdApiUrlHttps: 'https://citizensdata.jrc.ec.europa.eu/easin/backend/',
 	// TEST ------------------------------------------------------------------------
-	serverTestApiUrlHttp: 'http://csdata-stg.ies.jrc.it/easin/backend/',
-	serverTestApiUrlHttps: 'http://csdata-stg.ies.jrc.it/easin/backend/',
-	//serverTestApiUrlHttp: 'https://easin.jrc.ec.europa.eu/mobile/',
-	//serverTestApiUrlHttps: 'https://easin.jrc.ec.europa.eu/mobile/',
+	//serverTestApiUrlHttp: 'http://csdata-stg.ies.jrc.it/easin/backend/',
+	//serverTestApiUrlHttps: 'http://csdata-stg.ies.jrc.it/easin/backend/',
+	serverTestApiUrlHttp: 'https://citizensdata.jrc.ec.europa.eu/easin/backend/',
+	serverTestApiUrlHttps: 'https://citizensdata.jrc.ec.europa.eu/easin/backend/',
 	// EASIN -----------------------------------------------------------------------
 	authenticationBaseURLHttp: 'http://alien.jrc.ec.europa.eu/api.auth/',
 	authenticationBaseURLHttps: 'https://easin.jrc.ec.europa.eu/api.auth/',
 	// -----------------------------------------------------------------------------
-	//staticFileContentURL: "https://digitalearthlab.jrc.ec.europa.eu/files/app/ias/",
 	staticFileContentURL: "https://citizensdata.jrc.ec.europa.eu/files/app/ias/",
+	staticFileTimestamp: "1600436176701",
 	contactMail : 'JRC-CitizenSData@ec.europa.eu',
 	countDownTimer : 300,  // seconds needed to recall the REST services to check if there are new notifications (default 1 hour: 3600 secs)
 	sessionExpirationTime: '604800000', //1hour
-	tileLayer: 'https://europa.eu/webtools/maps/tiles/osm-ec/{z}/{x}/{y}.png'
+	tileLayer: 'https://europa.eu/webtools/maps/tiles/osm-ec/{z}/{x}/{y}.png',
+    	userCanStartChat : "0",
+	serverEULogin : "https://citizensdata.jrc.ec.europa.eu/cas/backend/whoami"
 })
 
 .constant('TEXT', {

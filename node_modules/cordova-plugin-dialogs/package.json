@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-dialogs@^2.0.2",
+  "_from": "cordova-plugin-dialogs",
   "_id": "cordova-plugin-dialogs@2.0.2",
   "_inBundle": false,
   "_integrity": "sha512-FUHI6eEVeoz2VkxbF0P56QlUQLGzXcvw3i4xuXyM9gEct6Y+FA3Xzgl2pJTZcTg5wRqLWzN08kgNoHPkom15pw==",
   "_location": "/cordova-plugin-dialogs",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "tag",
     "registry": true,
-    "raw": "cordova-plugin-dialogs@^2.0.2",
+    "raw": "cordova-plugin-dialogs",
     "name": "cordova-plugin-dialogs",
     "escapedName": "cordova-plugin-dialogs",
-    "rawSpec": "^2.0.2",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "^2.0.2"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-dialogs/-/cordova-plugin-dialogs-2.0.2.tgz",
   "_shasum": "ac3ce8b73bc885ff847078d5b533e7a4ed418a2f",
-  "_spec": "cordova-plugin-dialogs@^2.0.2",
-  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "_spec": "cordova-plugin-dialogs",
+  "_where": "/home/spinefa/Projects/iase",
   "author": {
     "name": "Apache Software Foundation"
   },

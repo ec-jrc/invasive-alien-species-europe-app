@@ -6,7 +6,10 @@ angular.module('MYGEOSS.directives', [])
 	    link: function (scope, elem, attrs) {
 	      elem.on('scroll', function (e) {
 	      	var offset = document.getElementById("divSpeciesList").offsetHeight;
-	      	if (offset <= 500) scope.subfilter.openSubFilters = false;
+	      	if (offset <= 500) {
+              scope.subfilter.openSubFilters = false;
+              $("#divSpeciesList").css("top","64px");
+            }
 	      });
 	    }
 	  }
@@ -177,6 +180,14 @@ angular.module('MYGEOSS.directives', [])
                             if (originalPrecisionLabel.indexOf("Measured") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Measured", $filter('translate')('measured')); // EN
                             if (originalPrecisionLabel.indexOf("Medido") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Medido", $filter('translate')('measured')); // ES
                             if (originalPrecisionLabel.indexOf("Măsurat") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Măsurat", $filter('translate')('measured')); // RO
+                            if (originalPrecisionLabel.indexOf("Izmjerena") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Izmjerena", $filter('translate')('measured')); // BA
+                            if (originalPrecisionLabel.indexOf("Измерено") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Измерено", $filter('translate')('measured')); // BG
+                            if (originalPrecisionLabel.indexOf("Mesuré") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Mesuré", $filter('translate')('measured')); // FR
+                            if (originalPrecisionLabel.indexOf("Mért érték") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Mért érték", $filter('translate')('measured')); // HU
+                            if (originalPrecisionLabel.indexOf("imkejjel") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("imkejjel", $filter('translate')('measured')); // MT
+                            if (originalPrecisionLabel.indexOf("Valor medido") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Valor medido", $filter('translate')('measured')); // PT
+                            if (originalPrecisionLabel.indexOf("Измерено") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Измерено", $filter('translate')('measured')); // SR
+                            if (originalPrecisionLabel.indexOf("Ölçülen") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Ölçülen", $filter('translate')('measured')); // TR
                             // Correct Precision (measured) label in the current language
                             if (originalPrecisionLabel.indexOf("Estimat") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimat", $filter('translate')('estimated')); // RO
                             if (originalPrecisionLabel.indexOf("Stimata") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Stimata", $filter('translate')('estimated')); // IT
@@ -184,6 +195,14 @@ angular.module('MYGEOSS.directives', [])
                             if (originalPrecisionLabel.indexOf("Εκτιμώμενη") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Εκτιμώμενη", $filter('translate')('estimated')); // EL
                             if (originalPrecisionLabel.indexOf("Estimated") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimated", $filter('translate')('estimated')); // EN
                             if (originalPrecisionLabel.indexOf("Estimado") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimado", $filter('translate')('estimated')); // ES
+                            if (originalPrecisionLabel.indexOf("Procijenjena") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Procijenjena", $filter('translate')('estimated')); // BA
+                            if (originalPrecisionLabel.indexOf("Изчислено") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Изчислено", $filter('translate')('estimated')); // BG
+                            if (originalPrecisionLabel.indexOf("Estimé") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimé", $filter('translate')('estimated')); // FR
+                            if (originalPrecisionLabel.indexOf("Becsült érték") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Becsült érték", $filter('translate')('estimated')); // HU
+                            if (originalPrecisionLabel.indexOf("stmati") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("stmati", $filter('translate')('estimated')); // MT
+                            if (originalPrecisionLabel.indexOf("Estimativa") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Estimativa", $filter('translate')('estimated')); // PT
+                            if (originalPrecisionLabel.indexOf("Процењено") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Процењено", $filter('translate')('estimated')); // SR
+                            if (originalPrecisionLabel.indexOf("Tahmini") > -1) correctedPrecisionLabel = originalPrecisionLabel.replace("Tahmini", $filter('translate')('estimated')); // TR
 
                             L.geoJson(sob).addTo($scope.map).bindPopup(
                               correctedAbundanceLabel +  " (" + correctedPrecisionLabel +")" +
@@ -321,11 +340,12 @@ angular.module('MYGEOSS.directives', [])
           $scope.images = [];
           var imageIterateur = 0;
           var savedImages = angular.fromJson(savedReport.images);
+          if ($scope.environment != "PROD") console.log(savedImages);
           
           if (savedImages.length > 0){
              var arrayPromiseImages = [];
              while(imageIterateur < savedImages.length){
-            arrayPromiseImages.push($photoFactory.readAsDataURL($scope.dataDirectory, savedImages[imageIterateur].file));
+                arrayPromiseImages.push($photoFactory.readAsDataURL(cordova.file.dataDirectory, savedImages[imageIterateur].file));
                imageIterateur++;
              }
              $q.all(arrayPromiseImages).then(
@@ -399,6 +419,7 @@ angular.module('MYGEOSS.directives', [])
 
       $scope.changeSpecie = function(specie){
         $scope.specie = specie;
+        if ($scope.environment != "PROD") console.log(specie);
         $scope.currSpecie.specie = specie;
         $scope.displaySelectSpecie = $scope.specie.common_name;
       };
@@ -1114,8 +1135,9 @@ angular.module('MYGEOSS.directives', [])
           }else{
             var images = [];
             angular.forEach($scope.images, function(image, key){
+              //image.path
               obj = {
-                path: image.path,
+                path: $scope.realPath,
                 file: image.file
               }
               images.push(obj);
@@ -1222,6 +1244,24 @@ angular.module('MYGEOSS.directives', [])
     }
   }
 })
+
+/*
+ * SOB Controller -- Chat
+ * ------------------------------------------------------------
+ */
+
+.directive('sobChat', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'partials/sob_chat.html',
+    controller: function($scope){
+        $scope.readFeedback($scope.SOB._id);
+        $scope.SOB.unread_message = false;
+        $scope.SOB.num_message = 0;
+    }
+  }
+})
+
 
 /*
  * SOB Controller -- Photos

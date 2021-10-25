@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-filepath@^1.5.8",
-  "_id": "cordova-plugin-filepath@1.5.8",
+  "_from": "cordova-plugin-filepath",
+  "_id": "cordova-plugin-filepath@1.6.0",
   "_inBundle": false,
-  "_integrity": "sha512-DhMVM9lkndPWQ+lI8Um0Yq648MBKWpNe/3PW057g4wuFrnAz/9nR8Qs4bjYt/yxwxMX/VMZC59qXOcksd2JYuw==",
+  "_integrity": "sha512-DwKuH5tXhZJImU/rHDzQhG3bY2ihAUw5QqdNllso96MZ9TQTAbFvKPLppuJwx21XxYS2g3uB9R17AXEEme+sKA==",
   "_location": "/cordova-plugin-filepath",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "tag",
     "registry": true,
-    "raw": "cordova-plugin-filepath@^1.5.8",
+    "raw": "cordova-plugin-filepath",
     "name": "cordova-plugin-filepath",
     "escapedName": "cordova-plugin-filepath",
-    "rawSpec": "^1.5.8",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "^1.5.8"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-filepath/-/cordova-plugin-filepath-1.5.8.tgz",
-  "_shasum": "9adc7b0ae281683bcea755bb0ac86688e96f5e3a",
-  "_spec": "cordova-plugin-filepath@^1.5.8",
-  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-filepath/-/cordova-plugin-filepath-1.6.0.tgz",
+  "_shasum": "dc467c5f1f569a915774deed832fdbf5ab56386e",
+  "_spec": "cordova-plugin-filepath",
+  "_where": "/home/spinefa/Projects/iase",
   "author": {
     "name": "Ramesh Nair",
     "email": "ram@hiddentao.com"
@@ -58,5 +58,5 @@
   "scripts": {
     "version": "sync-cordova-xml package.json plugin.xml --output plugin.xml && git add plugin.xml"
   },
-  "version": "1.5.8"
+  "version": "1.6.0"
 }

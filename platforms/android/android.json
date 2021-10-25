@@ -53,10 +53,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
               "count": 1
             },
@@ -69,15 +65,15 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "xml": "<feature name=\"Keyboard\"><param name=\"android-package\" value=\"io.ionic.keyboard.IonicKeyboard\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
               "count": 1
             },
             {
               "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"io.sqlc.SQLitePlugin\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Keyboard\"><param name=\"android-package\" value=\"io.ionic.keyboard.IonicKeyboard\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             }
           ]
@@ -89,6 +85,10 @@
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
               "count": 2
+            },
+            {
+              "xml": "<queries><intent><action android:name=\"android.media.action.IMAGE_CAPTURE\" /></intent><intent><action android:name=\"android.intent.action.GET_CONTENT\" /></intent><intent><action android:name=\"android.intent.action.PICK\" /></intent><intent><action android:name=\"com.android.camera.action.CROP\" /><data android:mimeType=\"image/*\" android:scheme=\"content\" /></intent></queries>",
+              "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
@@ -103,7 +103,7 @@
               "count": 1
             },
             {
-              "xml": "<uses-feature android:name=\"android.hardware.location.gps\" />",
+              "xml": "<uses-feature android:name=\"android.hardware.location.gps\" android:required=\"true\" />",
               "count": 1
             },
             {
@@ -113,7 +113,7 @@
           ],
           "application": [
             {
-              "xml": "<provider android:authorities=\"${applicationId}.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"org.apache.cordova.camera.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/camera_provider_paths\" /></provider>",
+              "xml": "<provider android:authorities=\"${applicationId}.cordova.plugin.camera.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"org.apache.cordova.camera.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/camera_provider_paths\" /></provider>",
               "count": 1
             }
           ]
@@ -137,40 +137,6 @@
             {
               "xml": "<feature name=\"MobileAccessibility\"><param name=\"android-package\" value=\"com.phonegap.plugin.mobileaccessibility.MobileAccessibility\" /></feature>",
               "count": 1
-            },
-            {
-              "xml": "<feature name=\"ECASMobile\"><param name=\"android-package\" value=\"eu.europa.ec.ecasmobile.client.cordova.plugin.ECASMobilePlugin\" /></feature>",
-              "count": 1
-            }
-          ]
-        }
-      },
-      "app/src/main/res/raw/ecasmobile.xml": {
-        "parents": {
-          "/resources": [
-            {
-              "xml": "<string name=\"ECAS_BASE_URL\">https://ecas.ec.europa.eu</string>",
-              "count": 1
-            },
-            {
-              "xml": "<boolean name=\"REQUEST_FULL_USERDETAILS\">true</boolean>",
-              "count": 1
-            },
-            {
-              "xml": "<boolean name=\"REQUEST_DGT\">true</boolean>",
-              "count": 1
-            },
-            {
-              "xml": "<string name=\"ASSURANCE_LEVEL\">LOW</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string name=\"GROUP_FILTERS\">*</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string name=\"SERVICE_URL\">https://localhost/android/mygeoss2</string>",
-              "count": 1
             }
           ]
         }
@@ -182,7 +148,7 @@
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
     "cordova-plugin-camera": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "ANDROIDX_CORE_VERSION": "1.6.+",
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
     "cordova-plugin-datepicker": {
@@ -204,15 +170,16 @@
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
     "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
     "cordova-plugin-globalization": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
-    "cordova-plugin-inappbrowser": {
+    "cordova-plugin-network-information": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
-    "cordova-plugin-network-information": {
+    "cordova-plugin-sign-in-with-apple": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
     "cordova-plugin-splashscreen": {
@@ -221,31 +188,16 @@
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-    },
-    "cordova-plugin-wkwebview-engine": {
-      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-    },
-    "cordova-plugin-wkwebview-file-xhr": {
-      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-    },
-    "cordova-sqlite-storage": {
-      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-    },
     "ionic-plugin-keyboard": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
     "phonegap-plugin-mobile-accessibility": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
-    "eu.europa.ec.ecas": {
-      "ECAS_BASE_URL": "https://ecas.ec.europa.eu",
-      "REQUEST_FULL_USERDETAILS": "true",
-      "REQUEST_DGT": "true",
-      "ASSURANCE_LEVEL": "LOW",
-      "GROUP_FILTERS": "*",
-      "SERVICE_URL": "https://localhost/android/mygeoss2",
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-sqlite-storage": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     }
   },
@@ -543,21 +495,11 @@
       ]
     },
     {
-      "id": "cordova-plugin-inappbrowser.inappbrowser",
-      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-      "pluginId": "cordova-plugin-inappbrowser",
-      "clobbers": [
-        "cordova.InAppBrowser.open",
-        "window.open"
-      ]
-    },
-    {
       "id": "cordova-plugin-network-information.network",
       "file": "plugins/cordova-plugin-network-information/www/network.js",
       "pluginId": "cordova-plugin-network-information",
       "clobbers": [
-        "navigator.connection",
-        "navigator.network.connection"
+        "navigator.connection"
       ]
     },
     {
@@ -566,6 +508,14 @@
       "pluginId": "cordova-plugin-network-information",
       "clobbers": [
         "Connection"
+      ]
+    },
+    {
+      "id": "cordova-plugin-sign-in-with-apple.SignInWithApple",
+      "file": "plugins/cordova-plugin-sign-in-with-apple/www/sign-in-with-apple.js",
+      "pluginId": "cordova-plugin-sign-in-with-apple",
+      "clobbers": [
+        "cordova.plugins.SignInWithApple"
       ]
     },
     {
@@ -582,14 +532,6 @@
       "pluginId": "cordova-plugin-statusbar",
       "clobbers": [
         "window.StatusBar"
-      ]
-    },
-    {
-      "id": "cordova-sqlite-storage.SQLitePlugin",
-      "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
-      "pluginId": "cordova-sqlite-storage",
-      "clobbers": [
-        "SQLitePlugin"
       ]
     },
     {
@@ -618,35 +560,41 @@
       ]
     },
     {
-      "id": "eu.europa.ec.ecas.ECASMobile",
-      "file": "plugins/eu.europa.ec.ecas/www/ecasmobile.js",
-      "pluginId": "eu.europa.ec.ecas",
+      "id": "cordova-plugin-inappbrowser.inappbrowser",
+      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+      "pluginId": "cordova-plugin-inappbrowser",
       "clobbers": [
-        "ECASMobile"
+        "cordova.InAppBrowser.open",
+        "window.open"
+      ]
+    },
+    {
+      "id": "cordova-sqlite-storage.SQLitePlugin",
+      "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
+      "pluginId": "cordova-sqlite-storage",
+      "clobbers": [
+        "SQLitePlugin"
       ]
     }
   ],
   "plugin_metadata": {
-    "cordova-plugin-android-permissions": "1.0.2",
-    "cordova-plugin-camera": "4.1.0",
+    "cordova-plugin-android-permissions": "1.1.2",
+    "cordova-plugin-camera": "6.0.0",
     "cordova-plugin-datepicker": "0.9.3",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-dialogs": "2.0.2",
     "cordova-plugin-file": "6.0.2",
     "cordova-plugin-file-hash": "0.4.1",
-    "cordova-plugin-filepath": "1.5.8",
-    "cordova-plugin-geolocation": "4.0.2",
+    "cordova-plugin-filepath": "1.6.0",
+    "cordova-plugin-geolocation": "4.1.0",
     "cordova-plugin-globalization": "1.11.0",
-    "cordova-plugin-inappbrowser": "3.2.0",
-    "cordova-plugin-network-information": "2.0.2",
+    "cordova-plugin-network-information": "3.0.0",
+    "cordova-plugin-sign-in-with-apple": "0.1.2",
     "cordova-plugin-splashscreen": "5.0.3",
     "cordova-plugin-statusbar": "2.4.3",
-    "cordova-plugin-whitelist": "1.3.4",
-    "cordova-plugin-wkwebview-engine": "1.2.1",
-    "cordova-plugin-wkwebview-file-xhr": "2.1.4",
-    "cordova-sqlite-storage": "5.0.0",
     "ionic-plugin-keyboard": "2.2.1",
     "phonegap-plugin-mobile-accessibility": "1.0.5-dev",
-    "eu.europa.ec.ecas": "25"
+    "cordova-plugin-inappbrowser": "3.2.0",
+    "cordova-sqlite-storage": "6.0.0"
   }
 }

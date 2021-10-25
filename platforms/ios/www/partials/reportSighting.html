@@ -10,8 +10,8 @@
             {{main.titleReportDetails}} <!-- {{ 'REPORT_SIGHTING_TITLE' | translate}} -->
         </ion-nav-title>
         <ion-nav-buttons side="right">
-            <button  class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()' id="customMenuButton">
-            </button>
+         	<button id="customMenuButton" class="button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button><i ng-click='changeMainMenu()' style="float: right;">&nbsp;&nbsp;<img ng-show="notificationsWhatsNew && main.connected == true" id="menuIconLegal" src="img/red_bullet.png" class="notificationsMainMenu"/></i>
         </ion-nav-buttons>
     </ion-nav-bar>
 

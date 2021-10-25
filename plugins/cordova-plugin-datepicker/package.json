@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-datepicker@^0.9.3",
+  "_from": "cordova-plugin-datepicker",
   "_id": "cordova-plugin-datepicker@0.9.3",
   "_inBundle": false,
   "_integrity": "sha1-JVipzlmY9tbcBs+S/Yu7nQkB8Wo=",
   "_location": "/cordova-plugin-datepicker",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "tag",
     "registry": true,
-    "raw": "cordova-plugin-datepicker@^0.9.3",
+    "raw": "cordova-plugin-datepicker",
     "name": "cordova-plugin-datepicker",
     "escapedName": "cordova-plugin-datepicker",
-    "rawSpec": "^0.9.3",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "^0.9.3"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-datepicker/-/cordova-plugin-datepicker-0.9.3.tgz",
   "_shasum": "2558a9ce5998f6d6dc06cf92fd8bbb9d0901f16a",
-  "_spec": "cordova-plugin-datepicker@^0.9.3",
-  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "_spec": "cordova-plugin-datepicker",
+  "_where": "/home/spinefa/Projects/iase",
   "author": {
     "name": "Vitalii Blagodir",
     "email": "vitalii.blagodir@gmail.com"

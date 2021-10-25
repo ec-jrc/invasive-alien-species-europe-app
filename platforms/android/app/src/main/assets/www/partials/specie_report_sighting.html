@@ -16,7 +16,7 @@
 
 		<div class="row select_specie" ng-if="cameFromReportSighting !== true">
 			<div class="col col-20 alignCenter">
-				<img width="50px" width="50px" ng-src="{{currSpecie.specie.real_path}}{{currSpecie.specie.photos[0].src}}" />
+				<img width="50px" width="50px" ng-src="{{realPath}}{{currSpecie.specie.photos[0].src}}" />
 			</div>
 			<div class="col col-80">
 				<button class="form-button">{{currSpecie.specie.common_name}}</button>
@@ -24,7 +24,7 @@
 		</div>
 		<div class="row select_specie" ng-if="cameFromReportSighting === true">
 			<div class="col col-20 alignCenter">
-				<img width="50px" width="50px" ng-src="{{currSpecie.specie.real_path}}{{currSpecie.specie.photos[0].src}}" />
+				<img width="50px" width="50px" ng-src="{{realPath}}{{currSpecie.specie.photos[0].src}}" />
 			</div>
 			<div class="col col-80" ng-if="reportStatus != 'pending'">
 				<button class="form-button" ng-class="errorSelectSpecie" ng-click="openModalReportSightingSpecieList()">{{displaySelectSpecie}}</button>
@@ -33,7 +33,7 @@
                 <span>{{displaySelectSpecie}}</span>
             </div>
 		</div>
-
+  
 		<div class="padding"><span class="mandatory">{{'REPORT_upload_photo' | translate}}</span></div><!-- Photos -->
 		<div class="row speciePictures">
 			<div class="col col-20 alignCenter">

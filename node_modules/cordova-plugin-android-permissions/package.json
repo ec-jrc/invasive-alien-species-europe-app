@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-android-permissions@^1.0.2",
-  "_id": "cordova-plugin-android-permissions@1.0.2",
+  "_from": "cordova-plugin-android-permissions",
+  "_id": "cordova-plugin-android-permissions@1.1.2",
   "_inBundle": false,
-  "_integrity": "sha512-Eb7Cf3lk9RydSYqmUzBAEVTT/EU+opV2yvyqkgZZAB/RVfHxsla/1wzHq0PBwAFjHIrxBAGZrOpJFVKc1SxtuA==",
+  "_integrity": "sha512-vJd56gLaSgQnB/4+uUjyVwVAii5TszBPAgjVkGvM8658cP5rjiNFAWmoOYkjeSe1I6dJk+MGrh/GbPkn0a+2OA==",
   "_location": "/cordova-plugin-android-permissions",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "tag",
     "registry": true,
-    "raw": "cordova-plugin-android-permissions@^1.0.2",
+    "raw": "cordova-plugin-android-permissions",
     "name": "cordova-plugin-android-permissions",
     "escapedName": "cordova-plugin-android-permissions",
-    "rawSpec": "^1.0.2",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "^1.0.2"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-android-permissions/-/cordova-plugin-android-permissions-1.0.2.tgz",
-  "_shasum": "e26556ff11a560dffa33a5915d27fe9d44b3c248",
-  "_spec": "cordova-plugin-android-permissions@^1.0.2",
-  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-android-permissions/-/cordova-plugin-android-permissions-1.1.2.tgz",
+  "_shasum": "ef1ef9a3e596066bf27b1bb4fb96f2331ed48d19",
+  "_spec": "cordova-plugin-android-permissions",
+  "_where": "/home/spinefa/Projects/iase",
   "author": {
     "name": "Jason Yang"
   },
@@ -59,5 +59,5 @@
     "type": "git",
     "url": "git+https://github.com/NeoLSN/cordova-plugin-android-permission.git"
   },
-  "version": "1.0.2"
+  "version": "1.1.2"
 }

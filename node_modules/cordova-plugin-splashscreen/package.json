@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-splashscreen@^5.0.3",
+  "_from": "cordova-plugin-splashscreen@5.0.3",
   "_id": "cordova-plugin-splashscreen@5.0.3",
   "_inBundle": false,
   "_integrity": "sha512-rnoDXMDfzoeHDBvsnu6JmzDE/pV5YJCAfc5hYX/Mb2BIXGgSjFJheByt0tU6kp3Wl40tSyFX4pYfBwFblBGyRg==",
   "_location": "/cordova-plugin-splashscreen",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "cordova-plugin-splashscreen@^5.0.3",
+    "raw": "cordova-plugin-splashscreen@5.0.3",
     "name": "cordova-plugin-splashscreen",
     "escapedName": "cordova-plugin-splashscreen",
-    "rawSpec": "^5.0.3",
+    "rawSpec": "5.0.3",
     "saveSpec": null,
-    "fetchSpec": "^5.0.3"
+    "fetchSpec": "5.0.3"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-splashscreen/-/cordova-plugin-splashscreen-5.0.3.tgz",
   "_shasum": "02820472771c3e10b43ceedd54b0a1e4674efa6d",
-  "_spec": "cordova-plugin-splashscreen@^5.0.3",
-  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "_spec": "cordova-plugin-splashscreen@5.0.3",
+  "_where": "/home/spinefa/Projects/iase",
   "author": {
     "name": "Apache Software Foundation"
   },

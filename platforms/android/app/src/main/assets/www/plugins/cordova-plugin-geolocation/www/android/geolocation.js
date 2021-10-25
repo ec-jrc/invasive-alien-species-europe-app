@@ -18,7 +18,7 @@ cordova.define("cordova-plugin-geolocation.geolocation", function(require, expor
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var exec = cordova.require('cordova/exec'); // eslint-disable-line no-undef
 var utils = require('cordova/utils');

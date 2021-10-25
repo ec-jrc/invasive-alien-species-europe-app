@@ -37,8 +37,6 @@ var scenarioCount = (!!window.hasWebKitWebSQL) ? (isAndroid ? 3 : 2) : 1;
 var mytests = function() {
 
   for (var i=0; i<scenarioCount; ++i) {
-    // TBD skip plugin test on browser platform (not yet supported):
-    if (isBrowser && (i === 0)) continue;
 
     describe(scenarioList[i] + ': BASIC db tx sql storage results test(s)', function() {
       var scenarioName = scenarioList[i];
@@ -1024,6 +1022,8 @@ var mytests = function() {
         }, MYTIMEOUT);
 
         it(suiteName + 'ALTER TABLE RENAME test', function(done) {
+          if (isWebSql && isAppleMobileOS) pending('TBD SKIP for (WebKit) Web SQL on iOS');
+
           var dbname = 'ALTER-TABLE-RENAME-test.db';
           var createdb = openDatabase(dbname, '1.0', 'Test', DEFAULT_SIZE);
 
@@ -1079,10 +1079,10 @@ var mytests = function() {
           }
         }, MYTIMEOUT);
 
-        // TBD December 2019 SQLite crash report ref:
+        // From December 2019 SQLite crash report - fixed in 2020 ref:
         // - http://sqlite.1065341.n5.nabble.com/Crash-Bug-Report-tc109903.html
         // - https://github.com/xpbrew/cordova-sqlite-storage/issues/904
-        xit(suiteName + 'RENAME table with view test [SQLite crash bug report December 2019]', function(done) {
+        it(suiteName + 'RENAME table with view test [SQLite crash bug report December 2019]', function(done) {
           if (isWebSql) pending('[TBD] NOT WORKING on (WebKit) Web SQL');
           if (!isWebSql && isAndroid && isImpl2) pending('[TBD] NOT WORKING on Android system android.database provider');
 

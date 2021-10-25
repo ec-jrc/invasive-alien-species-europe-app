@@ -12,17 +12,25 @@
             {{'LOG_REGISTER_TITLE' | translate}}
         </ion-nav-title>
         <ion-nav-buttons side="right">
-            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
-            </button>
+         	<button id="customMenuButton" class="button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button><i ng-click='changeMainMenu()' style="float: right;">&nbsp;&nbsp;<img ng-show="notificationsWhatsNew && main.connected == true" id="menuIconLegal" src="img/red_bullet.png" class="notificationsMainMenu"/></i>
         </ion-nav-buttons>
     </ion-nav-bar>
 
     <ion-content scroll="true" overflow-scroll="true" class="center">
         <section class="login-container" ng-if="main.loginType == ''">
             <div class="row">
+                <div id="iconLoginEulogin" class="col-50 text-center">
+                    <img ng-click="EULogin()" ng-src="img/login_logo/eulogin.png" class="loginIcon"><br/><span class="loginText">EU Login</span>
+                </div>
+                <div id="iconLoginEasin" class="col-50 text-center">
+                    <img ng-click="easinLogin()" ng-src="img/login_logo/easin.png" class="loginIcon"><br/><span class="loginText">EASIN Login</span>
+                </div>
+		<!--
                 <div id="iconLoginFacebook" class="col-50 text-center">
                     <img ng-click="facebookLogin()" ng-src="img/login_logo/facebook.png" class="loginIcon"><br/><span class="loginText">Facebook</span>
                 </div>
+		-->
                 <div id="iconLoginTwitter" class="col-50 text-center">
                     <img ng-click="twitterLogin()" ng-src="img/login_logo/twitter.png" class="loginIcon"><br/><span class="loginText">Twitter</span>
                 </div>
@@ -32,11 +40,14 @@
                 <div id="iconLoginStrava" class="col-50 text-center">
                     <img ng-click="stravaLogin()" ng-src="img/login_logo/strava.png" class="loginIcon"><br/><span class="loginText">Strava</span>
                 </div>
-                <div id="iconLoginEasin" class="col-50 text-center">
-                    <img ng-click="easinLogin()" ng-src="img/login_logo/easin.png" class="loginIcon"><br/><span class="loginText">EASIN Login</span>
+                <div id="iconLoginApple" class="col-50 text-center">
+                    <img ng-click="appleLogin()" ng-src="img/login_logo/apple.png" class="loginIcon"><br/><span class="loginText">Apple</span>
                 </div>
-                <div id="iconLoginEulogin" class="col-50 text-center">
-                    <img ng-click="EULogin()" ng-src="img/login_logo/eulogin.png" class="loginIcon"><br/><span class="loginText">EU Login</span>
+                <div id="iconLoginDropbox" class="col-50 text-center">
+                    <img ng-click="dropboxLogin()" ng-src="img/login_logo/dropbox.png" class="loginIcon"><br/><span class="loginText">Dropbox</span>
+                </div>
+                <div id="iconLoginDropbox" class="col-50 text-center">
+		    &nbsp;
                 </div>
         </section>
 
@@ -79,8 +90,12 @@
 						<img width="100px" ng-if="appCtrl.provider == 'linkedin'" src="img/login_logo/linkedin.png" />
 						<img width="100px" ng-if="appCtrl.provider == 'strava'" src="img/login_logo/strava.png" />
 						<img width="100px" ng-if="appCtrl.provider == 'eulogin'" src="img/login_logo/eulogin.png" />
+						<img width="100px" ng-if="appCtrl.provider == 'apple'" src="img/login_logo/apple.png" />
+						<img width="100px" ng-if="appCtrl.provider == 'dropbox'" src="img/login_logo/dropbox.png" />
                     	<br/>
-						<span>{{ userLogged }}</span>
+						<span style="font-size: 18px;">{{ userLogged }}</span>
+                        <br><br>
+                        <span style="font-size: 18px;color:#555555">{{'SESSION_EXPIRES' | translate}}<br>{{expireString}}</span>
                     </div>
                 </div>
                 <button class="register" ng-click="openChangePwdModal()" ng-if="isLogged && appCtrl.provider == 'easin'" ng-style="appCtrl.accessibilityFont">{{'Change_pwd' | translate}}</button> <br/>

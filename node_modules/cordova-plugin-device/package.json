@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-device@^2.0.3",
+  "_from": "cordova-plugin-device",
   "_id": "cordova-plugin-device@2.0.3",
   "_inBundle": false,
   "_integrity": "sha512-Jb3V72btxf3XHpkPQsGdyc8N6tVBYn1vsxSFj43fIz9vonJDUThYPCJJHqk6PX6N4dJw6I4FjxkpfCR4LDYMlw==",
   "_location": "/cordova-plugin-device",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "tag",
     "registry": true,
-    "raw": "cordova-plugin-device@^2.0.3",
+    "raw": "cordova-plugin-device",
     "name": "cordova-plugin-device",
     "escapedName": "cordova-plugin-device",
-    "rawSpec": "^2.0.3",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "^2.0.3"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-device/-/cordova-plugin-device-2.0.3.tgz",
   "_shasum": "c2b41b7efd0455dd097f89356d85bfdd5dadeb0f",
-  "_spec": "cordova-plugin-device@^2.0.3",
-  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "_spec": "cordova-plugin-device",
+  "_where": "/home/spinefa/Projects/iase",
   "author": {
     "name": "Apache Software Foundation"
   },

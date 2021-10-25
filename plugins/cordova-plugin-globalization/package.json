@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-globalization@^1.11.0",
+  "_from": "cordova-plugin-globalization",
   "_id": "cordova-plugin-globalization@1.11.0",
   "_inBundle": false,
   "_integrity": "sha1-6sMVgQAphJOvowvolA5pj2HvvP4=",
   "_location": "/cordova-plugin-globalization",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "tag",
     "registry": true,
-    "raw": "cordova-plugin-globalization@^1.11.0",
+    "raw": "cordova-plugin-globalization",
     "name": "cordova-plugin-globalization",
     "escapedName": "cordova-plugin-globalization",
-    "rawSpec": "^1.11.0",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "^1.11.0"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-globalization/-/cordova-plugin-globalization-1.11.0.tgz",
   "_shasum": "eac3158100298493afa30be8940e698f61efbcfe",
-  "_spec": "cordova-plugin-globalization@^1.11.0",
-  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "_spec": "cordova-plugin-globalization",
+  "_where": "/home/spinefa/Projects/iase",
   "author": {
     "name": "Apache Software Foundation"
   },

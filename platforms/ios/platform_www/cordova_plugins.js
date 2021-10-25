@@ -407,6 +407,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/whatwg-fetch-2.0.3.js",
       "pluginId": "cordova-plugin-wkwebview-file-xhr",
       "runs": true
+    },
+    {
+      "id": "cordova-plugin-sign-in-with-apple.SignInWithApple",
+      "file": "plugins/cordova-plugin-sign-in-with-apple/www/sign-in-with-apple.js",
+      "pluginId": "cordova-plugin-sign-in-with-apple",
+      "clobbers": [
+        "cordova.plugins.SignInWithApple"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -431,6 +439,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "ionic-plugin-keyboard": "2.2.1",
     "phonegap-plugin-mobile-accessibility": "1.0.5-dev",
     "eu.europa.ec.ecas": "25",
-    "cordova-plugin-wkwebview-file-xhr": "2.1.4"
+    "cordova-plugin-wkwebview-file-xhr": "2.1.4",
+    "cordova-plugin-sign-in-with-apple": "0.1.2"
   };
 });

@@ -19,11 +19,11 @@
          <ion-nav-title>
             {{'HOME_TITLE' | translate}}
         </ion-nav-title>
-        <ion-nav-buttons side="right">
+        <ion-nav-buttons side="right"> <!-- button button-icon -->
          	<img ng-if="gps_enabled == false" border="1" width="30px" height="30px" src="img/gps_disabled.png"/>
          	<img ng-if="main.connected == false" border="1" width="30px" height="30px" src="img/offline.png"/>
-         	<button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
-            </button>
+         	<button id="customMenuButton" class="button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button><i ng-click='changeMainMenu()' style="float: right;">&nbsp;&nbsp;<img ng-show="notificationsWhatsNew && main.connected == true" id="menuIconLegal" src="img/red_bullet.png" class="notificationsMainMenu"/></i>
         </ion-nav-buttons>
     </ion-nav-bar>
 
@@ -34,7 +34,9 @@
                     <a ui-sref="app.specieList"><img ng-src="img/home_icon/main_menu_logo_invasive_species-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
                 <div id="iconMyRecords" class="col-50 text-center">
-                    <a ui-sref="app.my_records"><img ng-src="img/home_icon/main_menu_logo_species_records-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
+                    <a ui-sref="app.my_records"><img ng-show="showNumFeedback" id="cartoonFeedback" src="img/cartoon.png" style="position:absolute;top:15px;left:87%;width:30px;z-index:10;"/>
+                    <span ng-show="showNumFeedback" id="textFeedback" style="position:absolute;top:18px;left:89%;z-index:11;color:white;font-style:bold;">{{feedback.num}}</span>
+                    <img ng-src="img/home_icon/main_menu_logo_species_records-{{selectedLanguage.language.idL}}.svg" class="main-menu__button"></a>
                 </div>
            <!--  </div>
             <div class="row"> -->

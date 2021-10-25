@@ -1,0 +1,51 @@
+<ion-scroll zooming="false" direction="y" style="width: 100%; height: 91%">
+    <div id="sob_chat" class="padding" ng-style="appCtrl.accessibilityFont">
+        <div ng-repeat="itemFeedback in feedbacks.messages">
+            <!--
+            <div ng-show="itemFeedback.role == 'validator'" style="text-align:left;">
+                {{itemFeedback.date.substring(6,8)}}.{{itemFeedback.date.substring(4,6)}}.{{itemFeedback.date.substring(0,4)}} - {{itemFeedback.time.substring(0,2)}}:{{itemFeedback.time.substring(2,4)}}:{{itemFeedback.time.substring(4,6)}}<br>
+                <h4 ><span style="font-weight:bold;font-size:17px;">{{'validator' | translate}}:<br/></span></h4>
+                {{itemFeedback.message}}<br/>
+                <hr>
+            </div>
+            <div ng-show="itemFeedback.role == 'owner'" style="text-align:right;">
+                {{itemFeedback.date.substring(6,8)}}.{{itemFeedback.date.substring(4,6)}}.{{itemFeedback.date.substring(0,4)}} - {{itemFeedback.time.substring(0,2)}}:{{itemFeedback.time.substring(2,4)}}:{{itemFeedback.time.substring(4,6)}}<br>
+                <h4><span style="font-weight:bold;font-size:17px;">{{'me' | translate}}:<br/></span></h4>
+                {{itemFeedback.message}}<br/>
+                <hr>
+            </div>
+            -->
+        </div>
+        <div ng-repeat="itemFeedback in feedbacks.messages">
+            <div class="row" ng-show="itemFeedback.role == 'validator'">
+                <div class="col col-80" style="text-align:left;background-color:#84AF95;max-width:100%;border-radius:5px;padding:10px;"><span style="font-weight:bold;">{{'validator' | translate}}:</span><br/>{{itemFeedback.message}}</div>
+                <div class="col col-20">&nbsp;</div>
+            </div>
+            <div class="row" ng-show="itemFeedback.role == 'validator'">
+                <div class="col col-100" style="text-align:left;padding:3px;color:#bbbbbb;font-size:13px;">{{itemFeedback.date.substring(6,8)}}.{{itemFeedback.date.substring(4,6)}}.{{itemFeedback.date.substring(0,4)}} - {{itemFeedback.time.substring(0,2)}}:{{itemFeedback.time.substring(2,4)}}:{{itemFeedback.time.substring(4,6)}}
+                </div>
+            </div>
+            
+            <div class="row" ng-show="itemFeedback.role == 'owner'">
+                <div class="col col-20">&nbsp;</div>
+                <div class="col col-80" style="text-align:left;background-color:#D5DFCE;max-width:100%;border-radius:5px;padding:10px;">{{itemFeedback.message}}</div>
+            </div>
+            <div class="row" ng-show="itemFeedback.role == 'owner'">
+                <div class="col col-100" style="text-align:right;padding:3px;color:#bbbbbb;font-size:13px;">{{itemFeedback.date.substring(6,8)}}.{{itemFeedback.date.substring(4,6)}}.{{itemFeedback.date.substring(0,4)}} - {{itemFeedback.time.substring(0,2)}}:{{itemFeedback.time.substring(2,4)}}:{{itemFeedback.time.substring(4,6)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-scroll>
+<div style="width: 100%; height: 9%" style="background-color: #dedede;">
+    <div class="row noPadding" style="background-color: #dedede;">
+        <div class="col col-80" style="background-color: #dedede;">
+            <input ng-show="sendButtonEnabled" type="text" ng-model="feedback.message" placeholder="{{'reply_validator' | translate}}" required style="width: 97%">
+            <input disabled ng-show="sendButtonEnabled == false" type="text" ng-model="feedback.message" placeholder="{{'no_reply_validator' | translate}}" required style="width: 97%">
+        </div>
+		<div class="col col-20" style="background-color: #dedede;">
+            <a ng-show="sendButtonEnabled" ng-click='sendFeedback(SOB._id)'><img src="img/sending.png" style="width:60%" /></a>
+            <a ng-show="sendButtonEnabled == false"><img src="img/no_sending.png" style="width:60%" /></a>
+        </div>
+    </div>
+</div>

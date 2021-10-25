@@ -12,37 +12,47 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>de</string>
+		<string>en</string>
+		<string>es</string>
+		<string>it</string>
+		<string>ro</string>
+		<string>el</string>
+		<string>fr</string>
+		<string>hu</string>
+		<string>po</string>
+		<string>sr</string>
+		<string>tr</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.0.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3.0.0</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ECASMobileSDK</key>
+	<dict>
+		<key>AssuranceLevel</key>
+		<string>LOW</string>
+		<key>ECASBaseURL</key>
+		<string>https://ecas.ec.europa.eu</string>
+		<key>GroupFilters</key>
+		<string>*</string>
+		<key>ServiceURL</key>
+		<string>https://localhost/android/mygeoss2</string>
+		<key>requestDesktopGrantingTicket</key>
+		<string>true</string>
+		<key>requestFullUserDetails</key>
+		<string>true</string>
+	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSMainNibFile</key>
-	<string/>
-	<key>NSMainNibFile~ipad</key>
-	<string/>
-	<key>UIRequiresFullScreen</key>
-	<true/>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -54,22 +64,36 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>ECASMobileSDK</key>
-	<dict>
-		<key>ECASBaseURL</key>
-		<string>https://ecas.ec.europa.eu</string>
-		<key>requestFullUserDetails</key>
-		<string>true</string>
-		<key>requestDesktopGrantingTicket</key>
-		<string>true</string>
-		<key>AssuranceLevel</key>
-		<string>LOW</string>
-		<key>GroupFilters</key>
-		<string>*</string>
-		<key>ServiceURL</key>
-		<string>https://localhost/android/mygeoss2</string>
-	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>The application uses the camera to take picture for the observation</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Your current location will be displayed on the map and used for nearby search result and to geolocalize user's observations.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your current location will be displayed on the map and used for nearby search result and to geolocalize user's observations.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your current location will be displayed on the map and used for nearby search result and to geolocalize user's observations.</string>
+	<key>NSMainNibFile</key>
+	<string></string>
+	<key>NSMainNibFile~ipad</key>
+	<string></string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>The application requires photo library access to select images for every observation sent by the user.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>The application requires photo library access to select images for every observation sent by the user.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>CDVLaunchScreen</string>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
 </dict>
 </plist>

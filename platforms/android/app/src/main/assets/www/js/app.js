@@ -19,10 +19,10 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
 	  var permissions = cordova.plugins.permissions;
 	  permissions.requestPermission(permissions.CAMERA, successCamera, errorCamera);
 	  permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE, successFile, errorFile);
-	  
+
 	  function errorCamera() { console.log('Some permissions has not been not turned on'); }
       function successCamera( status ) { if( !status.hasPermission ) errorCamera(); }
-	  
+
 	  function errorFile() { console.log('Some permissions has not been not turned on'); }
       function successFile( status ) { if( !status.hasPermission ) errorFile(); }
 
@@ -43,27 +43,16 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
     $rootScope.appDownloadPerc = 1000;
     $rootScope.downloadError = false;
     $rootScope.download = false;
-    
+
     //UUID
     $rootScope.UUID = $cordovaDevice.getUUID();
-    
+
     //init camera option to avoid load to quickly
     $photoFactory.initOptionsCameraCamera();
     $photoFactory.initOptionsCameraLibrary();
-    
+
     SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttps;
     // Check if HTTPS protocol is available for EASIN authentication service
-    /* ==== TO BE REMOVED ====
-    $.ajax({ url: SERVER.authenticationBaseURL + "mobile/register", timeout: 5000})
-    .always(function(answer) {
-    	if (CONFIG.environment != "PROD") console.log("Network Authentication: " + answer.status);
-  	  if ((answer.status == 200) || (answer.status == 405)) {
-  		  SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttps;
-  	  } else {
-  		  SERVER.authenticationBaseURL = CONFIG.authenticationBaseURLHttp;
-  	  }
-    });
-    */
   	if (CONFIG.environment != "PROD") console.log(SERVER.authenticationBaseURL);
     // Check if HTTPS protocol is available for EASIN REST services
     if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttps;
@@ -118,8 +107,8 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
 	                }, errorHandler.bind(null, fileName));
 	            }, errorHandler.bind(null, fileName));
 	        }, errorHandler.bind(null, fileName));
-	    }    
-	    
+	    }
+
 	    function errorCallback(error) {
 	    	if (CONFIG.environment != "PROD") console.log("Access to File System NOT GRANTED");
 	    }
@@ -204,6 +193,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
                     }, null);
         },null);
     }
+    
     function copySpeciesFile(language)
     {
         var path = cordova.file.applicationDirectory + "www/data/species/species-" + language + ".json";
@@ -230,7 +220,34 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
                     }, null);
         },null);
     }
-    
+
+    function copyConfigFile()
+    {
+        var path = cordova.file.applicationDirectory + "www/data/config.json";
+        window.resolveLocalFileSystemURL(path,
+        function gotFile(fileEntry)
+        {
+        	window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+                    function onSuccess(dirEntry)
+                    {
+        				window.resolveLocalFileSystemURL(cordova.file.dataDirectory + "config.json",
+        	                    null,
+        						function onSuccess(fileDataEntry)
+                        		{
+		            				fileEntry.copyTo(dirEntry, "config.json",
+		                                    function()
+		                                    {
+		            							if (CONFIG.environment != "PROD") console.log("Copying [config.json] was successful")
+		                                    },
+		                                    function()
+		                                    {
+		                                    	if (CONFIG.environment != "PROD") console.log("Unsuccessful copying [config.json]")
+		                                    });
+                        		});
+                    }, null);
+        },null);
+    }
+
     function copyLocalVersionFile(area)
     {
         var path = cordova.file.applicationDirectory + "www/data/species/last_version_local.json";
@@ -267,7 +284,15 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
     copySpeciesFile("es");
     copySpeciesFile("ro");
     copySpeciesFile("el");
-    
+    copySpeciesFile("fr");
+    copySpeciesFile("hu");
+    copySpeciesFile("pt");
+    copySpeciesFile("sr");
+    copySpeciesFile("tr");
+    copySpeciesFile("ba");
+    copySpeciesFile("bg");
+    copySpeciesFile("mt");
+
     //DATABASE init
     //var db = $cordovaSQLite.openDB("mygeoss.db");
     var db = window.sqlitePlugin.openDatabase({name: 'mygeoss.db', location: 'default'}, function(success){
@@ -315,7 +340,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
 
     //overwritte cordovanetwork function, to rreturn isOnline true even if the newtwork type is unknow
     $cordovaNetwork.isOnline = function () {
-    return navigator.connection.type !== Connection.NONE;
+        return navigator.connection.type !== Connection.NONE;
     };
     $cordovaNetwork.isOffline = function () {
         return navigator.connection.type === Connection.NONE;
@@ -358,9 +383,9 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
     //   console.log('Current text zoom = ' + textZoom + '%')
     //    -moz-text-size-adjust, -webkit-text-size-adjust, and -ms-text-size-adjust.
     // });
-    
-    
-	var errorHandler = function (fileName, e) {  
+
+
+	var errorHandler = function (fileName, e) {
         var msg = '';
 
         switch (e.code) {
@@ -389,7 +414,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
         	copyVersionFile();
         }
     }
-    
+
 	function readVersionFile(cb) {
 		var type = window.PERSISTENT;
 	    var size = 5*1024*1024;
@@ -411,23 +436,23 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
                     reader.readAsText(file);
                 }, errorHandler.bind(null, fileName));
             }, errorHandler.bind(null, fileName));
-        }    
-	    
+        }
+
 	    function errorCallback(error) {
 	    	alert("ERROR: " + error.code)
 	    }
-	    		
+
 	}
 
-	
+
     copyEmptyPicFile();
-	/* DISABLED FOR TEST getLastVersionFromREST(); */
-    //copyLocalVersionFile('TEST');
+    copyConfigFile();
     copyLocalVersionFile('TEST1');
     copyLocalVersionFile('TEST2');
     copyLocalVersionFile('DANUBE');
     copyLocalVersionFile('MALTA');
     copyLocalVersionFile('IBERIAN_PENINSULA');
+    copyLocalVersionFile('SAVA_TIES');
     copyLocalVersionFile('CRETE_HORIZ');
 
   });
@@ -447,7 +472,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
     templateUrl: 'partials/app.html',
     controller: 'AppCtrl'
   })
-  
+
   .state('app.home', {
     cache: false,
     url: '/home',
@@ -470,7 +495,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
       }
   })
 
-  .state('app.specie', { 
+  .state('app.specie', {
     cache: false,
     url: '/specie/:specie',
     views: {
@@ -481,7 +506,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
       }
   })
 
-  .state('app.reportSighting', { 
+  .state('app.reportSighting', {
     cache: false,
     url: '/reportSighting/{id:int}',
     views: {
@@ -535,7 +560,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
       }
     }
   })
-  
+
   .state('app.about', {
     url: '/about',
     cache: false,
@@ -580,7 +605,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
   // note that you can also chain configs
  $ionicConfigProvider.backButton.text('').icon('ion-chevron-left');
  $ionicConfigProvider.views.swipeBackEnabled(false);
- //$ionicConfigProvider.tabs.position('top'); 
+ //$ionicConfigProvider.tabs.position('top');
  //$ionicConfigProvider.views.transition('none');
 
 });

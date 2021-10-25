@@ -1,6 +1,6 @@
 angular.module('MYGEOSS.controllers', [])
 
-.controller('AppCtrl', function($scope, $rootScope, $state, $q, $ionicModal, $ionicHistory,  $ionicLoading, $cordovaInAppBrowser, $ionicPlatform, $cordovaNetwork, $networkFactory, $easinFactoryLocal, $easinFactory, $authenticationFactory, $translate, $language, $staticContent, CONFIG, SERVER, $filter, $timeout, $cordovaGeolocation, $speciesFactory, $stateParams) {
+.controller('AppCtrl', function($scope, $rootScope, $state, $q, $ionicModal, $ionicHistory,  $ionicLoading, $cordovaInAppBrowser, $ionicPlatform, $cordovaNetwork, $networkFactory, $easinFactoryLocal, $easinFactory, $authenticationFactory, $translate, $language, $staticContent, CONFIG, SERVER, $filter, $timeout, $cordovaGeolocation, $speciesFactory, $stateParams, $http, $ionicScrollDelegate) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -28,6 +28,8 @@ angular.module('MYGEOSS.controllers', [])
 		//});
 	}
   );
+  
+  $scope.MD5 = function(s){function L(k,d){return(k<<d)|(k>>>(32-d))}function K(G,k){var I,d,F,H,x;F=(G&2147483648);H=(k&2147483648);I=(G&1073741824);d=(k&1073741824);x=(G&1073741823)+(k&1073741823);if(I&d){return(x^2147483648^F^H)}if(I|d){if(x&1073741824){return(x^3221225472^F^H)}else{return(x^1073741824^F^H)}}else{return(x^F^H)}}function r(d,F,k){return(d&F)|((~d)&k)}function q(d,F,k){return(d&k)|(F&(~k))}function p(d,F,k){return(d^F^k)}function n(d,F,k){return(F^(d|(~k)))}function u(G,F,aa,Z,k,H,I){G=K(G,K(K(r(F,aa,Z),k),I));return K(L(G,H),F)}function f(G,F,aa,Z,k,H,I){G=K(G,K(K(q(F,aa,Z),k),I));return K(L(G,H),F)}function D(G,F,aa,Z,k,H,I){G=K(G,K(K(p(F,aa,Z),k),I));return K(L(G,H),F)}function t(G,F,aa,Z,k,H,I){G=K(G,K(K(n(F,aa,Z),k),I));return K(L(G,H),F)}function e(G){var Z;var F=G.length;var x=F+8;var k=(x-(x%64))/64;var I=(k+1)*16;var aa=Array(I-1);var d=0;var H=0;while(H<F){Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=(aa[Z]| (G.charCodeAt(H)<<d));H++}Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=aa[Z]|(128<<d);aa[I-2]=F<<3;aa[I-1]=F>>>29;return aa}function B(x){var k="",F="",G,d;for(d=0;d<=3;d++){G=(x>>>(d*8))&255;F="0"+G.toString(16);k=k+F.substr(F.length-2,2)}return k}function J(k){k=k.replace(/rn/g,"n");var d="";for(var F=0;F<k.length;F++){var x=k.charCodeAt(F);if(x<128){d+=String.fromCharCode(x)}else{if((x>127)&&(x<2048)){d+=String.fromCharCode((x>>6)|192);d+=String.fromCharCode((x&63)|128)}else{d+=String.fromCharCode((x>>12)|224);d+=String.fromCharCode(((x>>6)&63)|128);d+=String.fromCharCode((x&63)|128)}}}return d}var C=Array();var P,h,E,v,g,Y,X,W,V;var S=7,Q=12,N=17,M=22;var A=5,z=9,y=14,w=20;var o=4,m=11,l=16,j=23;var U=6,T=10,R=15,O=21;s=J(s);C=e(s);Y=1732584193;X=4023233417;W=2562383102;V=271733878;for(P=0;P<C.length;P+=16){h=Y;E=X;v=W;g=V;Y=u(Y,X,W,V,C[P+0],S,3614090360);V=u(V,Y,X,W,C[P+1],Q,3905402710);W=u(W,V,Y,X,C[P+2],N,606105819);X=u(X,W,V,Y,C[P+3],M,3250441966);Y=u(Y,X,W,V,C[P+4],S,4118548399);V=u(V,Y,X,W,C[P+5],Q,1200080426);W=u(W,V,Y,X,C[P+6],N,2821735955);X=u(X,W,V,Y,C[P+7],M,4249261313);Y=u(Y,X,W,V,C[P+8],S,1770035416);V=u(V,Y,X,W,C[P+9],Q,2336552879);W=u(W,V,Y,X,C[P+10],N,4294925233);X=u(X,W,V,Y,C[P+11],M,2304563134);Y=u(Y,X,W,V,C[P+12],S,1804603682);V=u(V,Y,X,W,C[P+13],Q,4254626195);W=u(W,V,Y,X,C[P+14],N,2792965006);X=u(X,W,V,Y,C[P+15],M,1236535329);Y=f(Y,X,W,V,C[P+1],A,4129170786);V=f(V,Y,X,W,C[P+6],z,3225465664);W=f(W,V,Y,X,C[P+11],y,643717713);X=f(X,W,V,Y,C[P+0],w,3921069994);Y=f(Y,X,W,V,C[P+5],A,3593408605);V=f(V,Y,X,W,C[P+10],z,38016083);W=f(W,V,Y,X,C[P+15],y,3634488961);X=f(X,W,V,Y,C[P+4],w,3889429448);Y=f(Y,X,W,V,C[P+9],A,568446438);V=f(V,Y,X,W,C[P+14],z,3275163606);W=f(W,V,Y,X,C[P+3],y,4107603335);X=f(X,W,V,Y,C[P+8],w,1163531501);Y=f(Y,X,W,V,C[P+13],A,2850285829);V=f(V,Y,X,W,C[P+2],z,4243563512);W=f(W,V,Y,X,C[P+7],y,1735328473);X=f(X,W,V,Y,C[P+12],w,2368359562);Y=D(Y,X,W,V,C[P+5],o,4294588738);V=D(V,Y,X,W,C[P+8],m,2272392833);W=D(W,V,Y,X,C[P+11],l,1839030562);X=D(X,W,V,Y,C[P+14],j,4259657740);Y=D(Y,X,W,V,C[P+1],o,2763975236);V=D(V,Y,X,W,C[P+4],m,1272893353);W=D(W,V,Y,X,C[P+7],l,4139469664);X=D(X,W,V,Y,C[P+10],j,3200236656);Y=D(Y,X,W,V,C[P+13],o,681279174);V=D(V,Y,X,W,C[P+0],m,3936430074);W=D(W,V,Y,X,C[P+3],l,3572445317);X=D(X,W,V,Y,C[P+6],j,76029189);Y=D(Y,X,W,V,C[P+9],o,3654602809);V=D(V,Y,X,W,C[P+12],m,3873151461);W=D(W,V,Y,X,C[P+15],l,530742520);X=D(X,W,V,Y,C[P+2],j,3299628645);Y=t(Y,X,W,V,C[P+0],U,4096336452);V=t(V,Y,X,W,C[P+7],T,1126891415);W=t(W,V,Y,X,C[P+14],R,2878612391);X=t(X,W,V,Y,C[P+5],O,4237533241);Y=t(Y,X,W,V,C[P+12],U,1700485571);V=t(V,Y,X,W,C[P+3],T,2399980690);W=t(W,V,Y,X,C[P+10],R,4293915773);X=t(X,W,V,Y,C[P+1],O,2240044497);Y=t(Y,X,W,V,C[P+8],U,1873313359);V=t(V,Y,X,W,C[P+15],T,4264355552);W=t(W,V,Y,X,C[P+6],R,2734768916);X=t(X,W,V,Y,C[P+13],O,1309151649);Y=t(Y,X,W,V,C[P+4],U,4149444226);V=t(V,Y,X,W,C[P+11],T,3174756917);W=t(W,V,Y,X,C[P+2],R,718787259);X=t(X,W,V,Y,C[P+9],O,3951481745);Y=K(Y,h);X=K(X,E);W=K(W,v);V=K(V,g)}var i=B(Y)+B(X)+B(W)+B(V);return i.toLowerCase()};
 
   $scope.appCtrl = {
     session : $authenticationFactory.getSession(),
@@ -54,7 +56,7 @@ angular.module('MYGEOSS.controllers', [])
     language: {label: "", idL: ""}
   };
 
-  $scope.countDown = { value : 10 };
+  $scope.countDown = { value : CONFIG.countDownTimer, initialValue : 4000 };
   $scope.checkCatalogue = { value : 0 };
 
   $scope.download = false;
@@ -70,6 +72,10 @@ angular.module('MYGEOSS.controllers', [])
   $scope.currSpecie.specie = {};
 
   $scope.gps_enabled = true;
+  
+  $scope.expireString = "";
+  
+  $scope.mainMenu = false;
 
   // Filters
   $scope.customSearchCSnameInput = "";
@@ -78,7 +84,11 @@ angular.module('MYGEOSS.controllers', [])
   $scope.subfilter.openSubFilters = false;
   $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
   $scope.subfilter.styleAnimaliaSubFilterButton = "";
-
+  $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante.svg)" };
+  $scope.subfilter.stylePlantaeSubFilterButton = "";
+  
+  $scope.subfilter.buttonPressed = 0;
+  
   $scope.filter = { search_text : "" };
   $scope.filters = {
 	  common_name: "",
@@ -89,6 +99,35 @@ angular.module('MYGEOSS.controllers', [])
   };
 
   $scope.scrollDown = 0;
+  
+  $scope.notificationsWhatsNew = false;
+  $scope.whatsNewMessages = [];
+  $scope.whatsNewDetail = false;
+  $scope.detailMessage = "";
+  $scope.legalSubMenu = false;
+  $scope.imgMenuIconLegal = "img/arrow_down.png";
+  $scope.settingsSubMenu = false;
+  $scope.imgMenuIconSettings = "img/arrow_down.png";
+  
+  // Check if user is authenticated and store information to check feedbacks
+  $scope.isLogged = $authenticationFactory.checkSessionLocal();
+  if ($scope.isLogged) {
+      $scope.userLogged = $authenticationFactory.getUserEmailReport();
+      $scope.feedback = {};
+      $scope.feedback.num = 0;
+      $scope.feedback.ids = [];
+      $scope.feedback.user = $scope.MD5($scope.userLogged);
+      $scope.feedback.countUpdates = 0;
+  } else {
+      $scope.userLogged = "";
+      $scope.feedback = {};
+      $scope.feedback.num = 0;
+      $scope.feedback.ids = [];
+      $scope.feedback.user = "";
+      $scope.feedback.countUpdates = 0;
+  }
+  $scope.feedback.message = "";
+
 
   $scope.updateSpeciesPage = function(){
 	  var current = $state.current;
@@ -174,20 +213,94 @@ angular.module('MYGEOSS.controllers', [])
 	 if ((currActive != "NO") && (logo_item.img.length > 0)) $scope.logo_list.push(logo_item);
   });
 
+  $scope.writeNewConfigFile = function(data) {
+    data = JSON.stringify(data, null, '\t');
+    var type = window.PERSISTENT;
+    var size = 5*1024*1024;
+    var finished = 0;
+    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+    window.requestFileSystem(type, size, successCallback, errorCallback)
 
+    function successCallback(fs) {
+        var fileName = "config.json";
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
+            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
+                fileEntry.createWriter(function (fileWriter) {
+                    fileWriter.onwriteend = function (e) {
+                        if ($scope.environment != "PROD") console.log('File "' + fileName + '"" write: OK.');
+                        fileWritten = true;
+                    };
+
+ 	                fileWriter.onerror = function (e) {
+                        if ($scope.environment != "PROD") console.log('Write failed: ' + e.toString());
+                        fileWritten = false;
+                    };
+
+                    var blob = new Blob([data], { type: 'text/plain' });
+                    fileWriter.write(blob);
+                }, errorHandler.bind(null, fileName));
+            }, errorHandler.bind(null, fileName));
+        }, errorHandler.bind(null, fileName));
+    }
+
+ 	function errorCallback(error) {
+        alert("ERROR: " + error.code)
+    }
+}
+
+  $scope.copyInMemoryConfigFile = function(configData) {
+    CONFIG.environment = configData.environment;
+    CONFIG.serverProdApiUrlHttp = configData.serverProdApiUrlHttp;
+    CONFIG.serverProdApiUrlHttps = configData.serverProdApiUrlHttps;
+    CONFIG.serverTestApiUrlHttp = configData.serverTestApiUrlHttp;
+    CONFIG.serverTestApiUrlHttps = configData.serverTestApiUrlHttps;
+    CONFIG.authenticationBaseURLHttp = configData.authenticationBaseURLHttp;
+    CONFIG.authenticationBaseURLHttps = configData.authenticationBaseURLHttps;
+    CONFIG.staticFileContentURL = configData.staticFileContentURL;
+    CONFIG.staticFileTimestamp = configData.staticFileTimestamp;
+    CONFIG.contactMail = configData.contactMail;
+    CONFIG.countDownTimer = configData.countDownTimer;
+    CONFIG.sessionExpirationTime = configData.sessionExpirationTime;
+    CONFIG.tileLayer = configData.tileLayer;
+    CONFIG.userCanStartChat = configData.userCanStartChat;
+    CONFIG.serverEULogin = configData.serverEULogin;
+    $scope.countDown.value = CONFIG.countDownTimer;
+    $scope.environment = CONFIG.environment;
+    $scope.serverEULogin = CONFIG.serverEULogin;
+  };
 
   // Accessibility
   $ionicPlatform.ready(function() {
 	  window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(entry) {
             $scope.dataDirectory = cordova.file.dataDirectory;
+            //$scope.dataDirectory = $scope.dataDirectory.replace("file://","");
 		    var nativePath = entry.toURL();
 		    $scope.realPath = nativePath;
+            //$scope.realPath = $scope.realPath.replace("file://","");
+            $(document).ready(function() {
+              $.ajaxSetup({ cache: false });
+            });
 			var dataJsonTable = $.getJSON($scope.realPath + "last_version.json", function (dataJSON){
 				$scope.last_version = dataJSON;
 			});
 			var dataJsonTable = $.getJSON("data/appVersion.json", function (dataJSON){
 				$scope.app_version = dataJSON;
 			});
+            // Read last config parameters from REST service
+            $.ajax({url: SERVER.serverApiUrl + "reports/appconfiguration" }).then(function(lastConfigData) {
+                $scope.writeNewConfigFile(lastConfigData);
+                // Import new config values into general CONFIG variables
+                $scope.copyInMemoryConfigFile(lastConfigData);
+            })
+            .fail(function() {
+                var dataJsonTable = $.getJSON(cordova.file.dataDirectory + "config.json", function (configJSON){
+                    //console.log("******************************************");
+                    //console.log(configJSON);
+                    //console.log("******************************************");
+                    $scope.copyInMemoryConfigFile(configJSON);
+                })
+            })
+
 	  });
 
 	  $scope.devicePlatform = device.platform;
@@ -251,19 +364,21 @@ angular.module('MYGEOSS.controllers', [])
     $scope.server1_ssl = false;
     $scope.server2_ssl = false;
 
-    $scope.environment = "PROD";
+    $scope.environment = "TEST";
 
     $scope.last_local_version = [];
 
 	$scope.loginProvider = "";
     $scope.main.loginType = $authenticationFactory.getUserProviderLogin();
+    
+    $scope.sendButtonEnabled = true;
 
 
 
     // $timeout(function() { $scope.refreshPos(); }, 200);
     document.addEventListener("offline", onOffline, false);
     document.addEventListener("online", onOnline, false);
-
+    
   });
 
   function onOffline() {
@@ -322,26 +437,14 @@ angular.module('MYGEOSS.controllers', [])
 		      var extension = uri.substr(uri.length - 3);
 			  setTimeout(function() {
 					$ionicLoading.hide();
-					/*
-					navigator.notification.confirm(
-						$filter('translate')('pdf_failed'),
-						function (buttonIndex) {
-							if (buttonIndex == 1) {
-								$scope.openExternalLinks(event,uri);
-							}
-						},
-						$filter('translate')('no_updates_title'),
-						[$filter('translate')('retry'),$filter('translate')('cancel')]
-					);
-					*/
 			  }
 			  , 5000);
 		      if (extension.toLowerCase() != "pdf") {
-		         $cordovaInAppBrowser.open(uri, "_system");
+		         $cordovaInAppBrowser.open(uri, "_blank");
 			  } else {
 				 //alert("https://docs.google.com/viewer?url=" + encodeURIComponent(uri) + "&embedded=true");
 		         //var browserRef = $cordovaInAppBrowser.open("https://docs.google.com/viewer?url=" + encodeURIComponent(uri) + "&embedded=true", "_system");
-		         $cordovaInAppBrowser.open(uri, "_system");
+		         $cordovaInAppBrowser.open(uri, "_blank");
 			  }
 		    });
 		} else {
@@ -352,10 +455,14 @@ angular.module('MYGEOSS.controllers', [])
 
   $scope.openMailLinks = function(mail){
 	if (mail != "") {
-		ionic.Platform.ready(function() {
-		  $state.go('app.home');
-	      $cordovaInAppBrowser.open("mailto:"+ mail, "_system");
-		});
+        if (mail.includes("@")) {
+            ionic.Platform.ready(function() {
+              $state.go('app.home');
+              $cordovaInAppBrowser.open("mailto:"+ mail, "_system");
+            });
+        } else {
+		    $cordovaInAppBrowser.open(mail, "_system");
+        }
 	}
   };
 
@@ -366,8 +473,8 @@ angular.module('MYGEOSS.controllers', [])
   };
 
   $scope.startCountDown = function() {
-	  // if ($scope.environment != "PROD") console.log("COUNTDOWN: " + $scope.countDown.value)
-	  if (($scope.checkCatalogue.value == 0) && ($scope.countDown.value == 5)) {
+	  if ($scope.environment != "PROD") console.log("COUNTDOWN: " + $scope.countDown.value)
+	  if (($scope.checkCatalogue.value == 0) && ($scope.countDown.value == 300)) {
 		  $scope.checkCatalogue.value = 1;
 		  $scope.checkCatalogueVersion(true);
 	  }
@@ -375,20 +482,6 @@ angular.module('MYGEOSS.controllers', [])
 	  if ($scope.countDown.value > 0) {
 		  $scope.countDown.value = $scope.countDown.value - 1;
 	  }
-	  /*
-	  if (($scope.countDown.value == 3) && ($scope.main.connected == true)) {
-		  var rest_ssl = SERVER.serverApiUrl.substr(4,1);
-		  if (($scope.devicePlatform == "Android") && ($scope.deviceVersion >= "9") && ($scope.alertAndroidVersion == 0) && (rest_ssl != "s")) {
-			  $scope.alertAndroidVersion++;
-			  navigator.notification.alert(
-			    $filter('translate')('android9'),
-			    null,
-			    $filter('translate')('REPORT_information'),
-			    'OK'
-			  );
-		  }
-	  }
-	  */
 	  $timeout(function() {
 		  	$scope.startCountDown();
 		  }, 1000);
@@ -470,8 +563,81 @@ angular.module('MYGEOSS.controllers', [])
       });
   };
 
+  $scope.readFeedback = function(id) {
+    if (id != "") {
+        $.ajax({url: SERVER.serverApiUrl + "reports/feedbackowner/"+id}).then(function(dataMessages) {
+            $scope.feedbacks = dataMessages;
+            $scope.sendButtonEnabled = true;
+            if (($scope.feedbacks.messages.length == 0) && (CONFIG.userCanStartChat == "0")) $scope.sendButtonEnabled = false;
+            // Update feedback in memory
+            $scope.checkFeedback();
+            $scope.main.retrieveServerObservation();
+            $ionicScrollDelegate.scrollBottom();
+            $scope.feedback.message = "";
+        });
+    }
+  }
+  
+  $scope.checkUpdates = function() {
+      $.ajax({url: SERVER.serverApiUrl + "reports/notifications/"+$scope.feedback.user}).then(function(countUpdates) {
+         $scope.feedback.countUpdates = countUpdates.updated;
+      });
+  }
+  
+  $scope.sendFeedback = function(id) {
+    if ($scope.feedback.message.trim() != "") {
+        var config = { headers: { 'Content-Type': 'application/json' } };
+        var postData = { "observation_id" : id, "message" : $scope.feedback.message, "role" : "owner" };
+        $http.post(SERVER.serverApiUrl + "reports/sendfeedback", postData, config).then(
+          function(success){
+            $scope.feedback.message = "";
+            $scope.readFeedback(id);
+            def.resolve(success.data);
+          },
+          function(error){
+            def.reject(error);
+          }
+        );
+    }
+  }
+  
+  $scope.checkFeedback = function() {
+    var path = "";
+    if ($scope.feedback.user != "") {
+        $.ajax({url: SERVER.serverApiUrl + "reports/numfeedbackowner/"+$scope.feedback.user}).then(function(dataMessages) {
+            $scope.feedback.num = dataMessages.num_feedback;
+            $scope.feedback.ids = dataMessages.ids;
+            if (dataMessages.num_feedback > 0) {
+                $scope.showNumFeedback = true;
+            } else {
+                $scope.showNumFeedback = false;
+            }
+            $scope.checkUpdates();
+
+        });
+    }
+  }
+
+  $scope.checkWhatsNew = function(type) {
+    var path = "";
+    if (type == "home") path = "whatsnew";
+    if (type == "list") path = "whatsnewlist";
+    if ($rootScope.UUID !== undefined) {
+        $.ajax({url: SERVER.serverApiUrl + "reports/" + path + "/"+$rootScope.UUID}).then(function(dataMessages) {
+            if (dataMessages.length > 0) {
+                $scope.whatsNewMessages = dataMessages;
+                if (type == "home") $scope.notificationsWhatsNew = true;
+            } else {
+                $scope.whatsNewMessages = [];
+                if (type == "home") $scope.notificationsWhatsNew = false;
+            }
+        });
+    }
+  }
+                
   /* retrieving geoposition */
   $scope.refreshPos = function() {
+      //console.log($scope.countDown.value);
 	  //console.log("GPS ENABLED: " + $scope.gps_enabled);
 	  if ($scope.gps_enabled == true) {
 	      var posOptions = { timeout: 5000, enableHighAccuracy: true };
@@ -485,6 +651,11 @@ angular.module('MYGEOSS.controllers', [])
 	          .then(function(position) {
 	        	  $scope.main.lat = position.coords.latitude;
 	              $scope.main.lng = position.coords.longitude;
+	              //$scope.main.lat = 45.809410665878495; /* JRC */
+	              //$scope.main.lng = 8.628827444201848;
+               
+	              //$scope.main.lat = 40.416505; /* IBERIAN */
+	              //$scope.main.lng = -4.012405;
 	              //$scope.main.lat = 45.361052; /* DANUBE */
 	              //$scope.main.lng = 16.582912;
 	              //$scope.main.lat = 45.361052; /* NOT DANUBE */
@@ -492,6 +663,8 @@ angular.module('MYGEOSS.controllers', [])
 	              $scope.main.gotpos = true;
 	              //$scope.main.lat = 35.25194; /* CRETE */
 	              //$scope.main.lng = 24.75157;
+	              //$scope.main.lat = 45.809496; /* DANUBE */
+	              //$scope.main.lng = 8.628086;
 
 	              $scope.getNearbySite($scope.main.lat, $scope.main.lng).then(function(site) {
 	            	  var previous_sites_list = angular.toJson($scope.sitealert);
@@ -571,24 +744,12 @@ angular.module('MYGEOSS.controllers', [])
 		  					  if (sites_label.length > 1) sites_label = sites_label.substring(0,sites_label.length-2);
 	  						  $scope.sites_label = sites_label;
 	  						  $scope.sites_label_static = sites_label;
-		  	            	  //if ($scope.environment != "PROD") console.log("SITE: " + site.name);
-		  	            	  //if ($scope.environment != "PROD") console.log("Inside: " + true);
 		  					  if ($scope.environment != "PROD") console.log("CURR SITES LABEL: " + sites_label);
 		  					  if ($scope.gps_enabled == true) {
 		  						  $scope.sites_label = sites_label;
 		  						  if ((sites_label != "") && (sites_label != $scope.prev_sites_label)) {
 		  							$scope.prev_sites_label = sites_label;
 		  							if ($scope.environment != "PROD") console.log("PREV SITES LABEL: " + $scope.prev_sites_label);
-				                    /*
-		  							navigator.notification.alert(
-				                    		$filter('translate')('local_area_message1') + sites_label + $filter('translate')('local_area_message2'),
-				   							function () {
-				                    		   if ($scope.environment != "PROD") console.log("Local Area: " + sites_label);
-				   							},
-				   							$filter('translate')('no_updates_title'),            // title
-				   							"OK"          // buttonLabels
-				                    );
-				                    */
 		  				    	    var currPageTemplate = window.location.href;
 		  							if (($scope.main.sitePopUp == false) && (currPageTemplate.indexOf("reportSighting") == -1)) {
 		  		                      $scope.sitealert_static_decremental = site;
@@ -600,7 +761,6 @@ angular.module('MYGEOSS.controllers', [])
 	                  }
 	              });
 	          }, function(err) {
-	        	  //console.log($scope.main.gotpos);
 	        	  if ($scope.main.gotpos == true) {
 	            	  var currPageTemplate = window.location.href;
 	                  if (currPageTemplate.indexOf("specieList") !== -1) {
@@ -717,6 +877,8 @@ angular.module('MYGEOSS.controllers', [])
     if($cordovaNetwork.isOnline() === true){
       $networkFactory.setNetworkState(true);
       $scope.sendPendingObservation();
+      $scope.checkWhatsNew("home");
+      $scope.checkFeedback();
     }else{
       $networkFactory.setNetworkState(false);
     }
@@ -726,9 +888,11 @@ angular.module('MYGEOSS.controllers', [])
       if ($networkFactory.getNetworkState()) return; // avoid to fire the
 														// event 2 times in a
 														// row
-      if ($scope.environment != "PROD") console.log('online');
+      if ($scope.environment != "PROD") console.log('Now Im online');
       $networkFactory.setNetworkState(true);
       $scope.sendPendingObservation();
+      $scope.checkWhatsNew("home");
+      $scope.checkFeedback();
     });
 
     // listen for Offline event
@@ -736,13 +900,12 @@ angular.module('MYGEOSS.controllers', [])
       if (!$networkFactory.getNetworkState()) return; // avoid to fire the
 														// event 2 times in a
 														// row
-      if ($scope.environment != "PROD") console.log('offline');
+      if ($scope.environment != "PROD") console.log('Now Im offline');
       $networkFactory.setNetworkState(false);
     })
 
   });
 
-  $scope.mainMenu = false;
   $scope.changeMainMenu = function(){
     $scope.mainMenu = !$scope.mainMenu;
   };
@@ -874,6 +1037,55 @@ angular.module('MYGEOSS.controllers', [])
     $scope.modal_acknowledgement.show();
   };
 
+  // What's New
+  $ionicModal.fromTemplateUrl('partials/modals/modal_whatsnew.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal_whatsnew = modal;
+  });
+
+  $scope.closeModalWhatsNew = function() {
+    $scope.checkWhatsNew("home");
+    $scope.modal_whatsnew.hide();
+  };
+  $scope.showModalWhatsNew = function() {
+    $scope.checkWhatsNew("list");
+    $scope.modal_whatsnew.show();
+  };
+  $scope.loadWhatsNewDetail = function(index) {
+    $scope.whatsNewDetail = true;
+    $scope.detailMessage = $scope.whatsNewMessages[index];
+    $.ajax({url: SERVER.serverApiUrl + "reports/readnews/"+$scope.whatsNewMessages[index]._id+"/"+$rootScope.UUID}).then(function(dataMessages) {
+        //console.log(dataMessages);
+    });
+
+  };
+  $scope.closeModalWhatsNewDetail = function() {
+    $scope.checkWhatsNew("list");
+    $scope.whatsNewDetail = false;
+    $scope.detailMessage = "";
+  };
+
+  $scope.showLegalSubMenu = function() {
+    if ($scope.settingsSubMenu) $scope.showSettingsSubMenu();
+    $scope.legalSubMenu = !$scope.legalSubMenu;
+    if ($scope.legalSubMenu) {
+       $scope.imgMenuIconLegal = "img/arrow_up.png";
+    } else {
+       $scope.imgMenuIconLegal = "img/arrow_down.png";
+    }
+  }
+
+  $scope.showSettingsSubMenu = function() {
+    if ($scope.legalSubMenu) $scope.showLegalSubMenu();
+    $scope.settingsSubMenu = !$scope.settingsSubMenu;
+    if ($scope.settingsSubMenu) {
+       $scope.imgMenuIconSettings = "img/arrow_up.png";
+    } else {
+       $scope.imgMenuIconSettings = "img/arrow_down.png";
+    }
+  }
+
   // Disclaimer
   $ionicModal.fromTemplateUrl('partials/modals/modal_disclaimer.html', {
     scope: $scope
@@ -989,29 +1201,34 @@ angular.module('MYGEOSS.controllers', [])
 					var localCatalogVersion = data.catalog + "." + data.version.toString();
 					if ($scope.environment != "PROD") console.log("Local Catalog Version (" + entry.id + "): " + localCatalogVersion);
 					// Different versions: store the new one
-					if (localCatalogVersion < remoteCatalogVersion) {
-						if (silence == false) {
-							if ($scope.environment != "PROD") console.log("SITE POPUP DOWNLOAD: " + $scope.main.sitePopUpDownload);
-							if ($scope.main.sitePopUpDownload == false) $scope.showModalDownloadLocalArea(dataVersion.catalog, dataVersion.version, entry.name, objOutput, entry.id, silence);
-							/*
-							navigator.notification.confirm(
-									$filter('translate')('new_local_version1') + dataVersion.catalog + "-" + dataVersion.version + $filter('translate')('new_local_version2') + entry.name + $filter('translate')('new_local_version3'),  // message
-									function (buttonIndex) {
-										if (buttonIndex == 1) {
-											getNewLocalVersion(objOutput, entry.id, dataVersion.catalog, dataVersion.version, silence);  // callback to invoke with index of button pressed
-										}
-									},
-									$filter('translate')('new_local_version_title'),            // title
-								    ['OK',$filter('translate')('cancel')]          // buttonLabels
-							);
-							*/
-						} else {
-							getNewLocalVersion(objOutput, entry.id, dataVersion.catalog, dataVersion.version, silence);  // callback to invoke with index of button pressed
-						}
-					} else {
-						if ($scope.environment != "PROD") console.log("No updates for " + array[idx].id);
-						setTimeout(function() { notifyNoLocalUpdates(popUpMessage, array[idx].name); }, 5000);
-					}
+                    console.log(localCatalogVersion);
+                    console.log(remoteCatalogVersion);
+                    console.log(cordova.file.dataDirectory + "download_complete_" + entry.id + ".json");
+                    window.resolveLocalFileSystemURL(cordova.file.dataDirectory + "download_complete_" + entry.id + ".json",
+                        function onSuccess(fileDataEntry) {
+                            console.log("No error on previous download");
+                            if (localCatalogVersion < remoteCatalogVersion) {
+                                if (silence == false) {
+                                    if ($scope.environment != "PROD") console.log("SITE POPUP DOWNLOAD: " + $scope.main.sitePopUpDownload);
+                                    if ($scope.main.sitePopUpDownload == false) $scope.showModalDownloadLocalArea(dataVersion.catalog, dataVersion.version, entry.name, objOutput, entry.id, silence);
+                                } else {
+                                    getNewLocalVersion(objOutput, entry.id, dataVersion.catalog, dataVersion.version, silence);  // callback to invoke with index of button pressed
+                                }
+                            } else {
+                                if ($scope.environment != "PROD") console.log("No updates for " + array[idx].id);
+                                setTimeout(function() { notifyNoLocalUpdates(popUpMessage, array[idx].name); }, 5000);
+                            }
+                        },
+                        function onError(fileDataEntry) {
+                            console.log("ERROR on previous download");
+                            if (silence == false) {
+                               if ($scope.environment != "PROD") console.log("SITE POPUP DOWNLOAD: " + $scope.main.sitePopUpDownload);
+                               if ($scope.main.sitePopUpDownload == false) $scope.showModalDownloadLocalArea(dataVersion.catalog, dataVersion.version, entry.name, objOutput, entry.id, silence);
+                            } else {
+                               getNewLocalVersion(objOutput, entry.id, dataVersion.catalog, dataVersion.version, silence);  // callback to invoke with index of button pressed
+                            }
+                        }
+                    );
 				});
 			});
 		});
@@ -1314,10 +1531,34 @@ angular.module('MYGEOSS.controllers', [])
 							$.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=el&cat=" + catalog + "&ver=" + version}).done(function(dataEl) {
 								objOutput = JSON.stringify(dataEl);
 								createAreaLocalJSONFile(area, "el", objOutput);
+                                $.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=fr&cat=" + catalog + "&ver=" + version}).done(function(dataFr) {
+									objOutput = JSON.stringify(dataFr);
+									createAreaLocalJSONFile(area, "fr", objOutput);
+									$.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=hu&cat=" + catalog + "&ver=" + version}).done(function(dataHu) {
+										objOutput = JSON.stringify(dataHu);
+										createAreaLocalJSONFile(area, "hu", objOutput);
+										$.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=pt&cat=" + catalog + "&ver=" + version}).done(function(dataPt) {
+											objOutput = JSON.stringify(dataPt);
+											createAreaLocalJSONFile(area, "pt", objOutput);
+											$.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=sr&cat=" + catalog + "&ver=" + version}).done(function(dataSr) {
+												objOutput = JSON.stringify(dataSr);
+												createAreaLocalJSONFile(area, "sr", objOutput);
+												$.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=tr&cat=" + catalog + "&ver=" + version}).done(function(dataTr) {
+													objOutput = JSON.stringify(dataTr);
+													createAreaLocalJSONFile(area, "tr", objOutput);
+                                                    $.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=ba&cat=" + catalog + "&ver=" + version}).done(function(dataBa) {
+                                                        objOutput = JSON.stringify(dataBa);
+                                                        createAreaLocalJSONFile(area, "ba", objOutput);
+                                                        $.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=bg&cat=" + catalog + "&ver=" + version}).done(function(dataBg) {
+                                                            objOutput = JSON.stringify(dataBg);
+                                                            createAreaLocalJSONFile(area, "bg", objOutput);
+                                                            $.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=mt&cat=" + catalog + "&ver=" + version}).done(function(dataMt) {
+                                                                objOutput = JSON.stringify(dataMt);
+                                                                createAreaLocalJSONFile(area, "mt", objOutput);
 								$.ajax({url: SERVER.serverApiUrl + "species/local/" + area + "?app&lng=en&cat=" + catalog + "&ver=" + version}).done(function(dataEn) {
 									objOutput = JSON.stringify(dataEn);
 									createAreaLocalJSONFile(area, "en", objOutput);
-
+                  // -------------------------------------------------------------------------
 									speciesList = dataEn.species;
 									// Remove Download file
 									var path = cordova.file.dataDirectory;
@@ -1431,6 +1672,15 @@ angular.module('MYGEOSS.controllers', [])
 											}
 										});
 									}
+                  // -------------------------------------------------------------------------
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
 
 								});
 							});
@@ -1474,9 +1724,35 @@ angular.module('MYGEOSS.controllers', [])
 								objOutput = JSON.stringify(dataEl);
 								createLocalJSONFile("el", objOutput);
 
+                                $.ajax({url: SERVER.serverApiUrl + "species?app&lng=tr&cat=" + catalog + "&ver=" + version}).done(function(dataTr) {
+									objOutput = JSON.stringify(dataTr);
+									createLocalJSONFile("tr", objOutput);
+									$.ajax({url: SERVER.serverApiUrl + "species?app&lng=fr&cat=" + catalog + "&ver=" + version}).done(function(dataFr) {
+										objOutput = JSON.stringify(dataFr);
+										createLocalJSONFile("fr", objOutput);
+										$.ajax({url: SERVER.serverApiUrl + "species?app&lng=hu&cat=" + catalog + "&ver=" + version}).done(function(dataHu) {
+											objOutput = JSON.stringify(dataHu);
+											createLocalJSONFile("hu", objOutput);
+											$.ajax({url: SERVER.serverApiUrl + "species?app&lng=pt&cat=" + catalog + "&ver=" + version}).done(function(dataPt) {
+												objOutput = JSON.stringify(dataPt);
+												createLocalJSONFile("pt", objOutput);
+												$.ajax({url: SERVER.serverApiUrl + "species?app&lng=sr&cat=" + catalog + "&ver=" + version}).done(function(dataSr) {
+													objOutput = JSON.stringify(dataSr);
+													createLocalJSONFile("sr", objOutput);
+                                                    $.ajax({url: SERVER.serverApiUrl + "species?app&lng=ba&cat=" + catalog + "&ver=" + version}).done(function(dataBa) {
+                                                        objOutput = JSON.stringify(dataBa);
+                                                        createLocalJSONFile("ba", objOutput);
+                                                        $.ajax({url: SERVER.serverApiUrl + "species?app&lng=bg&cat=" + catalog + "&ver=" + version}).done(function(dataBg) {
+                                                            objOutput = JSON.stringify(dataBg);
+                                                            createLocalJSONFile("bg", objOutput);
+                                                            $.ajax({url: SERVER.serverApiUrl + "species?app&lng=mt&cat=" + catalog + "&ver=" + version}).done(function(dataMt) {
+                                                                objOutput = JSON.stringify(dataMt);
+                                                                createLocalJSONFile("mt", objOutput);
+
 								$.ajax({url: SERVER.serverApiUrl + "species?app&lng=en&cat=" + catalog + "&ver=" + version}).done(function(dataEn) {
 									objOutput = JSON.stringify(dataEn);
 									createLocalJSONFile("en", objOutput);
+                  // --------------------------------------------------------------------
 
 									speciesList = dataEn.species;
 									// Remove Download file
@@ -1593,6 +1869,15 @@ angular.module('MYGEOSS.controllers', [])
 										});
 									}
 								});
+                // --------------------------------------------------------------------
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
 
 							});
 						});
@@ -1672,22 +1957,6 @@ angular.module('MYGEOSS.controllers', [])
         		{
 					$scope.otherDialogs = true;
 					$scope.showModalDownloadCatalogue(catalog, version, null, null, null, "onlypics");
-					/*
-					navigator.notification.confirm(
-							$filter('translate')('download_pictures') + catalog + "-" + version + ")?",
-							function (buttonIndex) {
-								if (buttonIndex == 1) {
-							    	if ($rootScope.download == false) {
-							    		getFileAndPics(catalog, version);
-							    	} else {
-							    		navigator.notification.alert($filter('translate')('download_in_progress'),null,$filter('translate')('REPORT_information'),"OK");
-							    	}
-								}
-							},
-							$filter('translate')('download_pictures_title'),
-						    ['OK',$filter('translate')('cancel')]
-					);
-					*/
         		});
 	}
 
@@ -1854,22 +2123,23 @@ angular.module('MYGEOSS.controllers', [])
     }
 
     function calculateMD5(area,folderpath, filename, md5, lastPicture, silence){
-		// "file:///data/user/0/eu.europa.publications.mygeossias/files/";
         FileHash.md5(folderpath+filename,function(e){
         	var currentMD5 = e.result;
-    		if ($scope.environment != "PROD") console.log(filename + " - MD5 DB:" + md5 + " MD5:"+ currentMD5);
         	if (md5.trim() != currentMD5.trim()) {
+                if ($scope.environment != "PROD") console.log(filename + " - MD5 DB:" + md5 + " MD5:"+ currentMD5);
             	$scope.downloadError = true;
         	}
         	if (lastPicture == "true") {
         		$scope.download = false;
         		if ($scope.downloadError == false) {
             		if (silence == false) navigator.notification.alert($filter('translate')('download_complete'),null,$filter('translate')('no_updates_title'),"OK");
-                	writeDownloadFile(area, { "Download" : "Complete"});
+                    writeDownloadFile(area, { "Download" : "Complete"});
         		} else {
-        			if (silence == false) navigator.notification.alert($filter('translate')('download_complete_errors'),null,$filter('translate')('no_updates_title'),"OK");
-        		}
-        	}
+                    console.log("There is an ERROR");
+        			if (silence == false) { navigator.notification.alert($filter('translate')('download_complete_errors'),null,$filter('translate')('no_updates_title'),"OK");
+                    }
+                }
+            }
         });
     }
 
@@ -1968,29 +2238,32 @@ angular.module('MYGEOSS.controllers', [])
   };
 
   $scope.languagesList = [
+    {label: 'bg - български', idL: "bg"},
+    {label: 'ba - Bosanski', idL: "ba"},
     {label: 'de - Deutsch', idL: "de"},
     {label: 'el - Eλληνικά', idL: "el"},
     {label: 'en - English', idL: "en"},
     {label: 'es - Español', idL: "es"},
+    {label: 'fr - Français ', idL: "fr"},
+    {label: 'hu - Magyar', idL: "hu"},
     {label: 'it - Italiano', idL: "it"},
-    // {label: 'bg - български', idL: "bg"},
+    {label: 'mt - Malti', idL: "mt"},
+    {label: 'pt - Português', idL: "pt"},
+    {label: 'ro - Română', idL: "ro"},
+    {label: 'sr - Српски', idL: "sr"},
+    {label: 'tr - Türkçe', idL: "tr"}
     // {label: 'cs - Čeština', idL: "cs"},
     // {label: 'da - Dansk', idL: "da"},
     // {label: 'et - Eesti keel', idL: "et"},
-    // {label: 'fr - Français ', idL: "fr"},
+    // {label: 'fi - Suomi', idL: "fi"},
     // {label: 'ga - Gaeilge', idL: "ga"},
     // {label: 'hr - Hrvatski', idL: "hr"},
     // {label: 'lv - Latviešu valoda', idL: "lv"},
     // {label: 'lt - Lietuvių kalba', idL: "lt"},
-    // {label: 'hu - Magyar', idL: "hu"},
-    // {label: 'mt - Malti', idL: "mt"},
     // {label: 'nl - Nederlands', idL: "nl"},
     // {label: 'pl - Polski', idL: "pl"},
-    // {label: 'pt - Português', idL: "pt"},
-    {label: 'ro - Română', idL: "ro"}
     // {label: 'sk - Slovenčina', idL: "sk"},
     // {label: 'sl - Slovenščina', idL: "sl"},
-    // {label: 'fi - Suomi', idL: "fi"},
     // {label: 'sv - Svenska', idL: "sv"}
   ];
 
@@ -2005,7 +2278,7 @@ angular.module('MYGEOSS.controllers', [])
     }
     if (language.idL == "it") {
     	var messageWarning = "Per ragioni tecniche, non tutte le informazioni delle specie potrebbero essere tradotte in italiano.";
-    	navigator.notification.alert(messageWarning,null,"Informazione","OK");
+    	navigator.notification.alert(messageWarning,null,"Informazioni","OK");
     }
     if (language.idL == "de") {
     	var messageWarning = "Aus technischen Gründen kann es sein, dass noch nicht alle Artenbeschreibungen ins Deutsche übersetzt worden sind.";
@@ -2019,6 +2292,38 @@ angular.module('MYGEOSS.controllers', [])
     	var messageWarning = "Για τεχνικούς λόγους, δεν ήταν δυνατή η μετάφραση στα ελληνικά όλων των πληροφοριών για τα είδη.";
     	navigator.notification.alert(messageWarning,null,"Informații","OK");
     }
+    if (language.idL == "fr") {
+    	var messageWarning = "Pour des raisons techniques, tous les types ne peuvent pas être traduits en français.";
+    	navigator.notification.alert(messageWarning,null,"Info","OK");
+    }
+    if (language.idL == "hu") {
+    	var messageWarning = "Technikai okokból előfordulhat, hogy nem minden típust fordítanak magyarra.";
+    	navigator.notification.alert(messageWarning,null,"Információ","OK");
+    }
+    if (language.idL == "pt") {
+    	var messageWarning = "Por motivos técnicos, nem todos os tipos podem ser traduzidos para o português.";
+    	navigator.notification.alert(messageWarning,null,"Inform","OK");
+    }
+    if (language.idL == "sr") {
+    	var messageWarning = "Из техничких разлога може се догодити да нису све врсте преведене на српски језик.";
+    	navigator.notification.alert(messageWarning,null,"Информације","OK");
+    }
+    if (language.idL == "tr") {
+    	var messageWarning = "Teknik nedenlerden dolayı, tüm türler Türkçeye çevrilemez.";
+    	navigator.notification.alert(messageWarning,null,"Bilgi","OK");
+    }
+    if (language.idL == "ba") {
+    	var messageWarning = "Iz tehničkih razloga sve vrste nisu mogle biti unesene na jezike BiH.";
+    	navigator.notification.alert(messageWarning,null,"O aplikaciji","OK");
+    }
+    if (language.idL == "bg") {
+    	var messageWarning = "По технически причини не цялата информация за видовете може да бъде преведена на български.";
+    	navigator.notification.alert(messageWarning,null,"За приложението","OK");
+    }
+    if (language.idL == "mt") {
+    	var messageWarning = "Għal raġunijiet tekniċi, mhux kull speċi tista' tiġi tradotta għal Malti.";
+    	navigator.notification.alert(messageWarning,null,"Informazzjoni dwar l-app","OK");
+    }
   };
 
 })
@@ -2030,58 +2335,80 @@ angular.module('MYGEOSS.controllers', [])
   $scope.goToState = function(state){
     $state.go(state);
   };
-  $scope.isLogged = $authenticationFactory.checkSessionLocal();
-  $scope.userLogged = $authenticationFactory.getUserEmailReport();
-  $scope.$on('$ionicView.beforeEnter', function(e) {
-    if($scope.mainMenu === true) $scope.changeMainMenu();
-  });
-
-  if (($scope.isLogged) && ($scope.countDown.value == 0)) {
-	var MD5 = function(s){function L(k,d){return(k<<d)|(k>>>(32-d))}function K(G,k){var I,d,F,H,x;F=(G&2147483648);H=(k&2147483648);I=(G&1073741824);d=(k&1073741824);x=(G&1073741823)+(k&1073741823);if(I&d){return(x^2147483648^F^H)}if(I|d){if(x&1073741824){return(x^3221225472^F^H)}else{return(x^1073741824^F^H)}}else{return(x^F^H)}}function r(d,F,k){return(d&F)|((~d)&k)}function q(d,F,k){return(d&k)|(F&(~k))}function p(d,F,k){return(d^F^k)}function n(d,F,k){return(F^(d|(~k)))}function u(G,F,aa,Z,k,H,I){G=K(G,K(K(r(F,aa,Z),k),I));return K(L(G,H),F)}function f(G,F,aa,Z,k,H,I){G=K(G,K(K(q(F,aa,Z),k),I));return K(L(G,H),F)}function D(G,F,aa,Z,k,H,I){G=K(G,K(K(p(F,aa,Z),k),I));return K(L(G,H),F)}function t(G,F,aa,Z,k,H,I){G=K(G,K(K(n(F,aa,Z),k),I));return K(L(G,H),F)}function e(G){var Z;var F=G.length;var x=F+8;var k=(x-(x%64))/64;var I=(k+1)*16;var aa=Array(I-1);var d=0;var H=0;while(H<F){Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=(aa[Z]| (G.charCodeAt(H)<<d));H++}Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=aa[Z]|(128<<d);aa[I-2]=F<<3;aa[I-1]=F>>>29;return aa}function B(x){var k="",F="",G,d;for(d=0;d<=3;d++){G=(x>>>(d*8))&255;F="0"+G.toString(16);k=k+F.substr(F.length-2,2)}return k}function J(k){k=k.replace(/rn/g,"n");var d="";for(var F=0;F<k.length;F++){var x=k.charCodeAt(F);if(x<128){d+=String.fromCharCode(x)}else{if((x>127)&&(x<2048)){d+=String.fromCharCode((x>>6)|192);d+=String.fromCharCode((x&63)|128)}else{d+=String.fromCharCode((x>>12)|224);d+=String.fromCharCode(((x>>6)&63)|128);d+=String.fromCharCode((x&63)|128)}}}return d}var C=Array();var P,h,E,v,g,Y,X,W,V;var S=7,Q=12,N=17,M=22;var A=5,z=9,y=14,w=20;var o=4,m=11,l=16,j=23;var U=6,T=10,R=15,O=21;s=J(s);C=e(s);Y=1732584193;X=4023233417;W=2562383102;V=271733878;for(P=0;P<C.length;P+=16){h=Y;E=X;v=W;g=V;Y=u(Y,X,W,V,C[P+0],S,3614090360);V=u(V,Y,X,W,C[P+1],Q,3905402710);W=u(W,V,Y,X,C[P+2],N,606105819);X=u(X,W,V,Y,C[P+3],M,3250441966);Y=u(Y,X,W,V,C[P+4],S,4118548399);V=u(V,Y,X,W,C[P+5],Q,1200080426);W=u(W,V,Y,X,C[P+6],N,2821735955);X=u(X,W,V,Y,C[P+7],M,4249261313);Y=u(Y,X,W,V,C[P+8],S,1770035416);V=u(V,Y,X,W,C[P+9],Q,2336552879);W=u(W,V,Y,X,C[P+10],N,4294925233);X=u(X,W,V,Y,C[P+11],M,2304563134);Y=u(Y,X,W,V,C[P+12],S,1804603682);V=u(V,Y,X,W,C[P+13],Q,4254626195);W=u(W,V,Y,X,C[P+14],N,2792965006);X=u(X,W,V,Y,C[P+15],M,1236535329);Y=f(Y,X,W,V,C[P+1],A,4129170786);V=f(V,Y,X,W,C[P+6],z,3225465664);W=f(W,V,Y,X,C[P+11],y,643717713);X=f(X,W,V,Y,C[P+0],w,3921069994);Y=f(Y,X,W,V,C[P+5],A,3593408605);V=f(V,Y,X,W,C[P+10],z,38016083);W=f(W,V,Y,X,C[P+15],y,3634488961);X=f(X,W,V,Y,C[P+4],w,3889429448);Y=f(Y,X,W,V,C[P+9],A,568446438);V=f(V,Y,X,W,C[P+14],z,3275163606);W=f(W,V,Y,X,C[P+3],y,4107603335);X=f(X,W,V,Y,C[P+8],w,1163531501);Y=f(Y,X,W,V,C[P+13],A,2850285829);V=f(V,Y,X,W,C[P+2],z,4243563512);W=f(W,V,Y,X,C[P+7],y,1735328473);X=f(X,W,V,Y,C[P+12],w,2368359562);Y=D(Y,X,W,V,C[P+5],o,4294588738);V=D(V,Y,X,W,C[P+8],m,2272392833);W=D(W,V,Y,X,C[P+11],l,1839030562);X=D(X,W,V,Y,C[P+14],j,4259657740);Y=D(Y,X,W,V,C[P+1],o,2763975236);V=D(V,Y,X,W,C[P+4],m,1272893353);W=D(W,V,Y,X,C[P+7],l,4139469664);X=D(X,W,V,Y,C[P+10],j,3200236656);Y=D(Y,X,W,V,C[P+13],o,681279174);V=D(V,Y,X,W,C[P+0],m,3936430074);W=D(W,V,Y,X,C[P+3],l,3572445317);X=D(X,W,V,Y,C[P+6],j,76029189);Y=D(Y,X,W,V,C[P+9],o,3654602809);V=D(V,Y,X,W,C[P+12],m,3873151461);W=D(W,V,Y,X,C[P+15],l,530742520);X=D(X,W,V,Y,C[P+2],j,3299628645);Y=t(Y,X,W,V,C[P+0],U,4096336452);V=t(V,Y,X,W,C[P+7],T,1126891415);W=t(W,V,Y,X,C[P+14],R,2878612391);X=t(X,W,V,Y,C[P+5],O,4237533241);Y=t(Y,X,W,V,C[P+12],U,1700485571);V=t(V,Y,X,W,C[P+3],T,2399980690);W=t(W,V,Y,X,C[P+10],R,4293915773);X=t(X,W,V,Y,C[P+1],O,2240044497);Y=t(Y,X,W,V,C[P+8],U,1873313359);V=t(V,Y,X,W,C[P+15],T,4264355552);W=t(W,V,Y,X,C[P+6],R,2734768916);X=t(X,W,V,Y,C[P+13],O,1309151649);Y=t(Y,X,W,V,C[P+4],U,4149444226);V=t(V,Y,X,W,C[P+11],T,3174756917);W=t(W,V,Y,X,C[P+2],R,718787259);X=t(X,W,V,Y,C[P+9],O,3951481745);Y=K(Y,h);X=K(X,E);W=K(W,v);V=K(V,g)}var i=B(Y)+B(X)+B(W)+B(V);return i.toLowerCase()};
-	$scope.userLoggedMD5 = (MD5($scope.userLogged));
-	if ($scope.environment != "PROD") console.log("User MD5 Logged In: " + $scope.userLoggedMD5);
-    $scope.countDown.value = CONFIG.countDownTimer;
-	// $scope.$apply();
-    $.ajax({url: SERVER.serverApiUrl + "reports/notifications/" + $scope.userLoggedMD5}).then(function(countUpdates) {
-
-	  if (parseInt(countUpdates.updated) == 1) {
-  		navigator.notification.confirm(
-  			countUpdates.updated + $filter('translate')('notification_count'),
-  			function (buttonIndex) {
-  				if (buttonIndex == 1) {
-  					$.ajax({url: SERVER.serverApiUrl + "reports/resetnotifications/" + $scope.userLoggedMD5}).then(function(result) {
-  				        $state.go('app.my_records');
-	  				});
-		  		} else {
-  	  				$.ajax({url: SERVER.serverApiUrl + "reports/resetnotifications/" + $scope.userLoggedMD5}).then(function(result) {
-  	  				if ($scope.environment != "PROD") console.log("Reset updates");
-  		  			});
-  		  		}
-  			},
-  			$filter('translate')('REPORT_information'),
-  			[$filter('translate')('SEND_RECORDS'), "OK"]
-  		);
-	  }
-	  if (parseInt(countUpdates.updated) > 1) {
-	  		navigator.notification.confirm(
-	  	  			countUpdates.updated + $filter('translate')('notification_counts'),
-	  	  			function (buttonIndex) {
-	  	  				if (buttonIndex == 1) {
-	  	  					$.ajax({url: SERVER.serverApiUrl + "reports/resetnotifications/" + $scope.userLoggedMD5}).then(function(result) {
-	  	  				        $state.go('app.my_records');
-	  		  				});
-	  		  			} else {
-	  	  					$.ajax({url: SERVER.serverApiUrl + "reports/resetnotifications/" + $scope.userLoggedMD5}).then(function(result) {
-	  	  					if ($scope.environment != "PROD") console.log("Reset updates");
-	  		  				});
-	  		  			}
-	  	  			},
-	  	  			$filter('translate')('REPORT_information'),
-	  	  			[$filter('translate')('SEND_RECORDS'), "OK"]
-	  	  		);
-		  }
-	});
+  
+  $scope.showPopupMessage = function() {
+    var popupUnreadMessages = "";
+    var popupUpdatedMessages = "";
+    var popupFinalMessage = "\n";
+    if ($scope.feedback.num == 1) popupUnreadMessages = $scope.feedback.num + " " + $filter('translate')('unread_message');
+    if ($scope.feedback.num > 1) popupUnreadMessages = $scope.feedback.num + " " + $filter('translate')('unread_messages');
+    if ($scope.feedback.countUpdates == 1) popupUpdatedMessages = $scope.feedback.countUpdates + $filter('translate')('notification_count');
+    if ($scope.feedback.countUpdates > 1) popupUpdatedMessages = $scope.feedback.countUpdates + $filter('translate')('notification_counts');
+    if (popupUnreadMessages != "") popupFinalMessage = popupFinalMessage + popupUnreadMessages;
+    if (popupUpdatedMessages != "") popupFinalMessage = popupFinalMessage + "\n" + popupUpdatedMessages;
+    if (popupFinalMessage.trim() != "") {
+        navigator.notification.confirm(
+            popupFinalMessage,
+            function (buttonIndex) {
+                if (buttonIndex == 2) {
+                    if ($scope.feedback.countUpdates > 0) {
+                        $.ajax({url: SERVER.serverApiUrl + "reports/resetnotifications/" + $scope.feedback.user}).then(function(result) {
+                            $state.go('app.my_records');
+                        });
+                    } else {
+                        $state.go('app.my_records');
+                    }
+                } else {
+                    if ($scope.feedback.countUpdates > 0) {
+                        $.ajax({url: SERVER.serverApiUrl + "reports/resetnotifications/" + $scope.feedback.user}).then(function(result) {
+                            if ($scope.environment != "PROD") console.log("Reset updates");
+                        });
+                    } else {
+                        if ($scope.environment != "PROD") console.log("Reset updates");
+                    }
+                }
+            },
+            $filter('translate')('REPORT_information'),
+            [$filter('translate')('ok'),$filter('translate')('my_records')]
+        );
+    }
   }
+  
+  $scope.isLogged = $authenticationFactory.checkSessionLocal();
+  if ($scope.isLogged) {
+      $scope.userLogged = $authenticationFactory.getUserEmailReport();
+      $scope.userLoggedMD5 = ($scope.MD5($scope.userLogged));
+      $scope.feedback.user = $scope.userLoggedMD5;
+      $scope.checkFeedback();
+  } else {
+      $scope.userLogged = "";
+      $scope.userLoggedMD5 = "";
+      $scope.feedback = {};
+      $scope.feedback.num = 0;
+      $scope.feedback.ids = [];
+      $scope.feedback.user = "";
+      $scope.feedback.countUpdates = 0;
+      $scope.showNumFeedback = false;
+  }
+
+  // Popup message - Unread feedbacks
+  if (($scope.isLogged) && ($scope.countDown.value == 0)) {
+    $scope.countDown.initialValue = 1000;
+    $scope.countDown.value = CONFIG.countDownTimer;
+  }
+  if ($scope.countDown.initialValue > 500) $timeout(function() {
+    if ($scope.isLogged) {
+      $scope.checkFeedback();
+      $scope.showPopupMessage();
+    }
+  }, $scope.countDown.initialValue);
+
+  $scope.countDown.initialValue = 500;
+
+  $scope.$on('$ionicView.beforeEnter', function(e) {
+    if ($scope.mainMenu === true) $scope.changeMainMenu();
+    $scope.checkWhatsNew("home");
+  });
 })
 
 
@@ -2110,6 +2437,10 @@ angular.module('MYGEOSS.controllers', [])
   });
 
   $scope.pageSelected = 1;
+  
+  $scope.subfilter.openSubFilters = false
+  $("#divSpeciesList").css("top","64px");
+
 
   $scope.customSearchCSnameInput = $scope.filter.search_text;
 
@@ -2118,9 +2449,13 @@ angular.module('MYGEOSS.controllers', [])
 
     angular.forEach($scope.species, function(value, key){
     	$scope.species[key].real_path = $scope.realPath;
-    	var tmpPhotoSrc = $scope.species[key].photos[0].src;
-    	tmpPhotoSrc = tmpPhotoSrc.replace("_01.","_thumb.");
-    	$scope.species[key].photos[0].src = tmpPhotoSrc;
+		if ($scope.species[key].photos.length > 0) {
+	    	var tmpPhotoSrc = $scope.species[key].photos[0].src;
+	    	tmpPhotoSrc = tmpPhotoSrc.replace("_01.","_thumb.");
+	    	$scope.species[key].photos[0].src = tmpPhotoSrc;
+		} else {
+			$scope.species[key].photos.push({ src : "empty.jpg", "no" : 1, "author" : ""})
+		}
     });
     var dataJsonTable = $.getJSON($scope.realPath + "last_version.json", function (dataJSON){
     	$scope.last_version = dataJSON;
@@ -2149,26 +2484,60 @@ angular.module('MYGEOSS.controllers', [])
   $scope.openAnimaliaFilters = function(){
 	$scope.main.speciesCurrPage = 1;
     if($scope.subfilter.openSubFilters === false){
+      $scope.subfilter.buttonPressed = 2;
       $scope.subfilter.openSubFilters = true;
-      $scope.filters.type = "Animalia";
-      if ($scope.filters.family === ""){
-        $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal-active.svg)" };
-        $scope.subfilter.styleAnimaliaSubFilterButton = { 'background-image':  "url(img/filter_animal-active.svg)"};
-      }else{
-        $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_"+$scope.filters.family+"-active.svg)" };
+      if (($scope.filters.type == "Plantae") || ($scope.filters.type == "")) $scope.filters.type = "Animalia";
+      if ($scope.filters.type == "Other") {
+         $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_other-active.svg)" };
+         $scope.subfilter.styleAnimaliaSubFilterButton = { 'background-image':  "url(img/filter_animal2.svg)"};
+         $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante.svg)" };
+         $scope.subfilter.stylePlantaeSubFilterButton = { 'background-image':  "url(img/filter_plante2.svg)"};
+      }
+      if ($scope.filters.type == "Animalia") {
+          if ($scope.filters.family === ""){
+             $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal-active.svg)" };
+             $scope.subfilter.styleAnimaliaSubFilterButton = { 'background-image':  "url(img/filter_animal-active.svg)"};
+             $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante.svg)" };
+             $scope.subfilter.stylePlantaeSubFilterButton = { 'background-image':  "url(img/filter_plante2.svg)"};
+          }else{
+             $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_"+$scope.filters.family+"-active.svg)" };
+             $scope.subfilter.styleAnimaliaSubFilterButton = { 'background-image':  "url(img/filter_animal2.svg)"};
+             $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante.svg)" };
+             $scope.subfilter.stylePlantaeSubFilterButton = { 'background-image':  "url(img/filter_plante2.svg)"};
+          }
       }
     }else{
       $scope.subfilter.openSubFilters = false;
+      $("#divSpeciesList").css("top","64px");
     }
   };
 
   $scope.changePlantaeFilters = function(){
 	$scope.main.speciesCurrPage = 1;
-    if($scope.filters.type === "Plantae"){
-      $scope.subfilter.openSubFilters = false;
+    if($scope.subfilter.openSubFilters === false){
+      $scope.subfilter.buttonPressed = 1;
+      $scope.subfilter.openSubFilters = true;
       $scope.filters.family = "";
-      $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
+      if (($scope.filters.type === "Animalia") || ($scope.filters.type === "")) $scope.filters.type = "Plantae";
+      if ($scope.filters.type === "Plantae"){
+          $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante-active.svg)" };
+          $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
+          $scope.subfilter.styleAnimaliaSubFilterButton = { 'background-image': "url(img/filter_animal.svg)" };
+          console.log($scope.subfilter.stylePlantaeButton);
+          $("#divSpeciesList").css("top","-65px");
+      }
+      if ($scope.filters.type === "Other"){
+          $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_other-active.svg)" };
+          $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
+          $scope.subfilter.styleAnimaliaSubFilterButton = { 'background-image': "url(img/filter_animal.svg)" };
+          console.log($scope.subfilter.stylePlantaeButton);
+          $("#divSpeciesList").css("top","-65px");
+      }
+    }else{
+      $scope.subfilter.openSubFilters = false;
+      $("#divSpeciesList").css("top","64px");
     }
+
   };
 
   $scope.changeAreaFilters = function(){
@@ -2177,11 +2546,13 @@ angular.module('MYGEOSS.controllers', [])
 	      $scope.subfilter.openSubFilters = false;
 	      $scope.filters.family = "";
 	      $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
+	      $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante.svg)" };
 	    }
 	  };
 
   $scope.changeFamily = function(){
 	$scope.main.speciesCurrPage = 1;
+    $scope.filters.type = "Animalia"
     if ($scope.filters.family === ""){
       $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal-active.svg)" };
       $scope.subfilter.styleAnimaliaSubFilterButton = { 'background-image':  "url(img/filter_animal-active.svg)"};
@@ -2189,22 +2560,72 @@ angular.module('MYGEOSS.controllers', [])
       $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_"+$scope.filters.family+"-active.svg)" };
       $scope.subfilter.styleAnimaliaSubFilterButton = { 'background-image':  "url(img/filter_animal.svg)"};
     }
+    $scope.closeSubFilter();
+  }
+
+  $scope.changeTypePlantae = function(){
+	$scope.main.speciesCurrPage = 1;
+    $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
+    $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante.svg)" };
+    if ($scope.filters.type === "Plantae"){
+      $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante-active.svg)" };
+    }
+    if ($scope.filters.type === "Other"){
+      $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_other-active.svg)" };
+    }
+    if ($scope.filters.type === ""){
+        $scope.closeSubFilter();
+    }
+    $scope.closeSubFilter();
+  }
+
+  $scope.changeOtherAnimalia = function(){
+	$scope.main.speciesCurrPage = 1;
+    $scope.filters.family = "";
+    console.log($scope.filters.type);
+    $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante.svg)" };
+    if ($scope.filters.type === "Other"){
+      $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_other-active.svg)" };
+      $scope.subfilter.styleAnimaliaSubFilterButton = { 'background-image':  "url(img/filter_animal2.svg)"};
+    } else {
+      $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
+      $scope.filters.type = "";
+    }
+    if ($scope.filters.type === ""){
+        $scope.closeSubFilter();
+    }
+    $scope.closeSubFilter();
   }
 
   $scope.changeFamilyAnyAnimalia = function(){
 	$scope.main.speciesCurrPage = 1;
-    if ($scope.filters.family === ""){
-        $scope.filters.type = "";
-        $scope.subfilter.openSubFilters = false;
-        $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
-        $scope.subfilter.styleAnimaliaSubFilterButton = { "background-image":  "url(img/filter_animal.svg)"};
-    }else{
-      $scope.subfilter.styleAnimaliaSubFilterButton = { "background-image":  "url(img/filter_animal-active.svg)"};
-      $scope.subfilter.styleAnimaliaButton = { "background-image":  "url(img/filter_animal-active.svg)"};
-      $scope.filters.family = "";
+    if ($scope.filters.type == "Animalia") {
+        if ($scope.filters.family === ""){
+            $scope.filters.type = "";
+            $scope.subfilter.openSubFilters = false;
+            $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
+            $scope.subfilter.styleAnimaliaSubFilterButton = { "background-image":  "url(img/filter_animal.svg)"};
+        }else{
+          $scope.subfilter.styleAnimaliaSubFilterButton = { "background-image":  "url(img/filter_animal-active.svg)"};
+          $scope.subfilter.styleAnimaliaButton = { "background-image":  "url(img/filter_animal-active.svg)"};
+          $scope.filters.family = "";
+          $scope.closeSubFilter();
+        }
+    }
+    if ($scope.filters.type == "Other") {
+        $scope.filters.type = "Animalia";
+        $scope.filters.family = "";
+        $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal-active.svg)" };
+        $scope.subfilter.styleAnimaliaSubFilterButton = { "background-image":  "url(img/filter_animal-active.svg)"};
+        $scope.closeSubFilter();
     }
   };
 
+  $scope.closeSubFilter = function() {
+    $scope.subfilter.openSubFilters = false
+    $("#divSpeciesList").css("top","64px");
+  }
+  
   $scope.updateSpeciesPage = function(){
 	  var current = $state.current;
 	  var params = angular.copy($stateParams);
@@ -2213,9 +2634,13 @@ angular.module('MYGEOSS.controllers', [])
   };
 
   $scope.resetFilters = function(){
+    $scope.subfilter.buttonPressed = 0;
     $scope.subfilter.openSubFilters = false;
+    $("#divSpeciesList").css("top","64px");
     $scope.subfilter.styleAnimaliaButton = { 'background-image': "url(img/filter_animal.svg)" };
+    $scope.subfilter.stylePlantaeButton = { 'background-image': "url(img/filter_plante.svg)" };
     $scope.subfilter.styleAnimaliaSubFilterButton = "";
+    $scope.subfilter.stylePlantaeSubFilterButton = "";
     // closeKeyboard();
     $scope.filters.common_name = "";
     $scope.filters.type = "";
@@ -2327,7 +2752,6 @@ angular.module('MYGEOSS.controllers', [])
 	    return str;
   }
 
-  // $scope.customSearchCSname = {'common_name': "", "scientific_name": ""};
   $scope.customSearchCSname = function(specie){
 	// Remove accents/diacritics in a string
 	$scope.filter.search_text = $scope.customSearchCSnameInput;
@@ -2337,15 +2761,16 @@ angular.module('MYGEOSS.controllers', [])
 	commonName = $scope.removeDiacritics(commonName);
 	var scientificName = angular.lowercase(specie.scientific_name);
 	scientificName = $scope.removeDiacritics(scientificName);
-    return (commonName.indexOf(nameInsertedbyUser || '') !== -1 ||
-    		scientificName.indexOf(nameInsertedbyUser || '') !== -1);
-	/*
-	 * return
-	 * (angular.lowercase(specie.common_name).indexOf(angular.lowercase($scope.customSearchCSnameInput) ||
-	 * '') !== -1 ||
-	 * angular.lowercase(specie.scientific_name).indexOf(angular.lowercase($scope.customSearchCSnameInput) ||
-	 * '') !== -1);
-	 */
+    if (specie.hasOwnProperty('area_name')) {
+        var areaName = angular.lowercase(specie.area_name);
+        areaName = $scope.removeDiacritics(areaName);
+        return (commonName.indexOf(nameInsertedbyUser || '') !== -1 ||
+                scientificName.indexOf(nameInsertedbyUser || '') !== -1 ||
+                areaName.indexOf(nameInsertedbyUser || '') !== -1);
+    } else {
+        return (commonName.indexOf(nameInsertedbyUser || '') !== -1 ||
+                scientificName.indexOf(nameInsertedbyUser || '') !== -1);
+    }
   };
 
 
@@ -2490,7 +2915,7 @@ angular.module('MYGEOSS.controllers', [])
 
   $scope.sobId = $stateParams.sobId;
   $scope.activeTemplate = "sob_information";
-
+  
   var easinFactoryREST;
   if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttp) easinFactoryREST = $easinFactoryRESTProdHttp;
   if (SERVER.serverApiUrl == CONFIG.serverProdApiUrlHttps) easinFactoryREST = $easinFactoryRESTProdHttps;
@@ -2653,6 +3078,19 @@ angular.module('MYGEOSS.controllers', [])
       } else {
     	  $scope.SOB.observedAt = "";
       }
+      console.log($scope.sobId);
+      if ($scope.feedback.ids.includes($scope.sobId)) {
+        num_messages = 0;
+        for (var y=0; y < $scope.feedback.ids.length; y++) {
+            if ($scope.feedback.ids[y] == $scope.sobId) num_messages++;
+        }
+        $scope.SOB.unread_message = true;
+        $scope.SOB.num_message = num_messages;
+      } else {
+        $scope.SOB.unread_message = false;
+        $scope.SOB.num_message = 0;
+      }
+
 
       $scope.images = [];
       angular.forEach($scope.SOB.properties.Image, function(value, key){
@@ -2729,12 +3167,30 @@ angular.module('MYGEOSS.controllers', [])
   $scope.main.pendingObservations = [];
   $scope.buttonSendDisabled = false;
   $scope.main.speciesFiltered = "";
-
+  
   $scope.isLogged = $authenticationFactory.checkSessionLocal();
-  $scope.userLogged = $authenticationFactory.getUserEmailReport();
   if ($scope.isLogged) {
-	  var MD5 = function(s){function L(k,d){return(k<<d)|(k>>>(32-d))}function K(G,k){var I,d,F,H,x;F=(G&2147483648);H=(k&2147483648);I=(G&1073741824);d=(k&1073741824);x=(G&1073741823)+(k&1073741823);if(I&d){return(x^2147483648^F^H)}if(I|d){if(x&1073741824){return(x^3221225472^F^H)}else{return(x^1073741824^F^H)}}else{return(x^F^H)}}function r(d,F,k){return(d&F)|((~d)&k)}function q(d,F,k){return(d&k)|(F&(~k))}function p(d,F,k){return(d^F^k)}function n(d,F,k){return(F^(d|(~k)))}function u(G,F,aa,Z,k,H,I){G=K(G,K(K(r(F,aa,Z),k),I));return K(L(G,H),F)}function f(G,F,aa,Z,k,H,I){G=K(G,K(K(q(F,aa,Z),k),I));return K(L(G,H),F)}function D(G,F,aa,Z,k,H,I){G=K(G,K(K(p(F,aa,Z),k),I));return K(L(G,H),F)}function t(G,F,aa,Z,k,H,I){G=K(G,K(K(n(F,aa,Z),k),I));return K(L(G,H),F)}function e(G){var Z;var F=G.length;var x=F+8;var k=(x-(x%64))/64;var I=(k+1)*16;var aa=Array(I-1);var d=0;var H=0;while(H<F){Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=(aa[Z]| (G.charCodeAt(H)<<d));H++}Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=aa[Z]|(128<<d);aa[I-2]=F<<3;aa[I-1]=F>>>29;return aa}function B(x){var k="",F="",G,d;for(d=0;d<=3;d++){G=(x>>>(d*8))&255;F="0"+G.toString(16);k=k+F.substr(F.length-2,2)}return k}function J(k){k=k.replace(/rn/g,"n");var d="";for(var F=0;F<k.length;F++){var x=k.charCodeAt(F);if(x<128){d+=String.fromCharCode(x)}else{if((x>127)&&(x<2048)){d+=String.fromCharCode((x>>6)|192);d+=String.fromCharCode((x&63)|128)}else{d+=String.fromCharCode((x>>12)|224);d+=String.fromCharCode(((x>>6)&63)|128);d+=String.fromCharCode((x&63)|128)}}}return d}var C=Array();var P,h,E,v,g,Y,X,W,V;var S=7,Q=12,N=17,M=22;var A=5,z=9,y=14,w=20;var o=4,m=11,l=16,j=23;var U=6,T=10,R=15,O=21;s=J(s);C=e(s);Y=1732584193;X=4023233417;W=2562383102;V=271733878;for(P=0;P<C.length;P+=16){h=Y;E=X;v=W;g=V;Y=u(Y,X,W,V,C[P+0],S,3614090360);V=u(V,Y,X,W,C[P+1],Q,3905402710);W=u(W,V,Y,X,C[P+2],N,606105819);X=u(X,W,V,Y,C[P+3],M,3250441966);Y=u(Y,X,W,V,C[P+4],S,4118548399);V=u(V,Y,X,W,C[P+5],Q,1200080426);W=u(W,V,Y,X,C[P+6],N,2821735955);X=u(X,W,V,Y,C[P+7],M,4249261313);Y=u(Y,X,W,V,C[P+8],S,1770035416);V=u(V,Y,X,W,C[P+9],Q,2336552879);W=u(W,V,Y,X,C[P+10],N,4294925233);X=u(X,W,V,Y,C[P+11],M,2304563134);Y=u(Y,X,W,V,C[P+12],S,1804603682);V=u(V,Y,X,W,C[P+13],Q,4254626195);W=u(W,V,Y,X,C[P+14],N,2792965006);X=u(X,W,V,Y,C[P+15],M,1236535329);Y=f(Y,X,W,V,C[P+1],A,4129170786);V=f(V,Y,X,W,C[P+6],z,3225465664);W=f(W,V,Y,X,C[P+11],y,643717713);X=f(X,W,V,Y,C[P+0],w,3921069994);Y=f(Y,X,W,V,C[P+5],A,3593408605);V=f(V,Y,X,W,C[P+10],z,38016083);W=f(W,V,Y,X,C[P+15],y,3634488961);X=f(X,W,V,Y,C[P+4],w,3889429448);Y=f(Y,X,W,V,C[P+9],A,568446438);V=f(V,Y,X,W,C[P+14],z,3275163606);W=f(W,V,Y,X,C[P+3],y,4107603335);X=f(X,W,V,Y,C[P+8],w,1163531501);Y=f(Y,X,W,V,C[P+13],A,2850285829);V=f(V,Y,X,W,C[P+2],z,4243563512);W=f(W,V,Y,X,C[P+7],y,1735328473);X=f(X,W,V,Y,C[P+12],w,2368359562);Y=D(Y,X,W,V,C[P+5],o,4294588738);V=D(V,Y,X,W,C[P+8],m,2272392833);W=D(W,V,Y,X,C[P+11],l,1839030562);X=D(X,W,V,Y,C[P+14],j,4259657740);Y=D(Y,X,W,V,C[P+1],o,2763975236);V=D(V,Y,X,W,C[P+4],m,1272893353);W=D(W,V,Y,X,C[P+7],l,4139469664);X=D(X,W,V,Y,C[P+10],j,3200236656);Y=D(Y,X,W,V,C[P+13],o,681279174);V=D(V,Y,X,W,C[P+0],m,3936430074);W=D(W,V,Y,X,C[P+3],l,3572445317);X=D(X,W,V,Y,C[P+6],j,76029189);Y=D(Y,X,W,V,C[P+9],o,3654602809);V=D(V,Y,X,W,C[P+12],m,3873151461);W=D(W,V,Y,X,C[P+15],l,530742520);X=D(X,W,V,Y,C[P+2],j,3299628645);Y=t(Y,X,W,V,C[P+0],U,4096336452);V=t(V,Y,X,W,C[P+7],T,1126891415);W=t(W,V,Y,X,C[P+14],R,2878612391);X=t(X,W,V,Y,C[P+5],O,4237533241);Y=t(Y,X,W,V,C[P+12],U,1700485571);V=t(V,Y,X,W,C[P+3],T,2399980690);W=t(W,V,Y,X,C[P+10],R,4293915773);X=t(X,W,V,Y,C[P+1],O,2240044497);Y=t(Y,X,W,V,C[P+8],U,1873313359);V=t(V,Y,X,W,C[P+15],T,4264355552);W=t(W,V,Y,X,C[P+6],R,2734768916);X=t(X,W,V,Y,C[P+13],O,1309151649);Y=t(Y,X,W,V,C[P+4],U,4149444226);V=t(V,Y,X,W,C[P+11],T,3174756917);W=t(W,V,Y,X,C[P+2],R,718787259);X=t(X,W,V,Y,C[P+9],O,3951481745);Y=K(Y,h);X=K(X,E);W=K(W,v);V=K(V,g)}var i=B(Y)+B(X)+B(W)+B(V);return i.toLowerCase()};
-	  $scope.userLoggedMD5 = (MD5($scope.userLogged));
+      $scope.userLogged = $authenticationFactory.getUserEmailReport();
+      $scope.userLoggedMD5 = ($scope.MD5($scope.userLogged));
+      $scope.feedback.user = $scope.userLoggedMD5;
+      $scope.checkFeedback();
+      if ($scope.feedback.num > 0) {
+        $scope.main.listSent = true;
+        $scope.main.imgSent = "collapse.png";
+      }
+  } else {
+      $scope.userLogged = "";
+      $scope.userLoggedMD5 = "";
+      $scope.feedback = {};
+      $scope.feedback.num = 0;
+      $scope.feedback.ids = [];
+      $scope.feedback.user = "";
+      $scope.feedback.countUpdates = 0;
+      $scope.showNumFeedback = false;
+  }
+
+  if ($scope.isLogged) {
+	  $scope.userLoggedMD5 = ($scope.MD5($scope.userLogged));
 	  if ($scope.environment != "PROD") console.log("MD5 User logged: " + $scope.userLoggedMD5);
   } else {
 	  $scope.userLoggedMD5 = "";
@@ -2851,7 +3307,7 @@ angular.module('MYGEOSS.controllers', [])
                    imageIterateur = 0;
                    var arrayPromiseImages = [];
                    while(imageIterateur < images.length){
-                      arrayPromiseImages.push($photoFactory.readAsDataURL($scope.dataDirectory, images[imageIterateur].file));
+                      arrayPromiseImages.push($photoFactory.readAsDataURL(cordova.file.dataDirectory, images[imageIterateur].file));
                       imageIterateur++;
                    }
                    $q.all(arrayPromiseImages).then(function(success) {
@@ -2952,10 +3408,12 @@ angular.module('MYGEOSS.controllers', [])
 	    $easinFactoryRESTUser.query({userId: $scope.userLoggedMD5},
 	      function(data){
 	    	if ($authenticationFactory.getUserEmailReport() !== "" && $authenticationFactory.getUserEmailReport() !== undefined && $authenticationFactory.getUserEmailReport() !== "undefined" ){
-	          $scope.main.serverObservations = data;
-	    	  for (var i=0; i < $scope.main.serverObservations.length; i++) {
+              var tmpServerObservations = data;
+              var unreadServerObservations = [];
+              var readServerObservations = [];
+	    	  for (var i=0; i < tmpServerObservations.length; i++) {
 	              // Formatting CreatedAt
-	    		  var tmpDate = new Date($scope.main.serverObservations[i].createdAt);
+	    		  var tmpDate = new Date(tmpServerObservations[i].createdAt);
 	              var offset = ((tmpDate.getTimezoneOffset()) * (-1)) / 60;
 	              tmpDate.setHours(tmpDate.getHours() + offset);
 	              var timeRegex = /^.*T(\d{2}):(\d{2}):(\d{2}).*$/
@@ -2963,8 +3421,21 @@ angular.module('MYGEOSS.controllers', [])
 	              var dateData = dateRegex.exec(tmpDate.toJSON());
 	              var timeData = timeRegex.exec(tmpDate.toJSON());
 	              tmpDate = dateData[1]+"-"+dateData[2]+"-"+dateData[3]+" "+timeData[1]+":"+timeData[2]+":"+timeData[3];
-	              $scope.main.serverObservations[i].createdAt = tmpDate;
+	              tmpServerObservations[i].createdAt = tmpDate;
+                  if ($scope.feedback.ids.includes(tmpServerObservations[i]._id)) {
+                    num_messages = 0;
+                    for (var y=0; y < $scope.feedback.ids.length; y++) {
+                        if ($scope.feedback.ids[y] == tmpServerObservations[i]._id) num_messages++;
+                    }
+                    tmpServerObservations[i].unread_message = true;
+                    tmpServerObservations[i].num_message = num_messages;
+                  } else {
+                    tmpServerObservations[i].unread_message = false;
+                    tmpServerObservations[i].num_message = 0;
+                  }
 	    	  }
+              $scope.main.serverObservations = tmpServerObservations;
+
 	          // Retrieve scientific name for general species
 	          var dataJsonTable = $.getJSON($scope.realPath + "idNameTable.json", function (dataJSON)
 	     	  {
@@ -3307,16 +3778,6 @@ angular.module('MYGEOSS.controllers', [])
             	if ($scope.environment != "PROD") console.error("error data marker : "+error);
             });
 
-          /*
-			 * var userIcon = {}; userIcon._id = "userIcon"; userIcon.__v = 0;
-			 * userIcon.properties = {}; userIcon.geometry = {};
-			 * userIcon.geometry.coordinates = [];
-			 * userIcon.geometry.coordinates[0] = $scope.main.lng;
-			 * userIcon.geometry.coordinates[1] = $scope.main.lat;
-			 * userIcon.geometry.type = "Point"; userIcon.type = "Feature";
-			 * L.geoJson(userIcon, { icon : iconUserDefined
-			 * }).addTo($scope.map);
-			 */
 		  var iconUserDefined = new L.icon({
               iconUrl: 'img/legenda/location_man.png',
               iconSize:     [46, 46], // size of the icon
@@ -3346,7 +3807,7 @@ angular.module('MYGEOSS.controllers', [])
 /*
  * Login Controller ------------------------------------------------------------
  */
-.controller('LoginCtrl', ['$scope', '$state', '$rootScope', '$cacheFactory', '$ionicModal', '$ionicLoading', '$ionicPopup', '$ionicHistory', '$authenticationFactory', 'TEXT', 'SERVER', '$filter', '$cordovaOauth', '$http', function($scope, $state, $rootScope, $cacheFactory, $ionicModal, $ionicLoading, $ionicPopup, $ionicHistory, $authenticationFactory, TEXT, SERVER, $filter, $cordovaOauth, $http){
+.controller('LoginCtrl', ['$scope', '$state', '$rootScope', '$cacheFactory', '$ionicModal', '$ionicLoading', '$ionicPopup', '$ionicHistory', '$authenticationFactory', 'TEXT', 'SERVER', '$filter', '$cordovaOauth', '$http', 'CONFIG', function($scope, $state, $rootScope, $cacheFactory, $ionicModal, $ionicLoading, $ionicPopup, $ionicHistory, $authenticationFactory, TEXT, SERVER, $filter, $cordovaOauth, $http, CONFIG){
   $scope.$on('$ionicView.beforeEnter', function(e) {
     if($scope.mainMenu === true) $scope.changeMainMenu();
     $scope.isLogged = $authenticationFactory.checkSessionLocal();
@@ -3356,6 +3817,7 @@ angular.module('MYGEOSS.controllers', [])
        $scope.iconLogged = "login_off.png";
        $scope.main.loginType = "";
     }
+    $scope.calculate_expire_time();
   });
 
 
@@ -3384,6 +3846,26 @@ angular.module('MYGEOSS.controllers', [])
       }
     );
   };
+  
+  $scope.calculate_expire_time = function() {
+      console.log("IS LOGGED: " + $scope.isLogged);
+      if ($scope.isLogged) {
+          var currentTime = new Date().getTime()
+          var sessionTime = $scope.appCtrl.session.timestamp;
+          var expireTime = (CONFIG.sessionExpirationTime - (currentTime - sessionTime)) / 1000;
+          var numDays = Math.trunc(expireTime / 86400);
+          expireTime = expireTime - (numDays * 86400);
+          var numHours = Math.trunc(expireTime / 3600);
+          expireTime = expireTime - (numHours * 3600);
+          var numMins = Math.trunc(expireTime / 60);
+          expireTime = expireTime - (numMins * 60);
+          var numSecs = Math.trunc(expireTime);
+          $scope.expireString = numDays + "d " + numHours + "h " + numMins + "m " + numSecs + "s";
+      } else {
+        $scope.expireString = "";
+      }
+      console.log("EXPIRE TIME: " + $scope.expireString);
+  }
 
   $scope.server1 = SERVER.authenticationBaseURL;
   $scope.server2 = SERVER.serverApiUrl;
@@ -3398,10 +3880,103 @@ angular.module('MYGEOSS.controllers', [])
   if ($scope.environment != "PROD") console.log("SSL 1: " + $scope.server1_ssl);
   if ($scope.environment != "PROD") console.log("SSL 2: " + $scope.server2_ssl);
 
+  $scope.dropboxLogin = function() {
+	if ($scope.main.connected) {
+	    if ($scope.environment != "PROD") console.log("PREMUTO DROPBOX");
+		$cordovaOauth.dropbox("xwl6om071l8qlt4", ["email"]).then(function (result) {
+            console.log(result);
+            var user_id = "DROPBOX_" + result.uid;
+        	$scope.appCtrl.session = $authenticationFactory.updateSession(result.access_token, new Date().getTime(), true);
+		    var user = {
+		      username: "",
+		      firstname: "",
+		      lastname: "",
+		      email: user_id
+		    };
+		    $scope.appCtrl.user = $authenticationFactory.updateUser(user, true);
+		    $authenticationFactory.setUserEmailReport(user_id);
+		    $authenticationFactory.setUserProviderLogin("dropbox");
+		    $cacheFactory.get('customQueryCache').removeAll();
+		    $scope.appCtrl.provider = "dropbox";
+			$scope.main.loginType="dropbox";
+            $scope.countDown.value = 0;
+            $scope.isLogged = true;
+            $scope.calculate_expire_time();
+			$state.go('app.home');
+		}, function (error) {
+			console.log(error);
+		});
+	} else {
+		navigator.notification.alert(
+			$filter('translate')('offline_txt'),
+			function () {
+				if ($scope.environment != "PROD") console.log("No Internet connection");
+			},
+			$filter('translate')('no_updates_title'),            // title
+			"OK"          // buttonLabels
+		);
+	}
+  }
+  
+
+  $scope.appleLogin = function() {
+    if (window.cordova.platformId == "ios") {
+        if ($scope.main.connected) {
+            if ($scope.environment != "PROD") console.log("PREMUTO APPLE ID");
+            window.cordova.plugins.SignInWithApple.signin(
+              { requestedScopes: [1] },
+              function(succ){
+                console.log(succ);
+                var user_id = succ.email;
+                $scope.appCtrl.session = $authenticationFactory.updateSession(succ.authorizationCode, new Date().getTime(), true);
+                var user = {
+                  username: "",
+                  firstname: "",
+                  lastname: "",
+                  email: user_id
+                };
+                $scope.appCtrl.user = $authenticationFactory.updateUser(user, true);
+                $authenticationFactory.setUserEmailReport(user_id);
+                $authenticationFactory.setUserProviderLogin("apple");
+                $cacheFactory.get('customQueryCache').removeAll();
+                $scope.appCtrl.provider = "apple";
+                $scope.main.loginType="apple";
+                $scope.countDown.value = 0;
+                $scope.isLogged = true;
+                $scope.calculate_expire_time();
+                $state.go('app.home');
+              },
+              function(err){
+                console.error(err)
+                console.log(JSON.stringify(err))
+              }
+            )
+        } else {
+            navigator.notification.alert(
+                $filter('translate')('offline_txt'),
+                function () {
+                    if ($scope.environment != "PROD") console.log("No Internet connection");
+                },
+                $filter('translate')('no_updates_title'),            // title
+                "OK"          // buttonLabels
+            );
+        }
+    } else {
+		navigator.notification.alert(
+			$filter('translate')('APPLEID_WARNING'),
+			function () {
+				if ($scope.environment != "PROD") console.log("You can only use Apple ID authentication on iOS devices.");
+			},
+			$filter('translate')('no_updates_title'),            // title
+			"OK"          // buttonLabels
+		);
+    }
+  }
+  
   $scope.stravaLogin = function() {
 	if ($scope.main.connected) {
 	    if ($scope.environment != "PROD") console.log("PREMUTO STRAVA");
-		$cordovaOauth.strava("[...]", "[...]", ["profile:read_all"]).then(function (result) {
+		$cordovaOauth.strava("44090", "2efcef310ce74b29f572c8cf5cf2441a84dfc432", ["profile:read_all"]).then(function (result) {
             var user_id = "STRAVA_" + result.athlete.id;
         	$scope.appCtrl.session = $authenticationFactory.updateSession(result.access_token, new Date().getTime(), true);
 		    var user = {
@@ -3416,6 +3991,9 @@ angular.module('MYGEOSS.controllers', [])
 		    $cacheFactory.get('customQueryCache').removeAll();
 		    $scope.appCtrl.provider = "strava";
 			$scope.main.loginType="strava";
+            $scope.countDown.value = 0;
+            $scope.isLogged = true;
+            $scope.calculate_expire_time();
 			$state.go('app.home');
 		}, function (error) {
 			console.log(error);
@@ -3435,7 +4013,7 @@ angular.module('MYGEOSS.controllers', [])
   $scope.linkedinLogin = function() {
 	if ($scope.main.connected) {
 	    if ($scope.environment != "PROD") console.log("PREMUTO LINKEDIN"); //["r_basicprofile", "r_liteprofile","r_emailaddress"]
-		$cordovaOauth.linkedin("[...]", "[...]", ["w_member_social", "r_liteprofile","r_emailaddress"],"aowiejfoiewjfs").then(function (result) {
+		$cordovaOauth.linkedin("77e7tng8cc4u17", "4sYlBylKLySEapHN", ["w_member_social", "r_liteprofile","r_emailaddress"],"aowiejfoiewjfs").then(function (result) {
             var access_token = result.access_token;
             var expire_date = result.expires_in;
 			var api_url = 'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))&oauth2_access_token=' + access_token;
@@ -3459,6 +4037,9 @@ angular.module('MYGEOSS.controllers', [])
 			    $cacheFactory.get('customQueryCache').removeAll();
 				$scope.main.loginType="linkedin";
 			    $scope.appCtrl.provider = "linkedin";
+                $scope.countDown.value = 0;
+                $scope.isLogged = true;
+                $scope.calculate_expire_time();
 				$state.go('app.home');
 			})
 			.error(function(err,status) {
@@ -3484,7 +4065,7 @@ angular.module('MYGEOSS.controllers', [])
   $scope.twitterLogin = function() {
 	if ($scope.main.connected) {
 	    if ($scope.environment != "PROD") console.log("PREMUTO TWITTER");
-		$cordovaOauth.twitter("[...]", "[...]").then(function (result) {
+		$cordovaOauth.twitter("4NhFXSkJx2AJPrP5oaBzRKgeO", "wGwepuXpjmvEdU39TmvUUt9uUEn9n3A9fhoTblkmmdEIgWO8oo").then(function (result) {
 			var twitter_userid = "TWITTER_" + result.user_id;
 			var twitter_screenname = result.screen_name;
 			$scope.details = twitter_userid;
@@ -3501,6 +4082,9 @@ angular.module('MYGEOSS.controllers', [])
 		    $cacheFactory.get('customQueryCache').removeAll();
 		    $scope.appCtrl.provider = "twitter";
 			$scope.main.loginType="twitter";
+            $scope.countDown.value = 0;
+            $scope.isLogged = true;
+            $scope.calculate_expire_time();
 			$state.go('app.home');
 		}, function (error) {
 			console.log(JSON.stringify(error));
@@ -3520,7 +4104,7 @@ angular.module('MYGEOSS.controllers', [])
   $scope.facebookLogin = function() {
      if ($scope.main.connected) {
         if ($scope.environment != "PROD") console.log("PREMUTO FACEBOOK");
-        $cordovaOauth.facebook("[...]", ["email", "public_profile"], {redirect_uri: "https://localhost/callback"}).then(function(result) {
+        $cordovaOauth.facebook("1268542026870211", ["email", "public_profile"], {redirect_uri: "https://localhost/callback"}).then(function(result) {
            //$scope.details = result.access_token;
            $http.get("https://graph.facebook.com/v2.2/me", {params: {access_token: result.access_token, fields: "name, email", format: "json"}}).then(function(user_info) {
 			   var facebook_email = "";
@@ -3544,9 +4128,12 @@ angular.module('MYGEOSS.controllers', [])
                $cacheFactory.get('customQueryCache').removeAll();
                $scope.appCtrl.provider = "facebook";
                $scope.main.loginType="facebook";
+               $scope.countDown.value = 0;
+               $scope.isLogged = true;
+               $scope.calculate_expire_time();
                $state.go('app.home');
             })
-            if ($scope.environment != "PROD") console.log($scope.details);
+            console.log($scope.details);
          }, function(error) {
             console.log(error);
          });
@@ -3562,12 +4149,48 @@ angular.module('MYGEOSS.controllers', [])
      }
   }
 
+  $scope.callEULogin = function() {
+	var ref = cordova.InAppBrowser.open(CONFIG.serverEULogin, '_blank', 'location=yes,clearcache=yes,clearsessioncache=yes');
+	ref.addEventListener('loadstop', function() {
+		ref.executeScript({
+			code: "document.getElementsByTagName('html')[0].innerText"
+		}, function(html) {
+			cleanHTML = html.toString();
+			if (cleanHTML.includes("username")) {
+				var usernameJSON = JSON.parse(cleanHTML);
+				var user_email = "EULOGIN_" + usernameJSON.username;
+				var user_id = usernameJSON.username;
+				var access_token = usernameJSON.username;
+			        $scope.logoutVar = usernameJSON.username;
+				$scope.details = usernameJSON.username;
+			        $scope.appCtrl.session = $authenticationFactory.updateSession(access_token, new Date().getTime(), true);
+				var user = {
+				  username: "",
+				  firstname: "",
+				  lastname: "",
+				  email: user_email
+				};
+				$scope.appCtrl.user = $authenticationFactory.updateUser(user, true);
+				$authenticationFactory.setUserEmailReport(user_email);
+				$authenticationFactory.setUserProviderLogin("eulogin");
+				$cacheFactory.get('customQueryCache').removeAll();
+				$scope.appCtrl.provider = "eulogin";
+				$scope.main.loginType="eulogin";
+			        $scope.countDown.value = 0;
+				ref.close();
+				$state.go('app.home');
+			}
+		})
+	});
+	ref.show();
+  }
   $scope.EULogin = function() {
 	if ($scope.main.connected) {
 	    if ($scope.environment != "PROD") console.log("PREMUTO EULOGIN");
 		$scope.appCtrl.provider = "eulogin";
 		$authenticationFactory.setUserProviderLogin("eulogin");
-		ECASMobile.requestECASAuthentication(ecas_ch,ecas_fh);
+		$scope.callEULogin();
+		//ECASMobile.requestECASAuthentication(ecas_ch,ecas_fh);
 	} else {
 		navigator.notification.alert(
 			$filter('translate')('offline_txt'),
@@ -3609,12 +4232,13 @@ angular.module('MYGEOSS.controllers', [])
 		$cacheFactory.get('customQueryCache').removeAll();
 		$scope.appCtrl.provider = "eulogin";
 		$scope.main.loginType="eulogin";
+        $scope.countDown.value = 0;
 		$state.go('app.home');
 	}
   };
 
   var ecas_fh = function(json) {
-	console.log("Not logged in!");
+	if ($scope.environment != "PROD") console.log("Not logged in!");
 	if ($scope.environment != "PROD") console.log(JSON.stringify(json));
   }
 
@@ -3660,6 +4284,7 @@ angular.module('MYGEOSS.controllers', [])
 		$authenticationFactory.setUserProviderLogin("easin");
         $cacheFactory.get('customQueryCache').removeAll();
 		$scope.appCtrl.provider = "easin";
+        $scope.countDown.value = 0;
         $state.go('app.home');
       },
       function(error){
@@ -3874,6 +4499,13 @@ angular.module('MYGEOSS.controllers', [])
 	$scope.main.loginType="";
     $scope.isLogged = false;
     $scope.userLogged = "";
+
+    $scope.feedback = {};
+    $scope.feedback.num = 0;
+    $scope.feedback.ids = [];
+    $scope.feedback.user = "";
+    $scope.feedback.countUpdates = 0;
+
     $scope.iconLogged = "login_off.png";
     $authenticationFactory.updateSession('', 0, false);
     $authenticationFactory.setUserEmailReport("");

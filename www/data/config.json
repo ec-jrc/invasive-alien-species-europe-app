@@ -1,0 +1,17 @@
+{
+  "environment" : "PROD",
+  "serverProdApiUrlHttp" : "https://citizensdata.jrc.ec.europa.eu/easin/backend/",
+  "serverProdApiUrlHttps" : "https://citizensdata.jrc.ec.europa.eu/easin/backend/",
+  "serverTestApiUrlHttp" : "https://citizensdata.jrc.ec.europa.eu/easin/backend/",
+  "serverTestApiUrlHttps" : "https://citizensdata.jrc.ec.europa.eu/easin/backend/",
+  "authenticationBaseURLHttp" : "http://alien.jrc.ec.europa.eu/api.auth/",
+  "authenticationBaseURLHttps": "https://easin.jrc.ec.europa.eu/api.auth/",
+  "staticFileContentURL" : "https://citizensdata.jrc.ec.europa.eu/files/app/ias/",
+  "staticFileTimestamp" : "1600436176701",
+  "contactMail" : "JRC-CitizenSData@ec.europa.eu",
+  "countDownTimer" : 300,
+  "sessionExpirationTime" : "604800000",
+  "tileLayer" : "https://europa.eu/webtools/maps/tiles/osm-ec/{z}/{x}/{y}.png",
+  "userCanStartChat" : "0",
+  "serverEULogin" : "https://citizensdata.jrc.ec.europa.eu/cas/backend/whoami"
+}

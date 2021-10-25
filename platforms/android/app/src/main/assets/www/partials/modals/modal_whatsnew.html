@@ -1,0 +1,21 @@
+<ion-modal-view class="sidemenu-modal">
+    <ion-header-bar>
+        <h1 class="title">{{'NOTIFICATIONS_TITLE' | translate }}</h1>
+        <div class="buttons">
+            <button ng-show="whatsNewDetail == false" class="button button-clear" ng-click="closeModalWhatsNew()"><span class="ion-close-circled"> {{'close' | translate}}</span></button>
+            <button ng-show="whatsNewDetail" class="button button-clear ion-ios-arrow-back" ng-click="closeModalWhatsNewDetail()">&nbsp;<span> {{'back' | translate}}</span></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+		<br/>
+        <div ng-show="whatsNewDetail == false" ng-repeat="whatsNewMessage in whatsNewMessages">
+        <p ng-click="loadWhatsNewDetail($index)">{{whatsNewMessage.title}} <i ng-show="whatsNewMessage.just_read == false" style="float: right;">&nbsp;&nbsp;<img ng-show="notificationsWhatsNew" id="menuIconLegal" src="img/red_bullet.png" style="width: 12px;"/></i></p>
+        <hr>
+        </div>
+        <div ng-show="whatsNewDetail">
+        <p class="sidemenu-modal-content-title">{{detailMessage.title}}</p>
+        <p>{{detailMessage.body}}</p>
+        <p><br></p>
+        </div>
+    </ion-content>
+</ion-modal-view>

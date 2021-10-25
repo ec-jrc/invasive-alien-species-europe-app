@@ -1,136 +1,4 @@
 {
-  "cordova-plugin-ionic-webview": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-ionic-webview@1.1.16"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-android-permissions": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-android-permissions@^1.0.2"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-camera": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-camera@^4.1.0"
-    },
-    "is_top_level": true,
-    "variables": {
-      "CAMERA_USAGE_DESCRIPTION": "The application uses the camera to take picture for the observation"
-    }
-  },
-  "cordova-plugin-compat": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-compat@^1.2.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-datepicker": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-datepicker@^0.9.3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-device": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-device@^2.0.3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-dialogs": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-dialogs@^2.0.2"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-file": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-file@^6.0.2"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-file-hash": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-file-hash@^0.4.1"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-filepath": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-filepath@^1.5.8"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-geolocation": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-geolocation@^4.0.2"
-    },
-    "is_top_level": true,
-    "variables": {
-      "GEOLOCATION_USAGE_DESCRIPTION": "The application use your position to display the observations near your location"
-    }
-  },
-  "cordova-plugin-globalization": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-globalization@^1.11.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-inappbrowser": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-inappbrowser@^3.2.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-network-information": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-network-information@^2.0.2"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-splashscreen": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-splashscreen@^5.0.3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-statusbar": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-statusbar@^2.4.3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-whitelist": {
     "source": {
       "type": "registry",
@@ -139,10 +7,114 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-sqlite-storage": {
+  "cordova-plugin-android-permissions": {
     "source": {
       "type": "registry",
-      "id": "cordova-sqlite-storage@^5.0.0"
+      "id": "cordova-plugin-android-permissions"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-camera": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-camera@6.0.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-datepicker": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-datepicker"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-device": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-device"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-dialogs": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-dialogs"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-file": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-file@6.0.2"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-file-hash": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-file-hash"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-filepath": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-filepath"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-geolocation": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-geolocation@4.1.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-globalization": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-globalization"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-network-information": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-network-information@3.0.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-sign-in-with-apple": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-sign-in-with-apple"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-splashscreen": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-splashscreen@5.0.3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-statusbar": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-statusbar@2.4.3"
     },
     "is_top_level": true,
     "variables": {}
@@ -150,7 +122,7 @@
   "ionic-plugin-keyboard": {
     "source": {
       "type": "registry",
-      "id": "ionic-plugin-keyboard@^2.2.1"
+      "id": "ionic-plugin-keyboard@2.2.1"
     },
     "is_top_level": true,
     "variables": {}
@@ -158,15 +130,23 @@
   "phonegap-plugin-mobile-accessibility": {
     "source": {
       "type": "registry",
-      "id": "phonegap-plugin-mobile-accessibility@^1.0.5"
+      "id": "phonegap-plugin-mobile-accessibility"
     },
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-wkwebview-file-xhr": {
+  "cordova-plugin-inappbrowser": {
     "source": {
-      "type": "local",
-      "path": "/Users/fabianospinelli/Documents/Projects/iase copy xhr/node_modules/cordova-plugin-wkwebview-file-xhr"
+      "type": "registry",
+      "id": "cordova-plugin-inappbrowser@3.2.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-sqlite-storage": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-sqlite-storage"
     },
     "is_top_level": true,
     "variables": {}

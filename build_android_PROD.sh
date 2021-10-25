@@ -1,3 +1,3 @@
-rm platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
+rm platforms/android/app/build/outputs/bundle/release/app-release.aab
 cordova build android --release
-sudo cp platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk /mnt/shared/easin-prod.apk
+sudo cp platforms/android/app/build/outputs/bundle/release/app-release.aab /mnt/shared/easin-prod.aab

@@ -292,21 +292,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-inappbrowser.inappbrowser",
-      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-      "pluginId": "cordova-plugin-inappbrowser",
-      "clobbers": [
-        "cordova.InAppBrowser.open",
-        "window.open"
-      ]
-    },
-    {
       "id": "cordova-plugin-network-information.network",
       "file": "plugins/cordova-plugin-network-information/www/network.js",
       "pluginId": "cordova-plugin-network-information",
       "clobbers": [
-        "navigator.connection",
-        "navigator.network.connection"
+        "navigator.connection"
       ]
     },
     {
@@ -315,6 +305,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "pluginId": "cordova-plugin-network-information",
       "clobbers": [
         "Connection"
+      ]
+    },
+    {
+      "id": "cordova-plugin-sign-in-with-apple.SignInWithApple",
+      "file": "plugins/cordova-plugin-sign-in-with-apple/www/sign-in-with-apple.js",
+      "pluginId": "cordova-plugin-sign-in-with-apple",
+      "clobbers": [
+        "cordova.plugins.SignInWithApple"
       ]
     },
     {
@@ -331,14 +329,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "pluginId": "cordova-plugin-statusbar",
       "clobbers": [
         "window.StatusBar"
-      ]
-    },
-    {
-      "id": "cordova-sqlite-storage.SQLitePlugin",
-      "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
-      "pluginId": "cordova-sqlite-storage",
-      "clobbers": [
-        "SQLitePlugin"
       ]
     },
     {
@@ -367,35 +357,41 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "eu.europa.ec.ecas.ECASMobile",
-      "file": "plugins/eu.europa.ec.ecas/www/ecasmobile.js",
-      "pluginId": "eu.europa.ec.ecas",
+      "id": "cordova-plugin-inappbrowser.inappbrowser",
+      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+      "pluginId": "cordova-plugin-inappbrowser",
       "clobbers": [
-        "ECASMobile"
+        "cordova.InAppBrowser.open",
+        "window.open"
+      ]
+    },
+    {
+      "id": "cordova-sqlite-storage.SQLitePlugin",
+      "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
+      "pluginId": "cordova-sqlite-storage",
+      "clobbers": [
+        "SQLitePlugin"
       ]
     }
   ];
   module.exports.metadata = {
-    "cordova-plugin-android-permissions": "1.0.2",
-    "cordova-plugin-camera": "4.1.0",
+    "cordova-plugin-android-permissions": "1.1.2",
+    "cordova-plugin-camera": "6.0.0",
     "cordova-plugin-datepicker": "0.9.3",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-dialogs": "2.0.2",
     "cordova-plugin-file": "6.0.2",
     "cordova-plugin-file-hash": "0.4.1",
-    "cordova-plugin-filepath": "1.5.8",
-    "cordova-plugin-geolocation": "4.0.2",
+    "cordova-plugin-filepath": "1.6.0",
+    "cordova-plugin-geolocation": "4.1.0",
     "cordova-plugin-globalization": "1.11.0",
-    "cordova-plugin-inappbrowser": "3.2.0",
-    "cordova-plugin-network-information": "2.0.2",
+    "cordova-plugin-network-information": "3.0.0",
+    "cordova-plugin-sign-in-with-apple": "0.1.2",
     "cordova-plugin-splashscreen": "5.0.3",
     "cordova-plugin-statusbar": "2.4.3",
-    "cordova-plugin-whitelist": "1.3.4",
-    "cordova-plugin-wkwebview-engine": "1.2.1",
-    "cordova-plugin-wkwebview-file-xhr": "2.1.4",
-    "cordova-sqlite-storage": "5.0.0",
     "ionic-plugin-keyboard": "2.2.1",
     "phonegap-plugin-mobile-accessibility": "1.0.5-dev",
-    "eu.europa.ec.ecas": "25"
+    "cordova-plugin-inappbrowser": "3.2.0",
+    "cordova-sqlite-storage": "6.0.0"
   };
 });

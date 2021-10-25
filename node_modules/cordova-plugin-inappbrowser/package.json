@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-inappbrowser@^3.2.0",
+  "_from": "cordova-plugin-inappbrowser@3.2.0",
   "_id": "cordova-plugin-inappbrowser@3.2.0",
   "_inBundle": false,
   "_integrity": "sha512-tYsK0H9M8POmJTVnfyIsiRgoOxnypa9IQIbf/Hsgi7vbgUYRHtBUfvXwq4RhMqLIVrCeJLXF2hTXTDNY0a/eTA==",
   "_location": "/cordova-plugin-inappbrowser",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "cordova-plugin-inappbrowser@^3.2.0",
+    "raw": "cordova-plugin-inappbrowser@3.2.0",
     "name": "cordova-plugin-inappbrowser",
     "escapedName": "cordova-plugin-inappbrowser",
-    "rawSpec": "^3.2.0",
+    "rawSpec": "3.2.0",
     "saveSpec": null,
-    "fetchSpec": "^3.2.0"
+    "fetchSpec": "3.2.0"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-inappbrowser/-/cordova-plugin-inappbrowser-3.2.0.tgz",
   "_shasum": "8615e1510dcf796875b420416331b768fee28d86",
-  "_spec": "cordova-plugin-inappbrowser@^3.2.0",
-  "_where": "/Users/fabianospinelli/Documents/Projects/iase copy",
+  "_spec": "cordova-plugin-inappbrowser@3.2.0",
+  "_where": "/home/spinefa/Projects/iase_(4. oauthid)",
   "author": {
     "name": "Apache Software Foundation"
   },

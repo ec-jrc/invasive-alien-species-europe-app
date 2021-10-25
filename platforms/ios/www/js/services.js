@@ -26,7 +26,7 @@ angular.module('MYGEOSS.services', [])
         }).responseText;
 		return stringData;
     }
-    
+
 	obj.getAll = function(area, realPath, languageCode){
 	    var def = $q.defer();
         $(document).ready(function() {
@@ -40,26 +40,85 @@ angular.module('MYGEOSS.services', [])
             });
         } else {
             var localSpeciesFile = realPath + "species-" + languageCode + ".json";
-            var areaSpeciesFile = realPath + "species_" + area[0].id + "-" + languageCode + ".json";
-            return $.getJSON(localSpeciesFile).then(function(data1) {
-               return $.getJSON(areaSpeciesFile).then(function(data2) {
-								 var generalSpeciesJSON = data1.species;
-				 			   var areaSpeciesJSON = data2.species;
-					 		   areaSpeciesJSON.forEach(function (element) {
-								    element.area_name = area[0].name;
-								    element.area_id = area[0].id;
-							 	 });
-								 temporarySpeciesList = generalSpeciesJSON.concat(areaSpeciesJSON);
-                  console.log("Species loaded: " + temporarySpeciesList.length);
-                  var finalSpeciesList = { "species" : temporarySpeciesList };
-                  return finalSpeciesList;
-               },function(error){
-                  var generalSpeciesJSON = data1.species;
-                  console.log("Species loaded: " + generalSpeciesJSON.length);
-                  var finalSpeciesList = { "species" : generalSpeciesJSON };
-                  return finalSpeciesList;
-               });
-            });
+            if (area.length == 1) {
+                var areaSpeciesFile = realPath + "species_" + area[0].id + "-" + languageCode + ".json";
+                return $.getJSON(localSpeciesFile).then(function(data1) {
+                   return $.getJSON(areaSpeciesFile).then(function(data2) {
+                      var generalSpeciesJSON = data1.species;
+                      var areaSpeciesJSON = data2.species;
+                      areaSpeciesJSON.forEach(function (element) {
+                         element.area_name = area[0].name;
+                         element.area_id = area[0].id;
+                      });
+                      temporarySpeciesList = generalSpeciesJSON.concat(areaSpeciesJSON);
+                      console.log("Species loaded: " + temporarySpeciesList.length);
+                      var finalSpeciesList = { "species" : temporarySpeciesList };
+                      return finalSpeciesList;
+                   },function(error){
+                      var generalSpeciesJSON = data1.species;
+                      console.log("Species loaded: " + generalSpeciesJSON.length);
+                      var finalSpeciesList = { "species" : generalSpeciesJSON };
+                      return finalSpeciesList;
+                   });
+                });
+            }
+            if (area.length == 2) {
+                var areaSpeciesFile1 = realPath + "species_" + area[0].id + "-" + languageCode + ".json";
+                var areaSpeciesFile2 = realPath + "species_" + area[1].id + "-" + languageCode + ".json";
+                return $.getJSON(localSpeciesFile).then(function(data1) {
+                   return $.getJSON(areaSpeciesFile1).then(function(data2) {
+                      return $.getJSON(areaSpeciesFile2).then(function(data3) {
+                         var generalSpeciesJSON = data1.species;
+                         var areaSpeciesJSON1 = data2.species;
+                         var areaSpeciesJSON2 = data3.species;
+                         areaSpeciesJSON1.forEach(function (element) {
+                            element.area_name = area[0].name;
+                            element.area_id = area[0].id;
+                         });
+                         temporarySpeciesList = generalSpeciesJSON.concat(areaSpeciesJSON1);
+                         areaSpeciesJSON2.forEach(function (element) {
+                            element.area_name = area[1].name;
+                            element.area_id = area[1].id;
+                         });
+                         temporarySpeciesList = temporarySpeciesList.concat(areaSpeciesJSON2);
+                         console.log("Species loaded: " + temporarySpeciesList.length);
+                         var finalSpeciesList = { "species" : temporarySpeciesList };
+                         return finalSpeciesList;
+                     },function(error){
+                         // There is an error on the second local area, so I propose only the general catalogue + the first local area
+                         var generalSpeciesJSON = data1.species;
+                         var areaSpeciesJSON = data2.species;
+                         areaSpeciesJSON.forEach(function (element) {
+                            element.area_name = area[0].name;
+                            element.area_id = area[0].id;
+                         });
+                         temporarySpeciesList = generalSpeciesJSON.concat(areaSpeciesJSON);
+                         console.log("Species loaded: " + temporarySpeciesList.length);
+                         var finalSpeciesList = { "species" : temporarySpeciesList };
+                         return finalSpeciesList;
+                     });
+                   },function(error){
+                        return $.getJSON(areaSpeciesFile2).then(function(data3) {
+                           var generalSpeciesJSON = data1.species;
+                           var areaSpeciesJSON = data3.species;
+                           areaSpeciesJSON.forEach(function (element) {
+                              element.area_name = area[1].name;
+                              element.area_id = area[1].id;
+                           });
+                           temporarySpeciesList = generalSpeciesJSON.concat(areaSpeciesJSON);
+                           console.log("Species loaded: " + temporarySpeciesList.length);
+                           var finalSpeciesList = { "species" : temporarySpeciesList };
+                           return finalSpeciesList;
+                        },function(error){
+                           var generalSpeciesJSON = data1.species;
+                           console.log("Species loaded: " + generalSpeciesJSON.length);
+                           var finalSpeciesList = { "species" : generalSpeciesJSON };
+                           return finalSpeciesList;
+                        });
+                   });
+                });
+            }
+            
         }
     }
     /*
@@ -808,9 +867,9 @@ angular.module('MYGEOSS.services', [])
 
   obj.setDatabaseContent = function(item, langCode, content){
     var def = $q.defer();
-
+		// new Date().getTime()
     var query = "INSERT INTO static (name, lang, date, html) VALUES (?, ?, ?, ?)";
-    $cordovaSQLite.execute($dataBaseFactory.get(), query, [item, langCode, new Date().getTime(), content]).then(function(success){
+    $cordovaSQLite.execute($dataBaseFactory.get(), query, [item, langCode, CONFIG.staticFileTimestamp, content]).then(function(success){
       def.resolve('content added');
     }, function(error){
       def.reject(error);
@@ -819,56 +878,90 @@ angular.module('MYGEOSS.services', [])
     return def.promise;
   };
 
-  obj.updateDatabaseContent = function(item, langCode, content){
+	obj.updateDatabaseContent = function(item, langCode, content, dateupdate){
     var def = $q.defer();
-
-    var query = "UPDATE static SET html = ?, date = ? WHERE item = ? AND lang = ?";
-    $cordovaSQLite.execute($dataBaseFactory.get(), query, [content, new Date().getTime(), item, langCode]).then(function(success){
+	console.log(content);
+    var query = "UPDATE static SET html = ?, date = ? WHERE name = ? AND lang = ?";
+	var currTime = new Date().getTime();
+    $cordovaSQLite.execute($dataBaseFactory.get(), query, [content, dateupdate, item, langCode]).then(function(success){
+	  console.log("DATA UPDATED!");
       def.resolve('updated');
     }, function(error){
+	  console.log("DATA NOT UPDATED! " + JSON.stringify(error));
       def.reject(error);
     });
 
     return def.promise;
   };
 
-  obj.getStatic = function(item, lang){
+	function timeConverter(UNIX_timestamp){
+	  var a = new Date(UNIX_timestamp);
+	  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+	  var year = a.getFullYear();
+	  var month = months[a.getMonth()];
+	  var date = a.getDate();
+	  var hour = a.getHours();
+	  var min = a.getMinutes();
+	  var sec = a.getSeconds();
+	  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+	  return time;
+	}
+
+	obj.getStatic = function(item, lang){
     var def = $q.defer();
-	//console.log(CONFIG.staticFileContentURL+lang+"/"+item+".html");
+	console.log(CONFIG.staticFileContentURL+lang+"/"+item+".html");
 
     obj.getDatabaseContent(item, lang).then(function(dbEntry){
+	  console.log("dbEntry: " + dbEntry);
       if (dbEntry == "no result"){ //if the entry does not exist yet in DB
-        $http.get("./data/static/"+lang+"/"+item+".html", {cache: true, timeout: 5000}).then(function(success){
+        $http.get("./data/static/"+lang+"/"+item+".html", {cache: false, timeout: 5000}).then(function(success){
           obj.setDatabaseContent(item, lang, success.data);
           def.resolve(success.data);
         });
-		/*
-        $http.get(CONFIG.staticFileContentURL+lang+"/"+item+".html", {cache: true, timeout: 5000}).then(function(success){
-          obj.setDatabaseContent(item, lang, success.data);
-          def.resolve(success.data);
-        }, function(error){
-          $http.get("./data/static/"+lang+"/"+item+".html", {cache: true, timeout: 5000}).then(function(success){
-            obj.setDatabaseContent(item, lang, success.data);
-            def.resolve(success.data);
-          });
-        });
-		*/
       }else{ // if entry already exist -> check with server date and update if needed.
-        $http({method: 'HEAD',url: CONFIG.staticFileContentURL+lang+"/"+item+".html", timeout: 5000}).then(
+        $http({method: 'HEAD',url: CONFIG.staticFileContentURL+lang+"/"+item+".html", cache: false, timeout: 5000}).then(
           function(serverHeader){
             var headers = serverHeader.headers();
             var lastmod = headers['last-modified'];
 
             //console.log("serverHeader", serverHeader);
-            //console.log("dbEntry.date", dbEntry.date);
+            console.log("dbEntry.date", dbEntry.date);
             //console.log("lastmod", lastmod);
 
+			dayLastMod = lastmod.substring(5,7);
+			monthLastMod = lastmod.substring(8,11);
+			yearLastMod = lastmod.substring(12,16);
+			hourLastMod = lastmod.substring(17,19);
+			minLastMod = lastmod.substring(20,22);
+			secLastMod = lastmod.substring(23,25);
+			if (monthLastMod == "Jan") monthLastMod = "00";
+			if (monthLastMod == "Feb") monthLastMod = "01";
+			if (monthLastMod == "Mar") monthLastMod = "02";
+			if (monthLastMod == "Apr") monthLastMod = "03";
+			if (monthLastMod == "May") monthLastMod = "04";
+			if (monthLastMod == "Jun") monthLastMod = "05";
+			if (monthLastMod == "Jul") monthLastMod = "06";
+			if (monthLastMod == "Aug") monthLastMod = "07";
+			if (monthLastMod == "Sep") monthLastMod = "08";
+			if (monthLastMod == "Oct") monthLastMod = "09";
+			if (monthLastMod == "Nov") monthLastMod = "10";
+			if (monthLastMod == "Dec") monthLastMod = "11";
+			var datum = new Date(Date.UTC(yearLastMod, monthLastMod, dayLastMod, hourLastMod, minLastMod, secLastMod));
+			//datum.setHours(datum.getHours()+2);
+            lastmod = datum.getTime();
+			console.log(timeConverter(dbEntry.date));
+			console.log("lastmod", lastmod);
+			console.log(timeConverter(lastmod));
+			var dateNow = new Date();
+			console.log(dateNow.getTime());
+
             if (lastmod>dbEntry.date) {
-              $http.get(CONFIG.staticFileContentURL+lang+"/"+item+".html", {cache: true, timeout: 5000}).then(function(success){
+			  console.log("Update '" + item + "' from the server");
+              $http.get(CONFIG.staticFileContentURL+lang+"/"+item+".html", {cache: false, timeout: 5000}).then(function(success){
             	//console.log("ITEM: " + item);
             	//console.log("LANG: " + lang);
             	//console.log("DATA: " + success.data);
-                obj.updateDatabaseContent(item, lang, success.data);
+                obj.updateDatabaseContent(item, lang, success.data, lastmod);
                 def.resolve(success.data);
               }, function(error){
                 console.error("Error " + CONFIG.staticFileContentURL+lang+"/"+item+".html", error);
@@ -1068,11 +1161,6 @@ angular.module('MYGEOSS.services', [])
   };
 
   obj.updateUser = function(user){
-    // var session = {
-    //   sessionToken: sessionToken,
-    //   timestamp: new Date().getTime(),
-    //   logged: logged
-    // };
     obj.setUser(user);
     return user;
   };
@@ -1087,14 +1175,10 @@ angular.module('MYGEOSS.services', [])
 
   obj.checkSessionLocal = function(){
     var session = obj.getSession();
-    //console.log("obj.getSession() : "+obj.getSession());
-    //console.log(obj.getSession());
     if (session.logged === false || obj.expiredTimestamp(session.timestamp) === true){
-      //console.log("expired : "+session.timestamp);
       obj.updateSession('', 0, false);
       return false;
     }else{
-      //TODO checkSession API call?
       return true;
     }
   };
@@ -1134,7 +1218,6 @@ angular.module('MYGEOSS.services', [])
       TimeStamp:  timestamp,
       AppSecret: appSecret
     };
-    //console.log(postData);
 
     var config = {
       headers: {
@@ -1425,7 +1508,7 @@ angular.module('MYGEOSS.services', [])
   var obj = {};
 
   // obj.availableLanguageKey = ["bg","es","cs","da","de","et","el","fr","ga","hr","it","lv","lt","hu","mt","nl","pl","pt","ro","sk","sl","fi","sv","en"];
-  obj.availableLanguageKey = ["en", "de", "it", "es","ro","el"];
+  obj.availableLanguageKey = ["en", "de", "it", "es","ro","el","fr","hu","ro","pt"];
 
   obj.get = function(){
     var def = $q.defer();

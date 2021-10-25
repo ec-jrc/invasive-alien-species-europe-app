@@ -9757,7 +9757,19 @@ a.button {
  * Fonts
  * --------------------------------------------------
  */
+@font-face {
+  font-family: 'ECSquareSansPro';
+  src: url("../lib/fonts/ECSquareSansPro.eot");
+  src: url("../lib/fonts/ECSquareSansPro.eot?#iefix") format("embedded-opentype"), url("../lib/fonts/ECSquareSansPro.woff2") format("woff2"), url("../lib/fonts/ECSquareSansPro.woff") format("woff"), url("../lib/fonts/ECSquareSansPro.ttf") format("truetype"), url("../lib/fonts/ECSquareSansPro.svg#ECSquareSansPro") format("svg");
+  font-weight: normal;
+  font-style: normal; }
 
+@font-face {
+  font-family: 'KonsensMedium';
+  src: url("../lib/fonts/KonsensMedium.eot");
+  src: url("../lib/fonts/KonsensMedium.eot?#iefix") format("embedded-opentype"), url("../lib/fonts/KonsensMedium.woff2") format("woff2"), url("../lib/fonts/KonsensMedium.woff") format("woff"), url("../lib/fonts/KonsensMedium.ttf") format("truetype"), url("../lib/fonts/KonsensMedium.svg#KonsensMedium") format("svg");
+  font-weight: normal;
+  font-style: normal; }
 
 body,
 h1,
@@ -9778,7 +9790,7 @@ select,
 textarea,
 .ionic-body,
 .tab-item {
-  font-family: "Verdana" !important; }
+  font-family: "ECSquareSansPro" !important; }
 
 a {
   font-style: italic;
@@ -9812,7 +9824,8 @@ ion-header-bar .title {
   * -------------------------------------------------
   */
 #mainMenu {
-  -webkit-text-size-adjust: none;
+  /* -webkit-text-size-adjust: none; */
+  width: 75%;
   position: absolute;
   z-index: 100;
   border: 1px solid #a3bccf;
@@ -9824,9 +9837,9 @@ ion-header-bar .title {
     border-bottom: 1px solid #a3bccf;
     padding: 15px 18px 15px 18px;
     font-size: 12pt; }
-    #mainMenu ul li:hover {
+    /*#mainMenu ul li:hover {
       background-color: #a3bccf;
-      color: #3d677c; }
+      color: #3d677c; } */
 
 /**
  * Modal
@@ -9895,7 +9908,7 @@ ion-header-bar .title {
       font-size: 15pt;
       cursor: hand;
       cursor: pointer; }
-
+      
 #languageModal ion-content {
   padding: 0px; }
 
@@ -9959,6 +9972,16 @@ ion-header-bar .title {
 
 .header.login {
   background-color: #d0a82b; }
+  
+.notificationsMainMenu {
+  display: block;
+  right: 13px;
+  position: absolute;
+  top: 5px;
+  z-index: 100;
+  width: 12px;
+}
+
 
 /**
  * Home
@@ -9991,7 +10014,7 @@ ion-header-bar .title {
         height: calc(100% / 4.16);
         /** padding: 2.5px; **/
         margin-top: 0.5%;
-        margin-bottom: 0.5%;
+        margin-bottom: 0.5%; 
         margin-right: 0.5%;
         margin-left: 0.5% }
         @media screen and (min-width: 1024px) {
@@ -10080,8 +10103,13 @@ ion-header-bar .title {
       line-height: 50px; }
       #specieList #specieListFilters input[type="checkbox"] + label span {
         visibility: hidden; }
-    #specieList #specieListFilters input[type="checkbox"]#plante + label {
-      background: url(../img/filter_plante.svg) left center no-repeat; }
+    /* #specieList #specieListFilters input[type="checkbox"]#plante + label {
+      background: url(../img/filter_plante.svg) left center no-repeat; } */
+    #specieList #specieListFilters button#plante {
+      background: url(../img/filter_plante2.svg) left center no-repeat;
+      width: 50px;
+      height: 50px;
+      border: none; }
     #specieList #specieListFilters button#animal {
       background: url(../img/filter_animal.svg) left center no-repeat;
       width: 50px;
@@ -10119,12 +10147,13 @@ ion-header-bar .title {
 	  height: 50px;
 	  margin-top:-6px; }
       #specieList div.subFilters div.row div.col {
-        margin: 0;
+        margin: 0; 
 		padding: 2px; }
     #specieList div.subFilters button#anyAnimal {
-      background: url(../img/filter_animal.svg) left center no-repeat;
+      background: url(../img/filter_animal2.svg) left center no-repeat;
       width: 50px;
       height: 50px;
+      background-size: 40px;
       border: none; }
     #specieList div.subFilters button#anyAnimal + label {
       display: inline-block;
@@ -10152,7 +10181,7 @@ ion-header-bar .title {
     #specieList div.subFilters input[type="checkbox"] + label {
       padding-left: 50px; }
     #specieList div.subFilters input[type="checkbox"]#anyAnimal + label {
-      background: url(../img/filter_animal.svg) left center no-repeat; background-size: 40px; }
+      background: url(../img/filter_animal2.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#amphibians + label {
       background: url(../img/filter_Amphibia.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#birds + label {
@@ -10171,6 +10200,13 @@ ion-header-bar .title {
       background: url(../img/filter_Polychaetes.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#tunicates + label {
       background: url(../img/filter_Tunicates.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#plantae_all + label {
+      background: url(../img/filter_plante2.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#plantae_other + label {
+      background: url(../img/filter_other.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#animal_other + label {
+      background: url(../img/filter_other.svg) left center no-repeat; background-size: 40px; }
+
     #specieList div.subFilters input[type="checkbox"]#anyAnimal:checked + label {
       background: url(../img/filter_animal-active.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#amphibians:checked + label {
@@ -10191,6 +10227,14 @@ ion-header-bar .title {
       background: url(../img/filter_Polychaetes-active.svg) left center no-repeat; background-size: 40px; }
     #specieList div.subFilters input[type="checkbox"]#tunicates:checked + label {
       background: url(../img/filter_Tunicates-active.svg) left center no-repeat; background-size: 40px; }
+
+    #specieList div.subFilters input[type="checkbox"]#plantae_all:checked + label {
+      background: url(../img/filter_plante-active.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#plantae_other:checked + label {
+      background: url(../img/filter_other-active.svg) left center no-repeat; background-size: 40px; }
+    #specieList div.subFilters input[type="checkbox"]#animal_other:checked + label {
+      background: url(../img/filter_other-active.svg) left center no-repeat; background-size: 40px; }
+
     #specieList div.subFilters .closeSubFilter {
       text-align: right;
       font-size: 1.2rem;
@@ -10230,10 +10274,10 @@ ion-header-bar .title {
             }*/
       /* .specie-item{
                 background-position: center;
-                background-size: 100% auto;
+                background-size: 100% auto; 
                 height: 100px;
                 width: 100%;
-
+                
                 p{
                     font-size: 1.5em;
                     color: #ffffff;
@@ -10250,7 +10294,7 @@ ion-header-bar .title {
                         i{
                             font-style: italic;
                         }
-                    }
+                    } 
                 }
             }*/ }
       #specieList ion-content div.row .specie-item {
@@ -10912,8 +10956,8 @@ specie-report-sighting {
 
 .loginIcon {
     /* height: 50%; */
-    width: 50%;
-	margin-top:20%;
+    width: 40%;
+	margin-top:15%;
 }
 .loginText {
 	margin-top: 10px;
@@ -10926,7 +10970,7 @@ specie-report-sighting {
   background-color: #e8d291;
   /* background-image: url(../img/background.png); */ }
   #login ion-content section.login-container {
-    height: 94%;
+    height: 90%;
     width: 100%;
     margin: auto; }
     #login ion-content section.login-container div.row {
@@ -10936,10 +10980,10 @@ specie-report-sighting {
       -moz-justify-content: flex-start;
       justify-content: flex-start; }
       #login ion-content section.login-container div.row div.col-50 {
-        height: calc(100% / 3.125);
+        height: calc(100% / 4.125); /* 3.125 */
         /** padding: 2.5px; **/
-        margin-top: 0.5%;
-        margin-bottom: 0.5%;
+        margin-top: 0.2%;
+        margin-bottom: 0.2%;
         margin-right: 0.5%;
         margin-left: 0.5% }
 
@@ -10982,7 +11026,7 @@ specie-report-sighting {
 #registerModal {
   /*ion-scroll{
         padding-top: 45px; //header;
-            min-height: calc(100% - 45px);
+            min-height: calc(100% - 45px); 
             position: absolute;
             width: 100%;
             form{
@@ -11221,7 +11265,7 @@ span.back-text {
   align-items: center; }
 
  #coord-icon {
-  display: none;
+  display: none;  
 }
 
 .updateLabel {
@@ -11301,7 +11345,7 @@ ion-view#specieList .speciesPageFooter {
       height: 25px;
       margin: auto;
       vertical-align: middle; }
-
+      
 .colFooterSpace {
   float: left;
   width: 10%;
@@ -11404,6 +11448,14 @@ ion-view#specieList .speciesPageFooter {
 }
 
 #iconLoginEulogin {
+	background-color: #e1c36b;
+}
+
+#iconLoginApple {
+	background-color: #e1c36b;
+}
+
+#iconLoginDropbox {
 	background-color: #e1c36b;
 }
 

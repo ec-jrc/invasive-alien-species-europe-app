@@ -8,17 +8,23 @@
     </ion-nav-bar>
 
     <div class="bar bar-subheader sob-tab-navigation row">
-        <div class="col col-33" ng-click="activeTemplate='sob_photos'">
+        <div class="col col-25" ng-click="activeTemplate='sob_photos'">
             <img ng-if="activeTemplate !== 'sob_photos'" ng-src="img/camera.svg" alt="photos">
             <img ng-if="activeTemplate === 'sob_photos'" ng-src="img/camera-active.svg" alt="photos">
         </div>
-        <div class="col col-34" ng-click="activeTemplate='sob_information'">
+        <div class="col col-25" ng-click="activeTemplate='sob_information'">
             <img ng-if="activeTemplate !== 'sob_information'" ng-src="img/information.svg" alt="information">
             <img ng-if="activeTemplate === 'sob_information'" ng-src="img/information-active.svg" alt="information">
         </div>
-        <div class="col col-33" ng-click="activeTemplate='sob_map'">
+        <div class="col col-25" ng-click="activeTemplate='sob_map'">
             <img ng-if="activeTemplate !== 'sob_map'" ng-src="img/world.svg" alt="map">
             <img ng-if="activeTemplate === 'sob_map'" ng-src="img/world-active.svg" alt="map">
+        </div>
+        <div class="col col-25" ng-click="activeTemplate='sob_chat'">
+            <img ng-if="activeTemplate !== 'sob_chat' && SOB.num_message > 0" ng-src="img/chat.gif" alt="chat" style="width:35px;height:35px;">
+            <img ng-if="activeTemplate !== 'sob_chat' && SOB.num_message == 0" ng-src="img/chat.svg" alt="chat" style="width:35px;height:35px;">
+            <img ng-if="activeTemplate === 'sob_chat' && SOB.num_message == 0" ng-src="img/chat-active.svg" alt="chat" style="width:35px;height:35px;">
+            <img ng-if="activeTemplate === 'sob_chat' && SOB.num_message > 0" ng-src="img/chat-active.svg" alt="chat" style="width:35px;height:35px;">
         </div>
     </div>
 
@@ -26,6 +32,7 @@
         <sob-photos ng-if="activeTemplate === 'sob_photos'" data-tap-disabled="false"></sob-photos>
         <sob-information ng-if="activeTemplate === 'sob_information'"></sob-information>
         <sob-map ng-if="activeTemplate === 'sob_map'"></sob-map>
+        <sob-chat ng-if="activeTemplate === 'sob_chat'"></sob-chat>
     </ion-content>
 
 </ion-view>

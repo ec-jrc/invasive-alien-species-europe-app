@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="eu.europa.publications.mygeossias" version="3.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="500000" id="eu.europa.publications.mygeossias" version="5.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="Permissions">
         <param name="android-package" value="com.android.plugins.Permissions" />
     </feature>
@@ -33,9 +33,6 @@
     <feature name="Globalization">
         <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
     </feature>
-    <feature name="InAppBrowser">
-        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
-    </feature>
     <feature name="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
@@ -47,32 +44,23 @@
         <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="Whitelist">
-        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="SQLitePlugin">
-        <param name="android-package" value="io.sqlc.SQLitePlugin" />
-    </feature>
     <feature name="Keyboard">
         <param name="android-package" value="io.ionic.keyboard.IonicKeyboard" />
         <param name="onload" value="true" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="SQLitePlugin">
+        <param name="android-package" value="io.sqlc.SQLitePlugin" />
     </feature>
     <access origin="https://ssl.gstatic.com/accessibility/javascript/android/*" />
     <feature name="MobileAccessibility">
         <param name="android-package" value="com.phonegap.plugin.mobileaccessibility.MobileAccessibility" />
     </feature>
-    <feature name="ECASMobile">
-        <param name="android-package" value="eu.europa.ec.ecasmobile.client.cordova.plugin.ECASMobilePlugin" />
-    </feature>
     <name>Invasive Alien Species Europe</name>
-    <description>
-        A sample Apache Cordova application that responds to the deviceready event.
-    </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
-    </author>
     <content src="index.html" />
+    <access origin="*" />
     <access origin="content:///*" />
     <access origin="http://localhost:8080" />
     <allow-navigation href="http://localhost:8080/*" />
@@ -83,7 +71,6 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <allow-intent href="market:*" />
     <allow-navigation href="*" />
     <splash density="land-ldpi" src="resources/android/splash/drawable-land-ldpi-screen.9.png" />
@@ -112,8 +99,9 @@
     <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="SplashScreenDelay" value="3000" />
+    <preference name="AndroidInsecureFileModeEnabled" value="true" />
     <preference name="android-minSdkVersion" value="19" />
-    <preference name="android-targetSdkVersion" value="29" />
+    <preference name="android-targetSdkVersion" value="30" />
     <preference name="Orientation" value="portrait" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
 </widget>

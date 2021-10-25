@@ -10,8 +10,8 @@
             {{ 'MY_RECORDS_TITLE' | translate }}
         </ion-nav-title>
         <ion-nav-buttons side="right">
-            <button id="customMenuButton" class="button button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
-            </button>
+         	<button id="customMenuButton" class="button-icon ion-navicon customMenuButton" ng-click='changeMainMenu()'>
+            </button><i ng-click='changeMainMenu()' style="float: right;">&nbsp;&nbsp;<img ng-show="notificationsWhatsNew && main.connected == true" id="menuIconLegal" src="img/red_bullet.png" class="notificationsMainMenu"/></i>
         </ion-nav-buttons>
     </ion-nav-bar>
 
@@ -73,18 +73,22 @@
                     </select>
                     <br/><br/>
                 </div>
-                <div class="row serverRecordsList" ng-repeat="serverObservation in main.serverObservations | filter:main.speciesFiltered | orderBy:'-createdAt' track by $index" ui-sref="app.sob({sobId: serverObservation._id})">
+                <div class="row serverRecordsList" ng-repeat="serverObservation in main.serverObservations | filter:main.speciesFiltered | orderBy:['-unread_message','-updatedAt'] track by $index" ui-sref="app.sob({sobId: serverObservation._id})">
                     <div class="col-33 label">
                         <p>{{serverObservation.createdAt | limitTo : 10 }} {{serverObservation.createdAt | limitTo : 8 : 11 }}</p>
                     </div>
                     <div class="col-10">
                         <img src="{{dataDirectory}}{{serverObservation.properties.thumbnail}}" width="100%" ng-show="serverObservation.properties.thumbnail != 'empty.jpg'" onerror="if (this.src != 'empty.jpg') this.src = 'img/empty.png'">
                     </div>
-                    <div class="col-55">
+                    <div class="col-40">
                         <div class="col-100 label">
                             <p>{{ serverObservation.properties.LSIDDesc }}
                             <br/><span>{{serverObservation.properties.Status}}</span> <span ng-if="serverObservation.properties.Updated > 0" class="updateLabel">UPDATED</span></p>
                         </div>
+                    </div>
+                    <div class="col-10">
+                        <img ng-show="serverObservation.unread_message" src="img/chat.png" style="position:relative;top:0px;left:0px;width:30px;z-index:10;"/>
+                        <span ng-show="serverObservation.num_message > 0" style="position:relative;top:-13px;left:15px;z-index:11;color:black;font-style:bold;">{{serverObservation.num_message}}</span>
                     </div>
                 </div>
             </div>

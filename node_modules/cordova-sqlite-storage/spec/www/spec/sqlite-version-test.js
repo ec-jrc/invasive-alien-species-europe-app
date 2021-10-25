@@ -32,8 +32,6 @@ var scenarioCount = (!!window.hasWebKitWebSQL) ? (isAndroid ? 3 : 2) : 1;
 var mytests = function() {
 
   for (var i=0; i<scenarioCount; ++i) {
-    // TBD skip plugin test on browser platform (not yet supported):
-    if (isBrowser && (i === 0)) continue;
 
     describe(scenarioList[i] + ': sqlite version test(s)', function() {
       var scenarioName = scenarioList[i];
@@ -104,7 +102,7 @@ var mytests = function() {
               expect(rs).toBeDefined();
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
-              expect(rs.rows.item(0).myResult).toBe('3.30.1');
+              expect(rs.rows.item(0).myResult).toBe('3.32.3');
 
               // Close (plugin only) & finish:
               (isWebSql) ? done() : db.close(done, done);
@@ -223,6 +221,7 @@ var mytests = function() {
             // DIFFERENT for builtin android.database implementation:
             if (!isWindows && isAndroid && isImpl2)
               expect(rs.rows.item(0).journal_mode).toBe(
+                (/Android 1/.test(navigator.userAgent)) ? 'truncate' :
                 (/Android 9/.test(navigator.userAgent)) ? 'wal' :
                 (/Android 8.1.99/.test(navigator.userAgent)) ? 'wal' :
                 (/Android 8/.test(navigator.userAgent)) ? 'truncate' :

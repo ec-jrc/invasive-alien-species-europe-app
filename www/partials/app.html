@@ -1,16 +1,22 @@
 <div id="mainMenu" ng-show="mainMenu === true" click-outside="mainMenu = false" outside-if-not="customMenuButton">
-	<ul>
-		<li ng-click="showModalAcknowledgement()">{{'ACKNOWLEDGEMENT_TITLE' | translate }}</li>
-		<li ng-click="showModalDisclaimer()">{{'DISCLAIMER_TITLE' | translate}}</li>
-		<li ng-click="showModalLegalNotice()">{{'LEGAL_NOTICE_TITLE' | translate}}</li>
-		<li ng-click="showModalPrivacy()">{{'PRIVACY_TITLE' | translate}}</li>
-		<li ng-click="showModalRegulation()">{{'REGULATION_TITLE' | translate}}</li>
-		<li ng-click="showModalLanguage()">{{'LANGUAGE' | translate}}</li>
-		<li ng-click="checkCatalogueVersion(false)">{{'CATALOGUE' | translate}}</li>
-		<li ng-if="sitealert.length > 0" ng-click="checkManuallyLocalCatalogueVersion()">{{'LOCAL_CATALOGUE' | translate}}</li>
-		<li ng-if="gps_enabled==true" ng-click="disableGPS()">{{'disable_gps' | translate}}</li>
-		<li ng-if="gps_enabled==false" ng-click="enableGPS()">{{'enable_gps' | translate}}</li>
-	</ul>
+    <ul>
+        <!--- Notifications --->
+		<li ng-click="showModalWhatsNew()">{{'NOTIFICATIONS_TITLE' | translate}} <i style="float: right;">&nbsp;&nbsp;<img ng-show="notificationsWhatsNew" id="menuIconLegal" src="img/red_bullet.png" style="width: 12px;"/></i></li>
+        <!--- Legal text --->
+        <li ng-click="showLegalSubMenu()">{{'LEGALTEXT_TITLE' | translate}} <i style="float: right;">&nbsp;&nbsp;<img id="menuIconLegal" src="{{imgMenuIconLegal}}" style="width: 20px;"/></i></li>
+		<li ng-show="legalSubMenu" ng-click="showModalRegulation()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'REGULATION_TITLE' | translate}}</li>
+		<li ng-show="legalSubMenu" ng-click="showModalDisclaimer()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'DISCLAIMER_TITLE' | translate}}</li>
+		<li ng-show="legalSubMenu" ng-click="showModalLegalNotice()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'LEGAL_NOTICE_TITLE' | translate}}</li>
+		<li ng-show="legalSubMenu" ng-click="showModalPrivacy()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'PRIVACY_TITLE' | translate}}</li>
+		<li ng-show="legalSubMenu" ng-click="showModalAcknowledgement()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'ACKNOWLEDGEMENT_TITLE' | translate }}</li>
+		<!--- Settings --->
+        <li ng-click="showSettingsSubMenu()">{{'SETTINGS_TITLE' | translate}} <i style="float: right;">&nbsp;&nbsp;<img id="menuIconSettings" src="{{imgMenuIconSettings}}" style="width: 20px;"/></i></li>
+		<li ng-show="settingsSubMenu" ng-click="showModalLanguage()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'LANGUAGE' | translate}}</li>
+		<li ng-show="settingsSubMenu" ng-if="gps_enabled==false" ng-click="enableGPS()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'enable_gps' | translate}}</li>
+		<li ng-show="settingsSubMenu" ng-if="gps_enabled==true" ng-click="disableGPS()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'disable_gps' | translate}}</li>
+		<li ng-show="settingsSubMenu" ng-click="checkCatalogueVersion(false)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'CATALOGUE' | translate}}</li>
+		<li ng-show="settingsSubMenu" ng-if="sitealert.length > 0" ng-click="checkManuallyLocalCatalogueVersion()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'LOCAL_CATALOGUE' | translate}}</li>
+    </ul>
 </div>
 
 <ion-nav-view name="mainContent">
