@@ -184,5 +184,6 @@
 	"LEGALTEXT_TITLE" : "Pravni tekst",
 	"SETTINGS_TITLE" : "Postavke",
 	"SESSION_EXPIRES" : "Sesija ističe u",
-	"APPLEID_WARNING" : "Možete koristiti prijavu putem Apple ID samo na iOS uređajima."
+	"APPLEID_WARNING" : "Možete koristiti prijavu putem Apple ID samo na iOS uređajima.",
+	"different_exif" : "Datum ili lokacija povezana s ovom slikom razlikuju se od ranije navedenih. Želite li ažurirati prethodne informacije?"
 }

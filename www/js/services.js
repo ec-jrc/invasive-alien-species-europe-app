@@ -118,7 +118,7 @@ angular.module('MYGEOSS.services', [])
                    });
                 });
             }
-            
+
         }
     }
     /*
@@ -287,169 +287,193 @@ angular.module('MYGEOSS.services', [])
   var optionsCameraCamera;
   var optionsCameraLibrary;
 
-    //init option here, to avoid the Camera load in the injection before the device is ready
-    obj.initOptionsCameraCamera = function(){
-      optionsCameraCamera = {
-        quality : 75,
-        //destinationType : Camera.DestinationType.FILE_URI,
-        destinationType: Camera.DestinationType.DATA_URL,
-        targetWidth : 800,
-        targetHeight: 800,
-        sourceType: Camera.PictureSourceType.CAMERA,
-        encodingType: Camera.EncodingType.JPEG,
-        correctOrientation: true,
-        saveToPhotoAlbum: true, //true provok an error on android...
-        allowEdit: false
-      };
+  //init option here, to avoid the Camera load in the injection before the device is ready
+  obj.initOptionsCameraCamera = function () {
+    optionsCameraCamera = {
+      quality: 75,
+      //destinationType : Camera.DestinationType.FILE_URI,
+      destinationType: Camera.DestinationType.DATA_URL,
+      targetWidth: 800,
+      targetHeight: 800,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      encodingType: Camera.EncodingType.JPEG,
+      correctOrientation: true,
+      saveToPhotoAlbum: true, //true provok an error on android...
+      allowEdit: false,
     };
+  };
 
-    obj.initOptionsCameraLibrary = function(){
-      optionsCameraLibrary = {
-        quality : 75,
-        //destinationType : Camera.DestinationType.FILE_URI,
-        destinationType: Camera.DestinationType.DATA_URL,
-        targetWidth : 800,
-        targetHeight: 800,
-        correctOrientation: false,
-        //sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-        encodingType: Camera.EncodingType.JPEG,
-        saveToPhotoAlbum: false,
-        allowEdit: false
-      }
+  obj.initOptionsCameraLibrary = function () {
+    optionsCameraLibrary = {
+      quality: 100,
+      destinationType: Camera.DestinationType.FILE_URI, // We need this to extract the Exif data
+      // destinationType: Camera.DestinationType.DATA_URL,
+      targetWidth: 800,
+      targetHeight: 800,
+      correctOrientation: false,
+      //sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      encodingType: Camera.EncodingType.JPEG,
+      saveToPhotoAlbum: false,
+      allowEdit: false,
     };
+  };
 
-    obj.photoCamera = function(){
-      var def = $q.defer();
-      ionic.Platform.ready(function() {
-          $cordovaCamera.getPicture(optionsCameraCamera).then(
-            function(imageData){
-               console.log('success photoCamera');
-               console.log(imageData);
-               def.resolve(imageData);
-            },
-            function(error){
-               console.error('error photoCamera');
-               console.error(error);
-               def.reject(error);
-            }
-          );
-      });
-      return def.promise;
-    };
+  /**
+   * Opens up the camera and returns the image.
+   * @returns Promise
+   */
+  obj.photoCamera = function () {
+    var def = $q.defer();
+    ionic.Platform.ready(function () {
+      $cordovaCamera.getPicture(optionsCameraCamera).then(
+        function (imageData) {
+          console.log("success photoCamera");
+          console.log(imageData);
+          def.resolve(imageData);
+        },
+        function (error) {
+          console.error("error photoCamera");
+          console.error(error);
+          def.reject(error);
+        }
+      );
+    });
+    return def.promise;
+  };
 
-    obj.photoLibrary = function(){
-      var def = $q.defer();
-      ionic.Platform.ready(function() {
-          $cordovaCamera.getPicture(optionsCameraLibrary).then(
-           function(imageData){
-              console.log('success photoLibrary');
-              //console.log(imageData);
-			  console.log("Image base64");
-              def.resolve(imageData);
-            },
-            function(error){
-               console.log('error photoLibrary');
-               console.log(error);
-               def.reject(error);
-            }
-          );
-      });
-      return def.promise;
-    };
+  /**
+   * Opens up the photo gallery / library
+   * and returns the selected image and the Exif metadata.
+   * @returns Promise
+   */
+  obj.photoLibrary = function () {
+    var def = $q.defer();
+    ionic.Platform.ready(function () {
+      $cordovaCamera.getPicture(optionsCameraLibrary).then(
+        function (imageData) {
+          console.log("success photoLibrary");
+          window.resolveLocalFileSystemURL(imageData, function (entry) {
+            entry.file(
+              function (file) {
+                EXIF.getData(file, function () {
+                  var tags = EXIF.getAllTags(this);
+                  def.resolve({ imageData, tags });
+                });
+              },
+              function (error) {
+                console.error(error);
+                def.reject(error);
+              }
+            );
+          });
+        },
+        function (error) {
+          console.log("error photoLibrary");
+          console.log(error);
+          def.reject(error);
+        }
+      );
+    });
+    return def.promise;
+  };
 
-    obj.removePhoto = function(path, file){ //convert into BASE64
-      var def = $q.defer();
-      ionic.Platform.ready(function() {
-          $cordovaFile.removeFile(path, file).then(
-            function(success){
-              //console.log("Success remove picture : "+path+file);
-              def.resolve(success);
-            },
-            function(error){
-              //console.error("Error remove picture : "+path+file);
-              def.reject(error);
-            }
-          );
-      });
-      return def.promise;
-    };
+  obj.removePhoto = function (path, file) {
+    //convert into BASE64
+    var def = $q.defer();
+    ionic.Platform.ready(function () {
+      $cordovaFile.removeFile(path, file).then(
+        function (success) {
+          //console.log("Success remove picture : "+path+file);
+          def.resolve(success);
+        },
+        function (error) {
+          //console.error("Error remove picture : "+path+file);
+          def.reject(error);
+        }
+      );
+    });
+    return def.promise;
+  };
 
-    obj.movePhoto = function(path, file, newPath, newFile){
-      var def = $q.defer();
-      ionic.Platform.ready(function() {
-          $cordovaFile.moveFile(path, file, newPath, newFile).then(
-            function(success){
-              //console.log("Success move picture : "+path+file+" to "+newPath+newFile);
-              def.resolve(success);
-            },
-            function(error){
-              console.error(error);
-              //console.error("Error move picture : "+path+file+" to "+newPath+newFile);
-              def.reject(error);
-            }
-          );
-      });
-      return def.promise;
-    };
+  obj.movePhoto = function (path, file, newPath, newFile) {
+    var def = $q.defer();
+    ionic.Platform.ready(function () {
+      $cordovaFile.moveFile(path, file, newPath, newFile).then(
+        function (success) {
+          //console.log("Success move picture : "+path+file+" to "+newPath+newFile);
+          def.resolve(success);
+        },
+        function (error) {
+          console.error(error);
+          //console.error("Error move picture : "+path+file+" to "+newPath+newFile);
+          def.reject(error);
+        }
+      );
+    });
+    return def.promise;
+  };
 
-    obj.readAsDataURL = function(path, file){ //convert into BASE64
-      var def = $q.defer();
-      ionic.Platform.ready(function() {
-          $cordovaFile.readAsDataURL(path, file).then(
-            function(success){
-              console.log("Success read data as url");
-              def.resolve(success);
-            },
-            function(error){
-              console.log("Error read data as url");
-              def.reject(error);
-            }
-          );
-      });
-      return def.promise;
-    };
+  obj.readAsDataURL = function (path, file) {
+    //convert into BASE64
+    var def = $q.defer();
+    ionic.Platform.ready(function () {
+      $cordovaFile.readAsDataURL(path, file).then(
+        function (success) {
+          console.log("Success read data as url");
+          def.resolve(success);
+        },
+        function (error) {
+          console.log("Error read data as url");
+          def.reject(error);
+        }
+      );
+    });
+    return def.promise;
+  };
 
-    obj.generateName = function(){
-      var len = 15;
-      var arr = "abcdefghilmnopqrstuvzwyjkx";
-      var ans = "temp_";
-      for (var i=len; i>0; i--) {
-          ans+=
-          arr[Math.floor(Math.random() * arr.length)];
-      }
-      return ans;
-      //var date = new Date();
-      //name = date.getTime();
-      //return name;
-    };
+  obj.generateName = function () {
+    var len = 15;
+    var arr = "abcdefghilmnopqrstuvzwyjkx";
+    var ans = "temp_";
+    for (var i = len; i > 0; i--) {
+      ans += arr[Math.floor(Math.random() * arr.length)];
+    }
+    return ans;
+    //var date = new Date();
+    //name = date.getTime();
+    //return name;
+  };
 
-    obj.getLibraryPathAndroid = function(data){
-      var deferred = $q.defer();
-      ionic.Platform.ready(function() {
-        if($cordovaDevice.getPlatform() === 'Android'){
-
-          //plugin https://www.npmjs.com/package/cordova-plugin-filepath
-          //deferred.resolve(data);
-          window.FilePath.resolveNativePath(data, function(result) {
+  obj.getLibraryPathAndroid = function (data) {
+    var deferred = $q.defer();
+    ionic.Platform.ready(function () {
+      if ($cordovaDevice.getPlatform() === "Android") {
+        //plugin https://www.npmjs.com/package/cordova-plugin-filepath
+        //deferred.resolve(data);
+        window.FilePath.resolveNativePath(
+          data,
+          function (result) {
             //console.log("resolveNativePath");
             //console.log(result);
             deferred.resolve(result);
             //deferred.resolve('file://' + result);
-          }, function (error) {
-            console.error('resolveNativePath');
+          },
+          function (error) {
+            console.error("resolveNativePath");
             console.error(error);
-              deferred.reject('error convert uri android');
-          });
-          //deferred.resolve(data);
-        }else{
-          deferred.resolve(data);
-        }
-      });
-      return deferred.promise;
-    }
+            deferred.reject("error convert uri android");
+          }
+        );
+        //deferred.resolve(data);
+      } else {
+        deferred.resolve(data);
+      }
+    });
+    return deferred.promise;
+  };
 
-    return obj;
+  return obj;
 }])
 
 /** $easinFactory

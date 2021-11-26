@@ -184,5 +184,6 @@
     "LEGALTEXT_TITLE" : "Gesetzestext",
     "SETTINGS_TITLE" : "Einstellungen",
     "SESSION_EXPIRES" : "Session läuft ab in",
-    "APPLEID_WARNING" : "Sie können die Apple ID-Authentifizierung nur auf iOS-Geräten verwenden."
+    "APPLEID_WARNING" : "Sie können die Apple ID-Authentifizierung nur auf iOS-Geräten verwenden.",
+	"different_exif" : "Das Datum oder der Ort, der diesem Bild zugeordnet ist, entspricht nicht den vorherigen Angaben. Möchten Sie die bisherigen Informationen aktualisieren?"
 }

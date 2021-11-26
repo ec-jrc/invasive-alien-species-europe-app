@@ -184,5 +184,6 @@
     "LEGALTEXT_TITLE" : "Jogi szöveg",
     "SETTINGS_TITLE" : "Beállítások",
     "SESSION_EXPIRES" : "A munkamenet ekkor lejár",
-    "APPLEID_WARNING" : "Az Apple ID hitelesítést csak iOS -eszközökön használhatja."
+    "APPLEID_WARNING" : "Az Apple ID hitelesítést csak iOS -eszközökön használhatja.",
+	"different_exif" : "Ehhez a képhez tartozó dátum vagy helyszín adat eltér a korábban megadottaktól. Szeretné ennek megfelelően frissíteni a korábbi adatokat?"
 }
