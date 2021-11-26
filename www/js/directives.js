@@ -1241,6 +1241,11 @@ angular.module('MYGEOSS.directives', [])
             })
             .then(function () {
               $ionicLoading.hide();
+              // Return true and override default values if first image is uploaded
+              if ($scope.images.length === 1) {
+                return true;
+              }
+
               // Check if somethings changed (date or coordinates)
               if (differentExifData($scope.exifData)) {
                 return confirmPopup();
