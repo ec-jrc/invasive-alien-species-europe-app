@@ -868,6 +868,27 @@ angular.module('MYGEOSS.services', [])
   return obj;
 }])
 
+.factory('$brandingFactory', ['$q', '$http', 'CONFIG', function ($q, $http, CONFIG) {
+  var obj = {};
+
+  obj.getHeaders = function (site, logo) {
+    var def = $q.defer();
+    $http({
+      method: "HEAD",
+      url: CONFIG.brandingUrl + site + "/" + logo,
+      cache: false,
+      timeout: 5000,
+    }).then(function (serverHeader) {
+      var headers = serverHeader.headers();
+      var lastmod = headers["last-modified"];
+      def.resolve(lastmod);
+    });
+    return def.promise;
+  };
+
+  return obj;
+}])
+
 /** $staticContent
 * To retrieve the localised translated content from either the local file, database either form the server
 */

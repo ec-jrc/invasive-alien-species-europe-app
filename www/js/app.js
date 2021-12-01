@@ -59,11 +59,11 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
     if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttps;
     if (CONFIG.environment != "PROD") console.log("CHECKING " + SERVER.serverApiUrl + "species/last_version");
     $.ajax({ url: SERVER.serverApiUrl + "species/last_version", timeout: 5000})
-    .always(function(answer) {
-      if (CONFIG.environment != "PROD") console.log(JSON.stringify(answer));
-	  if ((answer.catalog !== undefined) && (answer.version !== undefined)) answer.status = 200;
-	  if (CONFIG.environment != "PROD") console.log("Network REST Services: " + answer.status);
-  	  if ((answer.status == 200) || (answer.status == 405)) {
+      .always(function(answer) {
+        if (CONFIG.environment != "PROD") console.log(JSON.stringify(answer));
+        if ((answer.catalog !== undefined) && (answer.version !== undefined)) answer.status = 200;
+        if (CONFIG.environment != "PROD") console.log("Network REST Services: " + answer.status);
+        if ((answer.status == 200) || (answer.status == 405)) {
   		  if (CONFIG.environment == "PROD") SERVER.serverApiUrl = CONFIG.serverProdApiUrlHttps;
   		  if (CONFIG.environment == "TEST") SERVER.serverApiUrl = CONFIG.serverTestApiUrlHttps;
   	  } else {
@@ -193,7 +193,7 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
                     }, null);
         },null);
     }
-    
+
     function copySpeciesFile(language)
     {
         var path = cordova.file.applicationDirectory + "www/data/species/species-" + language + ".json";
@@ -274,6 +274,61 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
                     }, null);
         },null);
     }
+
+    /**
+     * Initally copy sites.json to Application DataDirectory
+     */
+    function copySitesConfig() {
+      var path = cordova.file.applicationDirectory + "www/data/sites.json";
+      window.resolveLocalFileSystemURL(
+        path,
+        function gotFile(fileEntry) {
+          window.resolveLocalFileSystemURL(
+            cordova.file.dataDirectory,
+            function onSuccess(dirEntry) {
+              window.resolveLocalFileSystemURL(
+                cordova.file.dataDirectory + "sites.json",
+                null,
+                function onSuccess(fileDataEntry) {
+                  fileEntry.copyTo(
+                    dirEntry,
+                    "sites.json",
+                    function () {
+                      if (CONFIG.environment === "PROD")
+                        console.log("Copying [sites.json] was successful");
+                    },
+                    function () {
+                      if (CONFIG.environment === "PROD")
+                        console.log("Unsuccessful copying [sites.json]");
+                    }
+                  );
+                }
+              );
+            },
+            null
+          );
+        },
+        null
+      );
+    }
+
+    /**
+     * Initially copy branding images and logos from www/img/branding to Application DataDirectory
+     */
+    function copyLocalBrandingImages() {
+      var path = cordova.file.applicationDirectory + "www/img/branding";
+      window.resolveLocalFileSystemURL(path, function (entry) {
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function onSuccess (dirEntry) {
+          entry.copyTo(dirEntry, "", function (newDir) {
+            console.log("Success copying branding images");
+          }, function (error) {
+            console.log("Error copying branding images");
+          })
+        })
+      }, function (error) {
+        console.log("Error reading application branding images directory");
+      })
+    };
 
     RequestFileAccess();
     copyVersionFile();
@@ -447,13 +502,19 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
 
     copyEmptyPicFile();
     copyConfigFile();
-    copyLocalVersionFile('TEST1');
-    copyLocalVersionFile('TEST2');
-    copyLocalVersionFile('DANUBE');
-    copyLocalVersionFile('MALTA');
-    copyLocalVersionFile('IBERIAN_PENINSULA');
-    copyLocalVersionFile('SAVA_TIES');
-    copyLocalVersionFile('CRETE_HORIZ');
+
+    // Copy images to Application DataDirectory
+    copySitesConfig();
+    copyLocalBrandingImages();
+
+    // Is copying nothing?!
+    // copyLocalVersionFile('TEST1');
+    // copyLocalVersionFile('TEST2');
+    // copyLocalVersionFile('DANUBE');
+    // copyLocalVersionFile('MALTA');
+    // copyLocalVersionFile('IBERIAN_PENINSULA');
+    // copyLocalVersionFile('SAVA_TIES');
+    // copyLocalVersionFile('CRETE_HORIZ');
 
   });
 })
