@@ -184,5 +184,6 @@
     "LEGALTEXT_TITLE" : "Yasal metin",
     "SETTINGS_TITLE" : "Ayarlar",
     "SESSION_EXPIRES" : "Oturumun süresi şu tarihte sona eriyor:",
-    "APPLEID_WARNING" : "Apple Kimliği kimlik doğrulamasını yalnızca iOS cihazlarda kullanabilirsiniz."
+    "APPLEID_WARNING" : "Apple Kimliği kimlik doğrulamasını yalnızca iOS cihazlarda kullanabilirsiniz.",
+	"different_exif" : "Bu görüntüyle ilişkilendirilen tarih veya konum, daha önce sağlananlardan farklı. Önceki bilgileri buna göre güncellemek istiyor musunuz?"
 }
