@@ -296,6 +296,14 @@ angular.module('MYGEOSS', ['ionic', 'ngResource', 'ngCordova', 'ngCordovaOauth',
                     function () {
                       if (CONFIG.environment === "PROD")
                         console.log("Copying [sites.json] was successful");
+                      $.getJSON(
+                        cordova.file.dataDirectory + "sites.json",
+                        function (sites) {
+                          sites.forEach(function (site) {
+                            copyLocalVersionFile(site.SITECODE);
+                          });
+                        }
+                      );
                     },
                     function () {
                       if (CONFIG.environment === "PROD")
