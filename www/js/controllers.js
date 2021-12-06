@@ -297,12 +297,15 @@ angular.module('MYGEOSS.controllers', [])
       }).fail(function (jqxhr, textStatus, error) {
         // This could fail on first startup because sites.json was not copied on time
         // Therfore set the default and included sites
-        if($scope.environment !== "PROD") {
+        if ($scope.environment !== "PROD") {
           console.log(error);
           console.log("Prepare sites with data from extLocalSites (sites.js)");
         }
         $scope.sites = extLocalSites;
         $scope.createLogoList();
+
+        // Go and check sites.json
+        $scope.checkSitesJSON();
       });
       // Read last config parameters from REST service
       $.ajax({url: SERVER.serverApiUrl + "reports/appconfiguration" }).then(function(lastConfigData) {
