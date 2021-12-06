@@ -1471,6 +1471,7 @@ angular.module('MYGEOSS.controllers', [])
    xhr.send();
  };
 
+
  function downloadBrandingImages(site, logo) {
    var type = window.PERSISTENT;
    var size = 5 * 1024 * 1024;
@@ -1484,9 +1485,17 @@ angular.module('MYGEOSS.controllers', [])
      window.resolveLocalFileSystemURL(
        cordova.file.dataDirectory + "/branding" + "/" + site,
        function (directoryEntry) {
-         getImageFile(directoryEntry, site, logo);
+        getImageFile(directoryEntry, site, logo);
        },
-       errorHandler.bind(null, fileName)
+       function (error) {
+        window.resolveLocalFileSystemURL(
+          cordova.file.dataDirectory + "/branding",
+          function (directoryEntry) {
+            directoryEntry.getDirectory(site, {create: true}, function (dirEntry) {
+              downloadBrandingImages(site, logo);
+            });
+          });
+       }
      );
    }
 
