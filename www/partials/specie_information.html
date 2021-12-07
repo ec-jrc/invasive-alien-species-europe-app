@@ -1,4 +1,4 @@
-<ion-scroll zooming="false" direction="y" style="width: 100%; height: 100%">	
+<ion-scroll zooming="false" direction="y" style="width: 100%; height: 100%">
 <!-- <ion-scroll zooming="true" direction="xy" scrollbar-x="false" scrollbar-y="false" overflow-scroll="false" class="layer alignCenter"  min-zoom='1' has-bouncing='false' max-zoom='10' style="width: 100%; height: 100%"> -->
 	<div id="specie_information" class="padding">
 		<div class="container" ng-style="appCtrl.accessibilityFont">
@@ -38,7 +38,7 @@
         <div ng-show="(specie.area_filter == 'local' && sitealert.length > 0)">
 			<h4>{{'local_partners' | translate}}</h4>
             <div ng-show="(specie.area_filter == 'local' && sitealert.length > 0)" ng-repeat="logo in currSpecie.specie.area_logo" item-width="100%">
-                <img ng-src="img/branding/{{currSpecie.specie.area_id}}/{{logo}}" width="49%"/>
+                <img ng-src="{{realPath}}/branding/{{currSpecie.specie.area_id}}/{{logo}}" width="49%"/>
             </div>
         </div>
 	</div>

@@ -1348,9 +1348,11 @@ angular.module('MYGEOSS.controllers', [])
     if ($scope.main.connected) {
       console.log("Connected to the internet and online. Going to check for new branding images");
       $scope.sites.forEach(function (site) {
-        site.LOGO.forEach(function (logo) {
-          downloadBrandingImages(site.SITECODE, logo);
-        });
+        if (site.ACTIVE === "YES") {
+          site.LOGO.forEach(function (logo) {
+            downloadBrandingImages(site.SITECODE, logo);
+          });
+        }
       });
     } else {
       console.log("I am offline :( no chance to check for new branding images");
