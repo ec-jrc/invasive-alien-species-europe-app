@@ -1,6 +1,6 @@
 angular.module('MYGEOSS.controllers', [])
 
-.controller('AppCtrl', function($scope, $rootScope, $state, $q, $ionicModal, $ionicHistory,  $ionicLoading, $cordovaInAppBrowser, $ionicPlatform, $cordovaNetwork, $networkFactory, $easinFactoryLocal, $easinFactory, $authenticationFactory, $translate, $language, $staticContent, CONFIG, SERVER, $filter, $timeout, $cordovaGeolocation, $speciesFactory, $stateParams, $http, $ionicScrollDelegate, $brandingFactory) {
+.controller('AppCtrl', function($scope, $rootScope, $state, $q, $ionicModal, $ionicHistory,  $ionicLoading, $cordovaInAppBrowser, $ionicPlatform, $cordovaNetwork, $networkFactory, $easinFactoryLocal, $easinFactory, $authenticationFactory, $translate, $language, $staticContent, CONFIG, SERVER, $filter, $timeout, $cordovaGeolocation, $speciesFactory, $stateParams, $http, $ionicScrollDelegate) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -192,28 +192,9 @@ angular.module('MYGEOSS.controllers', [])
     }
   }
 
-  // TODO: Diese Datei liegt nun auf einem Server
-  /* REMEMBER TO ADD copyLocalVersionFile('sitecode'); TO APP.JS */
-  // $scope.sites = extLocalSites;
-
   // TODO das laden muss nun von der datei kommen, die lokal rumliegt
   // Load Branding logos
   $scope.logo_list = [];
-  // $scope.sites.forEach(function (element) {
-  //   var currSite = element.SITECODE;
-  //   var currLogo = element.LOGO;
-  //   var currLink = element.LINK;
-  //   var currEmail = element.EMAIL;
-  //   var currActive = element.ACTIVE;
-  //   var logo_item = {};
-  //   logo_item.id = currSite;
-  //   logo_item.img = currLogo;
-  //   logo_item.link = currLink;
-  //   logo_item.email = currEmail;
-  //   logo_item.active = currActive;
-  //   logo_item.visibleLink = $scope.cutVisibleLink(currLink);
-  //   if ((currActive != "NO") && (logo_item.img.length > 0)) $scope.logo_list.push(logo_item);
-  // });
 
   $scope.writeNewConfigFile = function(data) {
     data = JSON.stringify(data, null, '\t');
@@ -278,6 +259,12 @@ angular.module('MYGEOSS.controllers', [])
       //$scope.dataDirectory = $scope.dataDirectory.replace("file://","");
       var nativePath = entry.toURL();
       $scope.realPath = nativePath;
+
+      // Rewrite path for iOS devices
+      if (ionic.Platform.isIOS()) {
+        $scope.realPath = $scope.realPath.replace(/^file:\/\//, "");
+        console.log("Real path is now", $scope.realPath);
+      }
       //$scope.realPath = $scope.realPath.replace("file://","");
       $(document).ready(function() {
         $.ajaxSetup({ cache: false });
@@ -340,12 +327,6 @@ angular.module('MYGEOSS.controllers', [])
         logo_item.email = currEmail;
         logo_item.active = currActive;
         logo_item.visibleLink = $scope.cutVisibleLink(currLink);
-        // $brandingFactory
-        //   .getHeaders(currSite, currLogo)
-        //   .then(function (headers) {
-        //     console.log("AppCtrl -> ready -> brandingFactory");
-        //     console.log(headers);
-        //   });
         if (currActive != "NO" && logo_item.img.length > 0)
           $scope.logo_list.push(logo_item);
       });
