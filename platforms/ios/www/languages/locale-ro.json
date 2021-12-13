@@ -184,5 +184,6 @@
     "LEGALTEXT_TITLE" : "Text legal",
     "SETTINGS_TITLE" : "Setări",
     "SESSION_EXPIRES" : "Sesiunea expiră în",
-    "APPLEID_WARNING" : "Puteți utiliza autentificarea Apple ID numai pe dispozitivele iOS."
+    "APPLEID_WARNING" : "Puteți utiliza autentificarea Apple ID numai pe dispozitivele iOS.",
+	"different_exif" : "Data sau locația asociată cu această imagine diferă de cea(cele) furnizată(e) mai devreme. Doriți să actualizați informațiile  corespunzătoare anterioare?"
 }

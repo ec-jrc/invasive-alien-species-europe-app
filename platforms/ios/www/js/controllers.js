@@ -192,26 +192,9 @@ angular.module('MYGEOSS.controllers', [])
     }
   }
 
-  /* REMEMBER TO ADD copyLocalVersionFile('sitecode'); TO APP.JS */
-  $scope.sites = extLocalSites;
-
+  // TODO das laden muss nun von der datei kommen, die lokal rumliegt
   // Load Branding logos
   $scope.logo_list = [];
-  $scope.sites.forEach(function (element) {
-	 var currSite = element.SITECODE;
-	 var currLogo = element.LOGO;
-	 var currLink = element.LINK;
-	 var currEmail = element.EMAIL;
-	 var currActive = element.ACTIVE;
-  	 var logo_item = {};
-  	 logo_item.id = currSite;
-   	 logo_item.img = currLogo;
-   	 logo_item.link = currLink;
-   	 logo_item.email = currEmail;
-   	 logo_item.active = currActive;
-     logo_item.visibleLink = $scope.cutVisibleLink(currLink);
-	 if ((currActive != "NO") && (logo_item.img.length > 0)) $scope.logo_list.push(logo_item);
-  });
 
   $scope.writeNewConfigFile = function(data) {
     data = JSON.stringify(data, null, '\t');
@@ -248,63 +231,106 @@ angular.module('MYGEOSS.controllers', [])
     }
 }
 
-$scope.copyInMemoryConfigFile = function(configData) {
-  CONFIG.environment = configData.environment;
-  CONFIG.serverProdApiUrlHttp = configData.serverProdApiUrlHttp;
-  CONFIG.serverProdApiUrlHttps = configData.serverProdApiUrlHttps;
-  CONFIG.serverTestApiUrlHttp = configData.serverTestApiUrlHttp;
-  CONFIG.serverTestApiUrlHttps = configData.serverTestApiUrlHttps;
-  CONFIG.authenticationBaseURLHttp = configData.authenticationBaseURLHttp;
-  CONFIG.authenticationBaseURLHttps = configData.authenticationBaseURLHttps;
-  CONFIG.staticFileContentURL = configData.staticFileContentURL;
-  CONFIG.staticFileTimestamp = configData.staticFileTimestamp;
-  CONFIG.contactMail = configData.contactMail;
-  CONFIG.countDownTimer = configData.countDownTimer;
-  CONFIG.sessionExpirationTime = configData.sessionExpirationTime;
-  CONFIG.tileLayer = configData.tileLayer;
-  CONFIG.userCanStartChat = configData.userCanStartChat;
-  CONFIG.serverEULogin = configData.serverEULogin;
-  $scope.countDown.value = CONFIG.countDownTimer;
-  $scope.environment = CONFIG.environment;
-  $scope.serverEULogin = CONFIG.serverEULogin;
-};
+  $scope.copyInMemoryConfigFile = function(configData) {
+    CONFIG.environment = configData.environment;
+    CONFIG.serverProdApiUrlHttp = configData.serverProdApiUrlHttp;
+    CONFIG.serverProdApiUrlHttps = configData.serverProdApiUrlHttps;
+    CONFIG.serverTestApiUrlHttp = configData.serverTestApiUrlHttp;
+    CONFIG.serverTestApiUrlHttps = configData.serverTestApiUrlHttps;
+    CONFIG.authenticationBaseURLHttp = configData.authenticationBaseURLHttp;
+    CONFIG.authenticationBaseURLHttps = configData.authenticationBaseURLHttps;
+    CONFIG.staticFileContentURL = configData.staticFileContentURL;
+    CONFIG.staticFileTimestamp = configData.staticFileTimestamp;
+    CONFIG.contactMail = configData.contactMail;
+    CONFIG.countDownTimer = configData.countDownTimer;
+    CONFIG.sessionExpirationTime = configData.sessionExpirationTime;
+    CONFIG.tileLayer = configData.tileLayer;
+    CONFIG.userCanStartChat = configData.userCanStartChat;
+    CONFIG.serverEULogin = configData.serverEULogin;
+    $scope.countDown.value = CONFIG.countDownTimer;
+    $scope.environment = CONFIG.environment;
+    $scope.serverEULogin = CONFIG.serverEULogin;
+  };
 
   // Accessibility
   $ionicPlatform.ready(function() {
-	  window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(entry) {
-            $scope.dataDirectory = cordova.file.dataDirectory;
-            $scope.dataDirectory = $scope.dataDirectory.replace("file://","");
-		    var nativePath = entry.toURL();
-		    $scope.realPath = nativePath;
-            $scope.realPath = $scope.realPath.replace("file://","");
-            $(document).ready(function() {
-              $.ajaxSetup({ cache: false });
-            });
-			var dataJsonTable = $.getJSON($scope.realPath + "last_version.json", function (dataJSON){
-				$scope.last_version = dataJSON;
-			});
-			var dataJsonTable = $.getJSON("data/appVersion.json", function (dataJSON){
-				$scope.app_version = dataJSON;
-			});
-            // Read last config parameters from REST service
-            $.ajax({url: SERVER.serverApiUrl + "reports/appconfiguration" }).then(function(lastConfigData) {
-                $scope.writeNewConfigFile(lastConfigData);
-                // Import new config values into general CONFIG variables
-                $scope.copyInMemoryConfigFile(lastConfigData);
-            })
-            .fail(function() {
-                var dataJsonTable = $.getJSON(cordova.file.dataDirectory + "config.json", function (configJSON){
-                    //console.log("******************************************");
-                    //console.log(configJSON);
-                    //console.log("******************************************");
-                    $scope.copyInMemoryConfigFile(configJSON);
-                })
-            })
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(entry) {
+      $scope.dataDirectory = cordova.file.dataDirectory;
+      //$scope.dataDirectory = $scope.dataDirectory.replace("file://","");
+      var nativePath = entry.toURL();
+      $scope.realPath = nativePath;
 
-	  });
+      // Rewrite path for iOS devices
+      if (ionic.Platform.isIOS()) {
+        $scope.realPath = $scope.realPath.replace(/^file:\/\//, "");
+        console.log("Real path is now", $scope.realPath);
+      }
+      //$scope.realPath = $scope.realPath.replace("file://","");
+      $(document).ready(function() {
+        $.ajaxSetup({ cache: false });
+      });
+      var dataJsonTable = $.getJSON($scope.realPath + "last_version.json", function (dataJSON){
+        $scope.last_version = dataJSON;
+      });
+      var dataJsonTable = $.getJSON("data/appVersion.json", function (dataJSON){
+        $scope.app_version = dataJSON;
+      });
+      $.getJSON($scope.realPath + "sites.json", function (sites) {
+        // Maybe pass sites to function
+        console.log("Prepare sites with data from sites.json");
+        $scope.sites = sites;
+        $scope.createLogoList();
+        $scope.checkSitesJSON();
+      }).fail(function (jqxhr, textStatus, error) {
+        // This could fail on first startup because sites.json was not copied on time
+        // Therfore set the default and included sites
+        if ($scope.environment !== "PROD") {
+          console.log(error);
+          console.log("Prepare sites with data from extLocalSites (sites.js)");
+        }
+        $scope.sites = extLocalSites;
+        $scope.createLogoList();
+
+        // Go and check sites.json
+        $scope.checkSitesJSON();
+      });
+      // Read last config parameters from REST service
+      $.ajax({url: SERVER.serverApiUrl + "reports/appconfiguration" }).then(function(lastConfigData) {
+        $scope.writeNewConfigFile(lastConfigData);
+        // Import new config values into general CONFIG variables
+        $scope.copyInMemoryConfigFile(lastConfigData);
+      })
+      .fail(function() {
+        var dataJsonTable = $.getJSON(cordova.file.dataDirectory + "config.json", function (configJSON){
+          //console.log("******************************************");
+          //console.log(configJSON);
+          //console.log("******************************************");
+          $scope.copyInMemoryConfigFile(configJSON);
+        })
+      })
+    });
 
 	  $scope.devicePlatform = device.platform;
 	  $scope.deviceVersion = device.version;
+
+    $scope.createLogoList = function () {
+      $scope.sites.forEach(function (element) {
+        var currSite = element.SITECODE;
+        var currLogo = element.LOGO;
+        var currLink = element.LINK;
+        var currEmail = element.EMAIL;
+        var currActive = element.ACTIVE;
+        var logo_item = {};
+        logo_item.id = currSite;
+        logo_item.img = currLogo;
+        logo_item.link = currLink;
+        logo_item.email = currEmail;
+        logo_item.active = currActive;
+        logo_item.visibleLink = $scope.cutVisibleLink(currLink);
+        if (currActive != "NO" && logo_item.img.length > 0)
+          $scope.logo_list.push(logo_item);
+      });
+    };
 
     $scope.setAccessibiltyText = function(){
       MobileAccessibility.updateTextZoom(function(textZoom){
@@ -330,8 +356,8 @@ $scope.copyInMemoryConfigFile = function(configData) {
     $timeout(function() { $scope.startCountDown(); }, 1000);
 
     $scope.main = {};
-	$scope.main.lat = 50.102223;
-	$scope.main.lng = 9.254419;
+    $scope.main.lat = 50.102223;
+    $scope.main.lng = 9.254419;
     $scope.main.gotpos = false;
     $scope.main.gotpos_prev = false;
     $scope.main.firstime = 0;
@@ -368,7 +394,7 @@ $scope.copyInMemoryConfigFile = function(configData) {
 
     $scope.last_local_version = [];
 
-	$scope.loginProvider = "";
+    $scope.loginProvider = "";
     $scope.main.loginType = $authenticationFactory.getUserProviderLogin();
 
     $scope.sendButtonEnabled = true;
@@ -421,8 +447,8 @@ $scope.copyInMemoryConfigFile = function(configData) {
   }
 
   $ionicPlatform.on('resume', function(event) {
-	  if ($scope.environment != "PROD") console.log('resume')
-      $scope.setAccessibiltyText();
+    if ($scope.environment != "PROD") console.log('resume');
+    $scope.setAccessibiltyText();
   });
 
   $scope.openExternalLinks = function(event,uri){
@@ -440,11 +466,11 @@ $scope.copyInMemoryConfigFile = function(configData) {
 			  }
 			  , 5000);
 		      if (extension.toLowerCase() != "pdf") {
-		         $cordovaInAppBrowser.open(uri, "_system");
+		         $cordovaInAppBrowser.open(uri, "_blank");
 			  } else {
 				 //alert("https://docs.google.com/viewer?url=" + encodeURIComponent(uri) + "&embedded=true");
 		         //var browserRef = $cordovaInAppBrowser.open("https://docs.google.com/viewer?url=" + encodeURIComponent(uri) + "&embedded=true", "_system");
-		         $cordovaInAppBrowser.open(uri, "_system");
+		         $cordovaInAppBrowser.open(uri, "_blank");
 			  }
 		    });
 		} else {
@@ -1292,6 +1318,175 @@ $scope.copyInMemoryConfigFile = function(configData) {
            $filter('translate')('no_updates_title'),            // title
            "OK"          // buttonLabels
        );
+   }
+ }
+
+  /**
+   * Checks all logos and downloads them if newer.
+   */
+  $scope.checkBrandingImages = function () {
+    console.log("Check branding images...");
+    if ($scope.main.connected) {
+      console.log("Connected to the internet and online. Going to check for new branding images");
+      $scope.sites.forEach(function (site) {
+        if (site.ACTIVE === "YES") {
+          site.LOGO.forEach(function (logo) {
+            downloadBrandingImages(site.SITECODE, logo);
+          });
+        }
+      });
+    } else {
+      console.log("I am offline :( no chance to check for new branding images");
+    }
+  };
+
+  /**
+   * Gets latest content of remote sites.json and compares it to the local version.
+   */
+  $scope.checkSitesJSON = function () {
+    if ($scope.main.connected) {
+      $.getJSON(
+        "https://citizensdata.jrc.ec.europa.eu/files/app/ias/branding/sites.json",
+        function (data) {
+          console.log("Load Sites JSON");
+          var localSitesJSONMD5 = $scope.MD5(JSON.stringify($scope.sites));
+          var remoteSitesJSONMD5 = $scope.MD5(JSON.stringify(data));
+          if (localSitesJSONMD5 !== remoteSitesJSONMD5) {
+            downloadSitesJSON(data);
+            $scope.sites = data;
+            $scope.createLogoList();
+          } else {
+            // Do nothing
+            console.log("MD5 hashes are the same do nothing");
+          }
+
+          // Always check for new images
+          $scope.checkBrandingImages();
+        }
+      );
+    }
+  };
+
+  /**
+   * Downloads the new content of sites.json and writes it
+   * to the local file
+   * @param {*} data sites json
+   */
+  function downloadSitesJSON(data) {
+    var type = window.PERSISTENT;
+    var size = 5 * 1024 * 1024;
+    var finished = 0;
+    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+    window.requestFileSystem(type, size, successCallback, errorCallback);
+
+    function successCallback(fs) {
+      var fileName = "sites.json";
+      window.resolveLocalFileSystemURL(
+        cordova.file.dataDirectory,
+        function (directoryEntry) {
+          directoryEntry.getFile(
+            fileName,
+            { create: true, exclusive: false },
+            function (fileEntry) {
+              fileEntry.createWriter(function (fileWriter) {
+                fileWriter.onwriteend = function (e) {
+                  if ($scope.environment !== "PROD")
+                    console.log('File "' + fileName + '"" write: OK.');
+                  fileWritten = true;
+                };
+
+                fileWriter.onerror = function (e) {
+                  if ($scope.environment !== "PROD")
+                    console.log("Write failed: " + e.toString());
+                  fileWritten = false;
+                };
+
+                var blob = new Blob([JSON.stringify(data)], { type: "text/plain" });
+                fileWriter.write(blob);
+              }, errorHandler.bind(null, fileName));
+            },
+            errorHandler.bind(null, fileName)
+          );
+        },
+        errorHandler.bind(null, fileName)
+      );
+    }
+
+    function errorCallback(error) {
+      alert("ERROR: " + error.code);
+    }
+  }
+
+ function writeFile(fileEntry, dataObj) {
+   // Create a FileWriter object for our FileEntry (log.txt).
+   fileEntry.createWriter(function (fileWriter) {
+     fileWriter.onwriteend = function () {
+       console.log("Successful file write...");
+     };
+
+     fileWriter.onerror = function (e) {
+       console.log("Failed file write: " + e.toString());
+     };
+
+     fileWriter.write(dataObj);
+   });
+ }
+
+ function saveFile(dirEntry, fileData, fileName) {
+   dirEntry.getFile(fileName, { create: true, exclusive: false },
+     function (fileEntry) {
+       writeFile(fileEntry, fileData);
+     },
+     function (error) {
+       console.log(error);
+     }
+   );
+ };
+
+ function getImageFile(dirEntry, site, logo) {
+   var xhr = new XMLHttpRequest();
+   xhr.open("GET", CONFIG.brandingUrl + site + "/" + logo, true);
+   xhr.responseType = "blob";
+
+   xhr.onload = function () {
+     if (this.status == 200) {
+       var blob = new Blob([this.response], { type: this.response.type });
+       saveFile(dirEntry, blob, logo);
+     }
+   };
+   xhr.send();
+ };
+
+
+ function downloadBrandingImages(site, logo) {
+   var type = window.PERSISTENT;
+   var size = 5 * 1024 * 1024;
+   var finished = 0;
+   window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+   window.requestFileSystem(type, size, successCallback, errorCallback);
+
+   function successCallback(fs) {
+     var fileName = logo;
+     var fileWritten;
+     window.resolveLocalFileSystemURL(
+       cordova.file.dataDirectory + "/branding" + "/" + site,
+       function (directoryEntry) {
+        getImageFile(directoryEntry, site, logo);
+       },
+       function (error) {
+        window.resolveLocalFileSystemURL(
+          cordova.file.dataDirectory + "/branding",
+          function (directoryEntry) {
+            directoryEntry.getDirectory(site, {create: true}, function (dirEntry) {
+              downloadBrandingImages(site, logo);
+            });
+          });
+       }
+     );
+   }
+
+   function errorCallback(error) {
+     alert("ERROR: " + error.code);
    }
  }
 
@@ -3924,29 +4119,27 @@ $scope.copyInMemoryConfigFile = function(configData) {
         if ($scope.main.connected) {
             if ($scope.environment != "PROD") console.log("PREMUTO APPLE ID");
             window.cordova.plugins.SignInWithApple.signin(
-              { requestedScopes: [0,1] },
+              { requestedScopes: [1] },
               function(succ){
                 console.log(succ);
                 var user_id = succ.email;
-                if (user_id.trim() != "") {
-                    $scope.appCtrl.session = $authenticationFactory.updateSession(succ.authorizationCode, new Date().getTime(), true);
-                    var user = {
-                      username: "",
-                      firstname: "",
-                      lastname: "",
-                      email: user_id
-                    };
-                    $scope.appCtrl.user = $authenticationFactory.updateUser(user, true);
-                    $authenticationFactory.setUserEmailReport(user_id);
-                    $authenticationFactory.setUserProviderLogin("apple");
-                    $cacheFactory.get('customQueryCache').removeAll();
-                    $scope.appCtrl.provider = "apple";
-                    $scope.main.loginType="apple";
-                    $scope.countDown.value = 0;
-                    $scope.isLogged = true;
-                    $scope.calculate_expire_time();
-                    $state.go('app.home');
-                }
+                $scope.appCtrl.session = $authenticationFactory.updateSession(succ.authorizationCode, new Date().getTime(), true);
+                var user = {
+                  username: "",
+                  firstname: "",
+                  lastname: "",
+                  email: user_id
+                };
+                $scope.appCtrl.user = $authenticationFactory.updateUser(user, true);
+                $authenticationFactory.setUserEmailReport(user_id);
+                $authenticationFactory.setUserProviderLogin("apple");
+                $cacheFactory.get('customQueryCache').removeAll();
+                $scope.appCtrl.provider = "apple";
+                $scope.main.loginType="apple";
+                $scope.countDown.value = 0;
+                $scope.isLogged = true;
+                $scope.calculate_expire_time();
+                $state.go('app.home');
               },
               function(err){
                 console.error(err)

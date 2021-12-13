@@ -117,7 +117,7 @@
 	"missing_field": "Fehlendes Feld",
 	"error_saving_draft": "Fehler beim Senden des Entwurfs",
 	"success_saving_draft": "Entwurf gespeichert",
-	"success_updating_draft": "Entwurk aktualisiert",
+	"success_updating_draft": "Entwurf aktualisiert",
 	"view_details": "Details ansehen",
 	"password": "Passwort",
 	"create_account": "Konto einrichten",
@@ -184,5 +184,6 @@
     "LEGALTEXT_TITLE" : "Gesetzestext",
     "SETTINGS_TITLE" : "Einstellungen",
     "SESSION_EXPIRES" : "Session läuft ab in",
-    "APPLEID_WARNING" : "Sie können die Apple ID-Authentifizierung nur auf iOS-Geräten verwenden."
+    "APPLEID_WARNING" : "Sie können die Apple ID-Authentifizierung nur auf iOS-Geräten verwenden.",
+	"different_exif" : "Das Datum oder der Ort, der diesem Bild zugeordnet ist, entspricht nicht den vorherigen Angaben. Möchten Sie die bisherigen Informationen aktualisieren?"
 }

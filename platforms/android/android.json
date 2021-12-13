@@ -13,10 +13,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"DatePickerPlugin\"><param name=\"android-package\" value=\"com.plugin.datepicker.DatePickerPlugin\" /></feature>",
               "count": 1
             },
@@ -75,6 +71,10 @@
             {
               "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"io.sqlc.SQLitePlugin\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -85,10 +85,6 @@
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
               "count": 2
-            },
-            {
-              "xml": "<queries><intent><action android:name=\"android.media.action.IMAGE_CAPTURE\" /></intent><intent><action android:name=\"android.intent.action.GET_CONTENT\" /></intent><intent><action android:name=\"android.intent.action.PICK\" /></intent><intent><action android:name=\"com.android.camera.action.CROP\" /><data android:mimeType=\"image/*\" android:scheme=\"content\" /></intent></queries>",
-              "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
@@ -108,6 +104,10 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+              "count": 1
+            },
+            {
+              "xml": "<queries><intent><action android:name=\"android.media.action.IMAGE_CAPTURE\" /></intent><intent><action android:name=\"android.intent.action.GET_CONTENT\" /></intent><intent><action android:name=\"android.intent.action.PICK\" /></intent><intent><action android:name=\"com.android.camera.action.CROP\" /><data android:mimeType=\"image/*\" android:scheme=\"content\" /></intent></queries>",
               "count": 1
             }
           ],
@@ -145,10 +145,6 @@
   },
   "installed_plugins": {
     "cordova-plugin-android-permissions": {
-      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-    },
-    "cordova-plugin-camera": {
-      "ANDROIDX_CORE_VERSION": "1.6.+",
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
     "cordova-plugin-datepicker": {
@@ -199,6 +195,10 @@
     },
     "cordova-sqlite-storage": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-camera": {
+      "ANDROIDX_CORE_VERSION": "1.6.+",
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     }
   },
   "dependent_plugins": {},
@@ -209,38 +209,6 @@
       "pluginId": "cordova-plugin-android-permissions",
       "clobbers": [
         "cordova.plugins.permissions"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.Camera",
-      "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "Camera"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.CameraPopoverOptions",
-      "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "CameraPopoverOptions"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.camera",
-      "file": "plugins/cordova-plugin-camera/www/Camera.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "navigator.camera"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.CameraPopoverHandle",
-      "file": "plugins/cordova-plugin-camera/www/CameraPopoverHandle.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "CameraPopoverHandle"
       ]
     },
     {
@@ -575,11 +543,42 @@
       "clobbers": [
         "SQLitePlugin"
       ]
+    },
+    {
+      "id": "cordova-plugin-camera.Camera",
+      "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+      "pluginId": "cordova-plugin-camera",
+      "clobbers": [
+        "Camera"
+      ]
+    },
+    {
+      "id": "cordova-plugin-camera.CameraPopoverOptions",
+      "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+      "pluginId": "cordova-plugin-camera",
+      "clobbers": [
+        "CameraPopoverOptions"
+      ]
+    },
+    {
+      "id": "cordova-plugin-camera.camera",
+      "file": "plugins/cordova-plugin-camera/www/Camera.js",
+      "pluginId": "cordova-plugin-camera",
+      "clobbers": [
+        "navigator.camera"
+      ]
+    },
+    {
+      "id": "cordova-plugin-camera.CameraPopoverHandle",
+      "file": "plugins/cordova-plugin-camera/www/CameraPopoverHandle.js",
+      "pluginId": "cordova-plugin-camera",
+      "clobbers": [
+        "CameraPopoverHandle"
+      ]
     }
   ],
   "plugin_metadata": {
     "cordova-plugin-android-permissions": "1.1.2",
-    "cordova-plugin-camera": "6.0.0",
     "cordova-plugin-datepicker": "0.9.3",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-dialogs": "2.0.2",
@@ -595,6 +594,7 @@
     "ionic-plugin-keyboard": "2.2.1",
     "phonegap-plugin-mobile-accessibility": "1.0.5-dev",
     "cordova-plugin-inappbrowser": "3.2.0",
-    "cordova-sqlite-storage": "6.0.0"
+    "cordova-sqlite-storage": "6.0.0",
+    "cordova-plugin-camera": "6.0.1-dev"
   }
 }

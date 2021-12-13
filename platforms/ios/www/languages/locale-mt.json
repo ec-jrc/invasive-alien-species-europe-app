@@ -184,5 +184,6 @@
 	"LEGALTEXT_TITLE" : "Test Legali",
 	"SETTINGS_TITLE" : "Settings",
 	"SESSION_EXPIRES" : "Is-sessjoni tiskadi fi",
-	"APPLEID_WARNING" : "Tista’ tuża biss l-awtentikazzjoni tal-Apple ID fuq apparat iOS."
+	"APPLEID_WARNING" : "Tista’ tuża biss l-awtentikazzjoni tal-Apple ID fuq apparat iOS.",
+	"different_exif" : "Id-data jew il-post assoċjati ma’ din l-istampa huma differenti min dik/dawk ipprovduti qabel. Tixtieq taġġorna l-informazzjoni li tajt qabel?"
 }

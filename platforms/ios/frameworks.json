@@ -1,11 +1,11 @@
 {
     "WebKit.framework": 2,
     "libz.tbd": 1,
-    "ImageIO.framework": 1,
     "CoreLocation.framework": 2,
-    "AVFoundation.framework": 1,
     "AudioToolbox.framework": 1,
     "SystemConfiguration.framework": 1,
     "CoreTelephony.framework": 1,
-    "MediaAccessibility.framework": 1
+    "MediaAccessibility.framework": 1,
+    "ImageIO.framework": 1,
+    "AVFoundation.framework": 1
 }

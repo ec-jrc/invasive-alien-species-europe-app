@@ -16,7 +16,7 @@
 		        			<div class="logoScrollable" ng-style="appCtrl.accessibilitySpecial">
 					            <div ng-repeat="site in sitealert_static" item-width="100%">
 						            <div ng-repeat="logo in site.logo" item-width="100%">
-						                <img ng-src="img/branding/{{site.id}}/{{logo}}" width="65%"/>
+						                <img ng-src="{{realPath}}/branding/{{site.id}}/{{logo}}" width="65%"/>
 					            	</div>
 					            </div>
 					        </div>

@@ -14,6 +14,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^10.0.0",
+    "cordova-ios": "^6.2.0",
     "cordova-plugin-android-permissions": "^1.1.2",
     "cordova-plugin-camera": "git+https://github.com/codeconsole/cordova-plugin-camera.git#ryaa",
     "cordova-plugin-datepicker": "^0.9.3",
