@@ -10,10 +10,6 @@
     "cordova-plugin-android-permissions": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
-    "cordova-plugin-camera": {
-      "ANDROIDX_CORE_VERSION": "1.6.+",
-      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
-    },
     "cordova-plugin-datepicker": {
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
@@ -61,6 +57,10 @@
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     },
     "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "eu.europa.publications.mygeossias"
+    },
+    "cordova-plugin-camera": {
+      "ANDROIDX_CORE_VERSION": "1.6.+",
       "PACKAGE_NAME": "eu.europa.publications.mygeossias"
     }
   },

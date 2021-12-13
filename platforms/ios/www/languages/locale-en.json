@@ -184,5 +184,6 @@
     "LEGALTEXT_TITLE" : "Legal text",
     "SETTINGS_TITLE" : "Settings",
     "SESSION_EXPIRES" : "Session expires in",
-    "APPLEID_WARNING" : "You can only use Apple ID authentication on iOS devices."
+    "APPLEID_WARNING" : "You can only use Apple ID authentication on iOS devices.",
+	"different_exif" : "The date or location associated with this image differs from the one(s) provided earlier. Do you want to update the previous information accordingly?"
 }

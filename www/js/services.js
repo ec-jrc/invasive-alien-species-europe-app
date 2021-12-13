@@ -350,30 +350,50 @@ angular.module('MYGEOSS.services', [])
   obj.photoLibrary = function () {
     var def = $q.defer();
     ionic.Platform.ready(function () {
-      $cordovaCamera.getPicture(optionsCameraLibrary).then(
-        function (imageData) {
-          console.log("success photoLibrary");
-          window.resolveLocalFileSystemURL(imageData, function (entry) {
-            entry.file(
-              function (file) {
-                EXIF.getData(file, function () {
-                  var tags = EXIF.getAllTags(this);
-                  def.resolve({ imageData, tags });
-                });
-              },
-              function (error) {
-                console.error(error);
-                def.reject(error);
-              }
-            );
-          });
-        },
-        function (error) {
-          console.log("error photoLibrary");
-          console.log(error);
-          def.reject(error);
-        }
-      );
+      navigator.camera.getPicture(function name(imageData) {
+        window.resolveLocalFileSystemURL(imageData, function (entry) {
+          entry.file(
+            function (file) {
+              EXIF.getData(file, function () {
+                var tags = EXIF.getAllTags(this);
+                console.log(tags);
+                def.resolve({ imageData, tags });
+              });
+            },
+            function (error) {
+              console.error(error);
+              def.reject(error);
+            }
+          );
+        });
+      }, function name(error) {
+        console.log(error);
+        def.reject(error);
+      }, optionsCameraLibrary);
+      // $cordovaCamera.getPicture(optionsCameraLibrary).then(
+      //   function (imageData) {
+      //     console.log("success photoLibrary");
+      //     window.resolveLocalFileSystemURL(imageData, function (entry) {
+      //       entry.file(
+      //         function (file) {
+      //           EXIF.getData(file, function () {
+      //             var tags = EXIF.getAllTags(this);
+      //             def.resolve({ imageData, tags });
+      //           });
+      //         },
+      //         function (error) {
+      //           console.error(error);
+      //           def.reject(error);
+      //         }
+      //       );
+      //     });
+      //   },
+      //   function (error) {
+      //     console.log("error photoLibrary");
+      //     console.log(error);
+      //     def.reject(error);
+      //   }
+      // );
     });
     return def.promise;
   };

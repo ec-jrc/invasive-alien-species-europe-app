@@ -184,5 +184,6 @@
     "LEGALTEXT_TITLE" : "Texto legal",
     "SETTINGS_TITLE" : "Configurações",
     "SESSION_EXPIRES" : "A sessão acaba em",
-    "APPLEID_WARNING" : "A autenticação ID de Apple só pode ser usada em dispositivos iOS."
+    "APPLEID_WARNING" : "A autenticação ID de Apple só pode ser usada em dispositivos iOS.",
+	"different_exif" : "A data ou localização associada a esta imagem difere da(s) fornecida(s) anteriormente. Deseja atualizar as informações fornecidas anteriormente?"
 }

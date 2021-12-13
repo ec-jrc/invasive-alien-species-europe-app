@@ -9975,7 +9975,7 @@ ion-header-bar .title {
   
 .notificationsMainMenu {
   display: block;
-  right:13px;
+  right: 13px;
   position: absolute;
   top: 5px;
   z-index: 100;

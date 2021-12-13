@@ -15,14 +15,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-camera": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-camera@6.0.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-datepicker": {
     "source": {
       "type": "registry",
@@ -147,6 +139,14 @@
     "source": {
       "type": "registry",
       "id": "cordova-sqlite-storage"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-camera": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/codeconsole/cordova-plugin-camera.git#ryaa"
     },
     "is_top_level": true,
     "variables": {}

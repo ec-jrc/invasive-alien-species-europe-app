@@ -23,7 +23,7 @@
 		        			<div class="logoScrollable" ng-style="appCtrl.accessibilitySpecial">
 					            <div ng-repeat="site in logo_list" item-width="100%">
 						            <div ng-repeat="logo in site.img" item-width="100%">
-						                <a href="#" class="linkLike" ng-click="openMailLinks('{{site.email[$index]}}')"><img ng-src="img/branding/{{site.id}}/{{logo}}" width="65%"/></a><br/>
+						                <a href="#" class="linkLike" ng-click="openMailLinks('{{site.email[$index]}}')"><img ng-src="{{realPath}}/branding/{{site.id}}/{{logo}}" width="65%"/></a><br/>
 					            	</div>
 					            </div>
 					        </div>
