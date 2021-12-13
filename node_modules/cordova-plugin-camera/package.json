@@ -1,28 +1,25 @@
 {
-  "_from": "cordova-plugin-camera@6.0.0",
-  "_id": "cordova-plugin-camera@6.0.0",
+  "_from": "git+https://github.com/codeconsole/cordova-plugin-camera.git#ryaa",
+  "_id": "cordova-plugin-camera@6.0.1-dev",
   "_inBundle": false,
-  "_integrity": "sha512-FTFKep8HZI/2HkX+Gc/dUACfZGV9+k9waXlgoEOKXOiPPR/1zBw29Mw+adcz4FQUpdWyAgYDxNiaPUnP0P+H2Q==",
+  "_integrity": "",
   "_location": "/cordova-plugin-camera",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "cordova-plugin-camera@6.0.0",
-    "name": "cordova-plugin-camera",
-    "escapedName": "cordova-plugin-camera",
-    "rawSpec": "6.0.0",
-    "saveSpec": null,
-    "fetchSpec": "6.0.0"
+    "type": "git",
+    "raw": "https://github.com/codeconsole/cordova-plugin-camera.git#ryaa",
+    "rawSpec": "https://github.com/codeconsole/cordova-plugin-camera.git#ryaa",
+    "saveSpec": "git+https://github.com/codeconsole/cordova-plugin-camera.git#ryaa",
+    "fetchSpec": "https://github.com/codeconsole/cordova-plugin-camera.git",
+    "gitCommittish": "ryaa"
   },
   "_requiredBy": [
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-camera/-/cordova-plugin-camera-6.0.0.tgz",
-  "_shasum": "083478c92cfaa59435326b5a2a28c56fa75ffdd5",
-  "_spec": "cordova-plugin-camera@6.0.0",
-  "_where": "/home/spinefa/Projects/iase",
+  "_resolved": "git+https://github.com/codeconsole/cordova-plugin-camera.git#e1275b73e78d46eb2d674ffa05b7dcfa377a3485",
+  "_spec": "https://github.com/codeconsole/cordova-plugin-camera.git#ryaa",
+  "_where": "/Users/matze/development/reedu/invasive-alien-species-europe-app",
   "author": {
     "name": "Apache Software Foundation"
   },
@@ -96,5 +93,5 @@
     "test": "npm run lint"
   },
   "types": "./types/index.d.ts",
-  "version": "6.0.0"
+  "version": "6.0.1-dev"
 }
